@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Loader2, RefreshCw, X, Plus, Users, CalendarDays, UserPlus, LogOut,
   ChevronDown, ChevronUp, Megaphone, Send, Clock, CheckCircle2, XCircle,
-  FileText, BarChart3, Edit2, Crown, Trash2,
+  FileText, BarChart3, Edit2, Crown, Trash2, Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -797,6 +797,150 @@ function DateGroup({ date, bookings, onCancel, cancelling }: { date:string; book
   );
 }
 
+// ── Walk-in Quick Booking Modal ───────────────────────────────────────────────
+const WALKIN_SERVICES = [
+  "Haircut — Men",  "Haircut — Women", "Haircut — Kids",
+  "Blow Dry", "Wash & Blast Dry", "Ironing / Tongs",
+  "Global Colour", "Tint Re-growth", "Highlights — Full Head",
+  "Highlights — Half Head", "Highlights — T-Section",
+  "Balayage / Ombré", "Keratin Treatment", "Botox Treatment",
+  "Rebonding", "Hair Spa", "Beard Trim", "Threading",
+];
+
+const WALKIN_STYLISTS = [
+  "No preference", "Aarav", "Priya", "Deepak", "Sunita", "Rahul", "Sneha",
+];
+
+function getNowRounded(): string {
+  const d = new Date();
+  d.setMinutes(Math.ceil(d.getMinutes() / 15) * 15, 0, 0);
+  return d.toTimeString().slice(0, 5);
+}
+
+function WalkInModal({ onClose, onSaved }: { onClose: () => void; onSaved: () => void }) {
+  const todayStr = new Date().toISOString().split("T")[0];
+  const [form, setForm] = useState({
+    client_name: "Walk-in Guest",
+    client_phone: "",
+    service_name: WALKIN_SERVICES[0],
+    stylist_name: "No preference",
+    booking_date: todayStr,
+    booking_time: getNowRounded(),
+    notes: "",
+  });
+  const [saving, setSaving] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState("");
+
+  const inp = "w-full rounded-lg border border-white/18 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-white/30 focus:border-salon-gold focus:outline-none";
+
+  async function book() {
+    if (!form.service_name) { setError("Select a service"); return; }
+    setSaving(true); setError("");
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, source: "walkin" }),
+      });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error ?? "Failed");
+      setDone(true);
+      onSaved();
+      setTimeout(onClose, 1400);
+    } catch (e) { setError(e instanceof Error ? e.message : "Failed"); }
+    finally { setSaving(false); }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/8 bg-[#0e0d0b] p-6">
+        {/* Header */}
+        <div className="mb-5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Zap className="h-5 w-5 text-salon-gold" />
+            <h2 className="font-display text-2xl">Walk-in Booking</h2>
+          </div>
+          <button onClick={onClose} className="text-white/40 hover:text-white"><X className="h-5 w-5" /></button>
+        </div>
+
+        {done ? (
+          <div className="flex flex-col items-center gap-3 py-8">
+            <CheckCircle2 className="h-12 w-12 text-green-400" />
+            <p className="text-lg font-semibold text-green-400">Booked!</p>
+            <p className="text-sm text-white/40">{form.service_name} · {form.booking_time}</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {/* Date + Time */}
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="mb-1 block text-[10px] uppercase tracking-widest text-white/40">Date</label>
+                <input type="date" value={form.booking_date} min={todayStr}
+                  onChange={e => setForm(f => ({ ...f, booking_date: e.target.value }))}
+                  className={`${inp} [color-scheme:dark]`} />
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] uppercase tracking-widest text-white/40">Time</label>
+                <input type="time" value={form.booking_time}
+                  onChange={e => setForm(f => ({ ...f, booking_time: e.target.value }))}
+                  className={`${inp} [color-scheme:dark]`} />
+              </div>
+            </div>
+
+            {/* Service */}
+            <div>
+              <label className="mb-1 block text-[10px] uppercase tracking-widest text-white/40">Service *</label>
+              <select value={form.service_name} onChange={e => setForm(f => ({ ...f, service_name: e.target.value }))}
+                className={`${inp} bg-[#111]`}>
+                {WALKIN_SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
+
+            {/* Stylist */}
+            <div>
+              <label className="mb-1 block text-[10px] uppercase tracking-widest text-white/40">Stylist</label>
+              <select value={form.stylist_name} onChange={e => setForm(f => ({ ...f, stylist_name: e.target.value }))}
+                className={`${inp} bg-[#111]`}>
+                {WALKIN_STYLISTS.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
+
+            {/* Client name */}
+            <div>
+              <label className="mb-1 block text-[10px] uppercase tracking-widest text-white/40">Client name</label>
+              <input placeholder="Walk-in Guest" value={form.client_name}
+                onChange={e => setForm(f => ({ ...f, client_name: e.target.value || "Walk-in Guest" }))}
+                className={inp} />
+            </div>
+
+            {/* Phone (optional) */}
+            <div>
+              <label className="mb-1 block text-[10px] uppercase tracking-widest text-white/40">Phone <span className="text-white/20 normal-case">(optional — for WhatsApp)</span></label>
+              <input placeholder="10-digit mobile" type="tel" value={form.client_phone}
+                onChange={e => setForm(f => ({ ...f, client_phone: e.target.value.replace(/\D/g, "").slice(0, 10) }))}
+                className={inp} />
+            </div>
+
+            {/* Notes */}
+            <input placeholder="Notes (e.g. colour notes, allergies)" value={form.notes}
+              onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+              className={inp} />
+
+            {error && <p className="text-sm text-red-400">{error}</p>}
+
+            <button onClick={book} disabled={saving}
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-salon-gold py-3 text-sm font-bold text-salon-black hover:brightness-110 disabled:opacity-40 mt-1">
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Zap className="h-4 w-4" />}
+              Confirm Walk-in
+            </button>
+            <p className="text-center text-xs text-white/25">No WhatsApp sent for walk-ins · Instant confirmation</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Main Dashboard ────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const router = useRouter();
@@ -809,6 +953,7 @@ export default function AdminPage() {
   const [cancelling, setCancelling] = useState<string|null>(null);
   const [showAddCustomer, setShowAddCustomer] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer|null>(null);
+  const [showWalkIn, setShowWalkIn] = useState(false);
   const [search, setSearch] = useState("");
 
   const loadBookings = useCallback(async () => {
@@ -854,6 +999,7 @@ export default function AdminPage() {
     <main className="min-h-screen bg-salon-black px-5 py-10 md:px-8">
       {showAddCustomer && <AddCustomerModal onClose={()=>setShowAddCustomer(false)} onSaved={loadCustomers}/>}
       {editingCustomer && <EditCustomerModal customer={editingCustomer} onClose={()=>setEditingCustomer(null)} onSaved={loadCustomers}/>}
+      {showWalkIn && <WalkInModal onClose={()=>setShowWalkIn(false)} onSaved={loadBookings}/>}
 
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex items-end justify-between">
@@ -899,13 +1045,19 @@ export default function AdminPage() {
         {/* ── Bookings ── */}
         {tab==="bookings"&&(
           <>
-            <div className="mb-5 flex flex-wrap gap-2">
-              {["all","confirmed","pending","completed","cancelled"].map(f=>(
-                <button key={f} onClick={()=>setFilter(f)}
-                  className={`rounded-full border px-4 py-1.5 text-xs uppercase tracking-wider transition ${filter===f?"border-salon-gold text-salon-gold":"border-white/12 text-white/40 hover:border-white/30"}`}>
-                  {f}
-                </button>
-              ))}
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap gap-2">
+                {["all","confirmed","pending","completed","cancelled"].map(f=>(
+                  <button key={f} onClick={()=>setFilter(f)}
+                    className={`rounded-full border px-4 py-1.5 text-xs uppercase tracking-wider transition ${filter===f?"border-salon-gold text-salon-gold":"border-white/12 text-white/40 hover:border-white/30"}`}>
+                    {f}
+                  </button>
+                ))}
+              </div>
+              <button onClick={()=>setShowWalkIn(true)}
+                className="flex items-center gap-2 rounded-full bg-salon-gold px-5 py-2 text-sm font-bold text-salon-black hover:brightness-110 shadow-md shadow-salon-gold/30">
+                <Zap className="h-4 w-4"/>Walk-in
+              </button>
             </div>
             {loading?<div className="flex items-center gap-2 py-16 text-white/40"><Loader2 className="h-4 w-4 animate-spin"/>Loading…</div>
             :filtered.length===0?<p className="py-16 text-center text-white/30">No bookings yet</p>

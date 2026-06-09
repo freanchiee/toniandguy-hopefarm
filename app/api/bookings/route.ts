@@ -16,11 +16,16 @@ export async function POST(req: NextRequest) {
     client_name, client_phone, client_email,
     stylist_id, stylist_name, service_id, service_name,
     booking_date, booking_time, notes, gender,
+    source, // "walkin" skips WhatsApp and relaxes phone requirement
   } = body;
 
-  if (!client_name || !client_phone || !booking_date || !booking_time || !service_name) {
+  const isWalkIn = source === "walkin";
+
+  if (!client_name || (!isWalkIn && !client_phone) || !booking_date || !booking_time || !service_name) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
+
+  const effectivePhone = client_phone || "walkin";
 
   const discount = calcDiscount(new Date(booking_date));
   const bookingRef = `TG${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
@@ -46,7 +51,7 @@ export async function POST(req: NextRequest) {
       const { data: booking, error } = await db
         .from("bookings")
         .insert({
-          client_name, client_phone, client_email: client_email || null,
+          client_name, client_phone: effectivePhone, client_email: client_email || null,
           stylist_id: resolvedStylistId,
           service_id: resolvedServiceId,
           stylist_name: stylist_name || null,
@@ -90,6 +95,11 @@ export async function POST(req: NextRequest) {
     } catch (e) {
       console.warn("[Booking] DB write failed (non-fatal):", e);
     }
+  }
+
+  // ── Skip WhatsApp for walk-ins ────────────────────────────────────────────
+  if (isWalkIn) {
+    return NextResponse.json({ booking: { id: bookingId, discount_code: bookingRef }, discount: 0, whatsapp_sent: false, source: "walkin" });
   }
 
   // ── Send WhatsApp confirmation + discount ─────────────────────────────────
