@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Clock3 } from "lucide-react";
 import { FloatingLabel } from "@/components/FloatingLabel";
@@ -13,9 +13,13 @@ export function Hero() {
   const scale = useTransform(scrollY, [0, 900], [1, 1.12]);
   const y = useTransform(scrollY, [0, 900], [0, 120]);
 
+  // Track whether the new images have loaded — fall back gracefully if not saved yet
+  const [interiorLoaded, setInteriorLoaded] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
+
   return (
     <section className="relative min-h-svh overflow-hidden bg-salon-black">
-      {/* Blurred background layer */}
+      {/* ── Background layer (always visible: salon-hero.png) ── */}
       <motion.div
         className="absolute inset-0"
         initial={{ scale: 1.05 }}
@@ -24,35 +28,66 @@ export function Hero() {
         style={{ scale, y }}
       >
         <Image
-          src="/images/salon-interior.jpg"
-          alt="Toni & Guy Hopefarm salon interior"
+          src="/images/salon-hero.png"
+          alt="Toni & Guy Hopefarm salon"
           fill
           priority
           sizes="100vw"
-          className="object-cover blur-sm scale-105"
-          onError={(e) => { (e.target as HTMLImageElement).src = "/images/salon-hero.png"; }}
+          className="object-cover"
         />
       </motion.div>
 
-      {/* Sharp foreground image — right half on desktop, full on mobile */}
-      <motion.div
-        className="absolute inset-0 md:left-[38%]"
-        initial={{ opacity: 0, x: 30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-      >
-        <Image
-          src="/images/salon-interior.jpg"
-          alt="Toni & Guy Hopefarm — Unisex Hair Salon Whitefield"
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 62vw"
-          className="object-cover object-center"
-          onError={(e) => { (e.target as HTMLImageElement).src = "/images/salon-hero.png"; }}
-        />
-        {/* Fade edge on left side — blends into blur layer */}
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.4)_30%,transparent_60%)]" />
-      </motion.div>
+      {/* ── Blurred bg overlay (salon-interior.jpg once saved) ── */}
+      {/* Hidden img used to probe if the file exists */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/salon-interior.jpg"
+        alt=""
+        className="sr-only"
+        onLoad={() => setInteriorLoaded(true)}
+        onError={() => setInteriorLoaded(false)}
+      />
+
+      {interiorLoaded && (
+        <>
+          {/* Blurred bg */}
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            style={{ scale, y }}
+          >
+            <Image
+              src="/images/salon-interior.jpg"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover blur-sm scale-105"
+            />
+          </motion.div>
+
+          {/* Sharp foreground — right 62% on desktop, full on mobile */}
+          <motion.div
+            className="absolute inset-0 md:left-[38%]"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+          >
+            <Image
+              src="/images/salon-interior.jpg"
+              alt="Toni & Guy Hopefarm — Unisex Hair Salon Whitefield"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 62vw"
+              className="object-cover object-center"
+            />
+            {/* Left-edge fade blends into blurred layer */}
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.4)_30%,transparent_60%)]" />
+          </motion.div>
+        </>
+      )}
 
       <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/75" />
       <div className="grain" />
@@ -60,19 +95,44 @@ export function Hero() {
       <div className="relative z-10 flex min-h-svh flex-col justify-between px-5 py-5 md:px-8">
         <div className="grid gap-5 pr-24 text-white md:grid-cols-[1.1fr_1fr_1fr_1.4fr] md:gap-10 md:pr-0">
           <div>
-            {/* T&G official logo */}
+            {/* ── Logo: real TG monogram image or SVG fallback ── */}
+            {/* Hidden probe for tg-logo.png */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/tg-logo.png"
+              alt=""
+              className="sr-only"
+              onLoad={() => setLogoLoaded(true)}
+              onError={() => setLogoLoaded(false)}
+            />
+
             <div className="flex flex-col items-start gap-2.5">
-              <Image
-                src="/images/tg-logo.png"
-                alt="Toni & Guy"
-                width={110}
-                height={130}
-                className="drop-shadow-xl brightness-0 invert md:w-[130px]"
-                priority
-              />
+              {logoLoaded ? (
+                <Image
+                  src="/images/tg-logo.png"
+                  alt="Toni & Guy"
+                  width={110}
+                  height={130}
+                  className="drop-shadow-xl brightness-0 invert md:w-[130px]"
+                  priority
+                />
+              ) : (
+                /* SVG fallback until tg-logo.png is saved */
+                <div className="flex items-center gap-2.5">
+                  <svg viewBox="0 0 56 56" className="h-10 w-10 shrink-0 drop-shadow-lg md:h-14 md:w-14" fill="none" aria-label="Toni&Guy logo">
+                    <circle cx="28" cy="28" r="27" stroke="white" strokeWidth="1.5" fill="none" opacity="0.25"/>
+                    <path d="M10 17h36v4.5H31v18h-6V21.5H10V17z" fill="white"/>
+                  </svg>
+                  <p className="font-display text-2xl font-black uppercase leading-none tracking-[0.06em] text-white md:text-4xl">
+                    TONI&amp;GUY
+                  </p>
+                </div>
+              )}
+
               <p className="text-[10px] uppercase tracking-[0.28em] text-white/60 md:text-xs">
                 Hopefarm · Whitefield
               </p>
+
               {/* Unisex Salon badge */}
               <div className="flex items-center gap-1.5 w-fit rounded-full border border-salon-gold/40 bg-black/30 px-3 py-1 backdrop-blur-sm">
                 <span className="text-salon-gold text-[11px]">✂</span>
@@ -80,6 +140,7 @@ export function Hero() {
               </div>
             </div>
           </div>
+
           <div className="hidden md:block" />
           <div className="hidden md:flex md:gap-4">
             <Clock3 className="mt-1 h-10 w-10 text-white" strokeWidth={1.25} />
@@ -153,7 +214,6 @@ export function Hero() {
 
         <div className="mb-8 flex items-end justify-between gap-5">
           <div className="flex flex-col items-start gap-2">
-            {/* Pulsating glow ring */}
             <div className="relative">
               <span className="absolute inset-0 rounded-full bg-salon-gold/35 animate-ping [animation-duration:1.8s]" />
               <span className="absolute inset-[-4px] rounded-full border-2 border-salon-gold/50 animate-pulse [animation-duration:2.4s]" />
