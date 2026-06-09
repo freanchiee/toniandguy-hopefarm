@@ -58,34 +58,38 @@ export function InstagramFeed() {
       {/* Facebook Page Section */}
       <section className="bg-salon-black py-24 md:py-32">
         <div className="section-shell">
-          <div className="mb-10">
-            <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Facebook</p>
-            <h2 className="mt-4 font-serif text-4xl leading-none md:text-6xl">Latest from our page</h2>
+          <div className="mb-10 flex items-end justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Facebook</p>
+              <h2 className="mt-4 font-serif text-4xl leading-none md:text-6xl">Latest from our page</h2>
+            </div>
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden shrink-0 items-center gap-2 rounded-full border border-white/18 px-5 py-2.5 text-sm font-medium text-white transition hover:border-salon-gold hover:text-salon-gold md:flex"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
+                <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+              </svg>
+              View Page
+            </a>
           </div>
-          <div className="flex justify-center overflow-hidden rounded-xl border border-white/8">
-            <Script
-              async
-              defer
-              crossOrigin="anonymous"
-              src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v19.0"
-              strategy="lazyOnload"
-            />
-            <div id="fb-root" />
-            <div
-              className="fb-page"
-              data-href={FACEBOOK_PAGE}
-              data-tabs="timeline"
-              data-width="500"
-              data-height="600"
-              data-small-header="true"
-              data-adapt-container-width="true"
-              data-hide-cover="false"
-              data-show-facepile="false"
+
+          {/* Facebook Page Plugin — iframe embed, no App ID required */}
+          <div className="flex justify-center overflow-hidden rounded-xl border border-white/8 bg-white">
+            <iframe
+              src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(FACEBOOK_PAGE)}&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`}
+              width="500"
+              height="600"
+              style={{ border: "none", overflow: "hidden", maxWidth: "100%" }}
+              scrolling="no"
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              title="Toni & Guy Hopefarm Facebook Page"
             />
           </div>
-          <p className="mt-4 text-center text-xs text-white/30">
-            Powered by Facebook Page Plugin — real posts, live updates
-          </p>
         </div>
       </section>
     </>
