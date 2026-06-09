@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { BookNowButton } from "@/components/BookingModal";
 
 const navItems = [
@@ -27,12 +28,14 @@ export function FloatingNav() {
 
       {/* Mobile sticky bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between gap-3 border-t border-white/8 bg-salon-black/90 px-5 py-3 backdrop-blur-md md:hidden">
-        <div className="flex items-center gap-2.5">
-          {/* T&G monogram */}
-          <svg viewBox="0 0 48 48" className="h-8 w-8 shrink-0" fill="none" aria-hidden="true">
-            <path d="M4 8h40v4H26v28h-4V12H4V8z" fill="white"/>
-            <path d="M28 8h4v16h8v-8h-6v-4h10v16H28V8z" fill="white"/>
-          </svg>
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/tg-logo.png"
+            alt="Toni & Guy"
+            width={32}
+            height={38}
+            className="brightness-0 invert"
+          />
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">Toni&amp;Guy</p>
             <p className="text-[9px] text-white/40 uppercase tracking-widest">Hopefarm · 10am–9pm</p>

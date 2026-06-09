@@ -60,29 +60,24 @@ export function Hero() {
       <div className="relative z-10 flex min-h-svh flex-col justify-between px-5 py-5 md:px-8">
         <div className="grid gap-5 pr-24 text-white md:grid-cols-[1.1fr_1fr_1fr_1.4fr] md:gap-10 md:pr-0">
           <div>
-            {/* T&G brand logo lockup */}
-            <div className="flex items-center gap-2.5">
-              <svg viewBox="0 0 56 56" className="h-10 w-10 shrink-0 drop-shadow-lg md:h-14 md:w-14" fill="none" aria-label="Toni&Guy logo">
-                {/* Outer circle */}
-                <circle cx="28" cy="28" r="27" stroke="white" strokeWidth="1.5" fill="none" opacity="0.25"/>
-                {/* T bar */}
-                <path d="M10 17h36v4.5H31v18h-6V21.5H10V17z" fill="white"/>
-                {/* G shape */}
-                <path d="M32 17h4.5v14H44v-7h-5.5v-4h10v15H32V17z" fill="white" opacity="0"/>
-              </svg>
-              <div>
-                <p className="font-display text-2xl font-black uppercase leading-none tracking-[0.06em] text-white md:text-4xl">
-                  TONI&amp;GUY
-                </p>
-                <p className="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-white/60 md:text-xs">
-                  Hopefarm · Whitefield
-                </p>
+            {/* T&G official logo */}
+            <div className="flex flex-col items-start gap-2.5">
+              <Image
+                src="/images/tg-logo.png"
+                alt="Toni & Guy"
+                width={110}
+                height={130}
+                className="drop-shadow-xl brightness-0 invert md:w-[130px]"
+                priority
+              />
+              <p className="text-[10px] uppercase tracking-[0.28em] text-white/60 md:text-xs">
+                Hopefarm · Whitefield
+              </p>
+              {/* Unisex Salon badge */}
+              <div className="flex items-center gap-1.5 w-fit rounded-full border border-salon-gold/40 bg-black/30 px-3 py-1 backdrop-blur-sm">
+                <span className="text-salon-gold text-[11px]">✂</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-salon-gold">Unisex Salon</span>
               </div>
-            </div>
-            {/* Unisex Salon badge */}
-            <div className="mt-3 flex items-center gap-1.5 w-fit rounded-full border border-salon-gold/40 bg-black/30 px-3 py-1 backdrop-blur-sm">
-              <span className="text-salon-gold text-[11px]">✂</span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-salon-gold">Unisex Salon</span>
             </div>
           </div>
           <div className="hidden md:block" />
