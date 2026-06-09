@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 112" fill="none">
   <!-- G: thick circular arc, center ~(44,58) r=36, opening on right -->
-  <path d="M 72 35 A 36 36 0 1 1 72 81" stroke="white" stroke-width="12" stroke-linecap="butt"/>
+  <!-- large-arc=1, sweep=0 = CCW on screen = goes left from upper-right, forming a C shape -->
+  <path d="M 72 35 A 36 36 0 1 0 72 81" stroke="white" stroke-width="12" stroke-linecap="butt"/>
   <!-- G spur: horizontal bar at mid-right -->
   <rect x="64" y="52" width="22" height="12" fill="white"/>
   <!-- T crossbar -->

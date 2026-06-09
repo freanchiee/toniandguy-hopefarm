@@ -54,7 +54,7 @@ export function FloatingLabel({
               View all
             </Link>
           </div>
-          <div className="grid gap-1">
+          <div className="grid max-h-[min(420px,55svh)] gap-1 overflow-y-auto overscroll-contain pr-0.5 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20">
             {options.map((option) => (
               <Link
                 key={option.href}

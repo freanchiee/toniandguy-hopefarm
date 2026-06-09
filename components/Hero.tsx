@@ -85,13 +85,13 @@ export function Hero() {
             <div className="flex flex-col items-start gap-2.5">
               <div className="flex items-center gap-3">
                 {/* TG monogram SVG — white on dark hero */}
-                <div className="relative h-14 w-12 shrink-0 drop-shadow-lg md:h-16 md:w-14">
+                <div className="relative h-[72px] w-[64px] shrink-0 drop-shadow-lg md:h-[84px] md:w-[74px]">
                   <Image
                     src="/images/tg-logo.svg"
                     alt="Toni & Guy logo"
                     fill
                     priority
-                    className="object-contain"
+                    className="object-contain object-top"
                   />
                 </div>
                 <p className="font-display text-2xl font-black uppercase leading-none tracking-[0.06em] text-white drop-shadow md:text-3xl">
