@@ -10,7 +10,11 @@ import { heroServiceOptions, heroStylistOptions } from "@/lib/data";
 
 const SLIDES = [
   { src: "/images/salon-hero.png",     alt: "Toni & Guy Hopefarm salon — men's styling" },
-  { src: "/images/salon-interior.jpg", alt: "Toni & Guy Hopefarm — unisex hair salon Whitefield" },
+  { src: "/images/hero-1.jpg",         alt: "Toni & Guy Hopefarm — men's haircut Whitefield" },
+  { src: "/images/hero-2.jpg",         alt: "Toni & Guy Hopefarm — women's styling Whitefield" },
+  { src: "/images/hero-3.jpg",         alt: "Toni & Guy Hopefarm — kids haircut Whitefield" },
+  { src: "/images/hero-4.jpg",         alt: "Toni & Guy Hopefarm — unisex family salon" },
+  { src: "/images/salon-interior.jpg", alt: "Toni & Guy Hopefarm — salon interior Whitefield" },
 ];
 
 const SLIDE_DURATION = 6000;
@@ -78,17 +82,16 @@ export function Hero() {
         {/* Top bar */}
         <div className="grid gap-5 pr-24 text-white md:grid-cols-[1.1fr_1fr_1fr_1.4fr] md:gap-10 md:pr-0">
           <div>
-            {/* Logo — mix-blend-mode:screen makes grey bg invisible on dark hero */}
             <div className="flex flex-col items-start gap-2.5">
               <div className="flex items-center gap-3">
-                <div className="relative h-12 w-10 md:h-16 md:w-14 shrink-0">
+                {/* Logo on white pill — keeps grey brand bg contained */}
+                <div className="relative h-14 w-12 shrink-0 overflow-hidden rounded-xl bg-white/90 p-1 shadow-lg md:h-16 md:w-14">
                   <Image
                     src="/images/tg-logo.png"
                     alt="Toni & Guy logo"
                     fill
                     priority
                     className="object-contain"
-                    style={{ mixBlendMode: "screen" }}
                   />
                 </div>
                 <p className="font-display text-2xl font-black uppercase leading-none tracking-[0.06em] text-white drop-shadow md:text-3xl">
