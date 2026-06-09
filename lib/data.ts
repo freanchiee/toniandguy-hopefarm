@@ -1,47 +1,185 @@
+// ── Service cards shown on homepage & services page ──────────────────────────
 export const services = [
   {
     number: "01",
-    name: "Haircut",
-    description: "Men's cuts, women's cuts, and consultation-led shape work.",
-    price: "from Rs. 700",
-    duration: "45 min - 1 hr"
+    name: "Haircut & Styling",
+    description: "Men's cuts from ₹800 · Women's cut & blow dry from ₹1,200 · Kids from ₹700. Precision shape work by trained T&G stylists.",
+    price: "from ₹700",
+    duration: "45 min – 1 hr"
   },
   {
     number: "02",
-    name: "Colour",
-    description: "Global colour, root work, and tonal refreshes for polished dimension.",
-    price: "Rs. 2,500-7,500",
-    duration: "90 min"
+    name: "Colour Services",
+    description: "Global colour (men from ₹2,000 · women from ₹6,000), tint re-growth from ₹2,800, advance colour techniques (balayage, ombré, lumi-ombré) from ₹8,000.",
+    price: "from ₹2,000",
+    duration: "90 – 150 min"
   },
   {
     number: "03",
     name: "Highlights",
-    description: "Soft face framing, balayage, and dimensional light work.",
-    price: "Rs. 3,500-12,000",
-    duration: "150 min"
+    description: "Full head highlights from ₹7,000 · Half head from ₹5,000 · T-section from ₹2,500 · Men's cap highlights from ₹4,000. Multi-toned dimension that lightens and adds shine.",
+    price: "from ₹2,500",
+    duration: "120 – 180 min"
   },
   {
     number: "04",
-    name: "Blowout",
-    description: "Clean finish, volume, and event-ready shape with lasting hold.",
-    price: "from Rs. 900",
-    duration: "45 min"
+    name: "Blow Dry & Styling",
+    description: "Wash & blast dry ₹700 · Straight blow dry ₹900 · In curl/out curl ₹1,200 · Ironing from ₹1,500 · Tonging from ₹1,500 · Scrunching from ₹1,200.",
+    price: "from ₹700",
+    duration: "45 – 60 min"
   },
   {
     number: "05",
-    name: "Hair Spa",
-    description: "System Professional spa rituals, scalp care, and shine recovery.",
-    price: "consultation",
-    duration: "60 min"
+    name: "Professional Hair Spa",
+    description: "Shea Retention Treatment from ₹2,000 · System Pro Re-Born from ₹2,000 · Sebastian Professional from ₹2,000 · Wellaplex Care Spa from ₹3,500.",
+    price: "from ₹2,000",
+    duration: "60 – 90 min"
   },
   {
     number: "06",
-    name: "Treatment",
-    description: "Keratin, Nanoplastia, Botox, and advanced repair treatments.",
-    price: "Rs. 1,800-9,000",
+    name: "Hair Treatments",
+    description: "Straightening/Rebonding from ₹3,000 · Cysteine/Keratin from ₹4,500 · Botox from ₹5,000 · Botoliss from ₹5,000 · Perming from ₹6,000. Permanent frizz-free solutions.",
+    price: "from ₹3,000",
     duration: "bespoke"
   }
 ];
+
+// ── Full price list (used on /services page) ──────────────────────────────────
+export const priceList = {
+  haircut: {
+    title: "Haircut",
+    mens: [
+      { name: "Style Director", price: 1800, note: "*Selective Outlets" },
+      { name: "Creative Director", price: 1500 },
+      { name: "Top Stylist", price: 1200 },
+      { name: "Senior Stylist", price: 900 },
+      { name: "Stylist", price: 800, note: "*Selective Outlets" },
+      { name: "Kids Haircut (Age 5–10 yrs)", price: 700 },
+      { name: "Deep Conditioning", price: 800 },
+    ],
+    womens: [
+      { name: "Style Director", price: 2600, note: "*Selective Outlets" },
+      { name: "Creative Director", price: 2200 },
+      { name: "Top Stylist", price: 1800 },
+      { name: "Senior Stylist", price: 1500 },
+      { name: "Stylist", price: 1200, note: "*Selective Outlets" },
+      { name: "Kids Haircut (Age 5–10 yrs)", price: 800 },
+      { name: "Fringe Cut", price: 600 },
+      { name: "Deep Conditioning", price: 1000 },
+    ],
+  },
+  blowDry: {
+    title: "Blow Dry",
+    items: [
+      { name: "Wash and Blast Dry", price: 700 },
+      { name: "Extra Long Hair (Blast Dry)", price: 800 },
+      { name: "Straight Blow Dry", price: 900 },
+      { name: "In Curl / Out Curl", price: 1200 },
+      { name: "Extra Long (Blow Dry)", price: 1300 },
+    ],
+  },
+  shave: {
+    title: "Shave",
+    items: [
+      { name: "Zero Trim", price: 150 },
+      { name: "Regular Shave", price: 300 },
+      { name: "Beard Shape-Up", price: 350 },
+      { name: "Beard Design", price: 500 },
+      { name: "Head Shave", price: 500 },
+      { name: "Royal Shave", price: 1000 },
+    ],
+  },
+  styleCheck: {
+    title: "Style Check",
+    ironing: [
+      { name: "Shoulder Length", price: 1500 },
+      { name: "Below Shoulder", price: 1700 },
+      { name: "Extra Long", price: 2000 },
+    ],
+    tonging: [
+      { name: "Shoulder Length", price: 1500 },
+      { name: "Below Shoulder", price: 1800 },
+      { name: "Extra Long", price: 2000 },
+    ],
+    scrunching: { price: 1200, note: "onwards" },
+    mensStyle: { price: 700 },
+    perming: [
+      { name: "Shoulder Length", price: 6000, note: "onwards" },
+      { name: "Below Shoulder", price: 7500, note: "onwards" },
+    ],
+  },
+  colour: {
+    title: "Colour Services",
+    items: [
+      { name: "Tint Re-Growth", price: 2800, note: "onwards" },
+      { name: "Global Colour — Men", price: 2000, note: "onwards" },
+      { name: "Global Colour — Women", price: 6000, note: "onwards" },
+      { name: "Men's Cap Highlights", price: 4000, note: "onwards" },
+      { name: "Highlights Full Head", price: 7000, note: "onwards" },
+      { name: "Highlights Half Head", price: 5000, note: "onwards" },
+      { name: "T-Section (Hairline Highlights)", price: 2500, note: "onwards" },
+      { name: "Per Streak (without pre light)", price: 1000, note: "onwards" },
+      { name: "Moustache Colour", price: 300 },
+      { name: "Beard Colour", price: 500, note: "onwards" },
+      { name: "Colour Change / Correction", price: 8000, note: "onwards" },
+      { name: "Pre Light / Toner", price: 0, note: "Price on Consultation" },
+      { name: "Advance Colour Technique (Balayage, Ombré, Lumi-Ombré)", price: 8000, note: "onwards" },
+    ],
+  },
+  treatments: {
+    title: "Hair Treatments",
+    straightening: [
+      { name: "Fringe", price: 3000, note: "onwards" },
+      { name: "Crown Area", price: 5000, note: "onwards" },
+      { name: "Up to Neck", price: 6000, note: "onwards" },
+      { name: "Shoulder Length", price: 9000, note: "onwards" },
+      { name: "Below Shoulder", price: 10000, note: "onwards" },
+      { name: "Up to Waist", price: 12000, note: "onwards" },
+    ],
+    cysteine: [
+      { name: "Fringe", price: 4500, note: "onwards" },
+      { name: "Crown Area", price: 5500, note: "onwards" },
+      { name: "Up to Neck", price: 7500, note: "onwards" },
+      { name: "Shoulder Length", price: 10000, note: "onwards" },
+      { name: "Below Shoulder", price: 11000, note: "onwards" },
+      { name: "Up to Waist", price: 13000, note: "onwards" },
+    ],
+    botox: [
+      { name: "Fringe", price: 5000, note: "onwards" },
+      { name: "Crown", price: 7000, note: "onwards" },
+      { name: "Up to Neck", price: 8500, note: "onwards" },
+      { name: "Shoulder Length", price: 11000, note: "onwards" },
+      { name: "Below Shoulder", price: 13000, note: "onwards" },
+      { name: "Up to Waist", price: 15000, note: "onwards" },
+    ],
+    botoliss: [
+      { name: "Fringe", price: 5000, note: "onwards" },
+      { name: "Crown", price: 7000, note: "onwards" },
+      { name: "Up to Neck", price: 8500, note: "onwards" },
+      { name: "Shoulder Length", price: 11000, note: "onwards" },
+      { name: "Below Shoulder", price: 13000, note: "onwards" },
+      { name: "Up to Waist", price: 15000, note: "onwards" },
+    ],
+  },
+  hairSpa: {
+    title: "Professional Hair Spa",
+    items: [
+      { name: "Shea Hair Retention — Men", price: 2000, note: "onwards" },
+      { name: "Shea Hair Retention — Women Shoulder", price: 3000, note: "onwards" },
+      { name: "Shea Hair Retention — Women Extra Long", price: 3500, note: "onwards" },
+      { name: "Shea Hair Curl — Men", price: 2000, note: "onwards" },
+      { name: "Shea Hair Curl — Women Shoulder", price: 3000, note: "onwards" },
+      { name: "Shea Hair Curl — Women Extra Long", price: 3500, note: "onwards" },
+      { name: "System Pro Re-Born — Men", price: 2000, note: "onwards" },
+      { name: "System Pro Re-Born — Women Shoulder", price: 2500, note: "onwards" },
+      { name: "System Pro Re-Born — Women Extra Long", price: 3000, note: "onwards" },
+      { name: "Sebastian Professional — Men", price: 2000, note: "onwards" },
+      { name: "Sebastian Professional — Women Shoulder", price: 2500, note: "onwards" },
+      { name: "Sebastian Professional — Women Extra Long", price: 3000, note: "onwards" },
+      { name: "Wellaplex Care Spa", price: 3500, note: "onwards" },
+    ],
+  },
+};
 
 export const stylists = [
   {
@@ -73,33 +211,53 @@ export const stylists = [
 export const heroServiceOptions = [
   {
     label: "Men's cut & styling",
-    meta: "45 min - 1 hr · from Rs. 700",
+    meta: "45 min · from ₹800",
     href: "/book?service=mens-cut"
   },
   {
-    label: "Women's cut",
-    meta: "45 min - 1 hr · from Rs. 800",
+    label: "Women's cut & blow dry",
+    meta: "60 min · from ₹1,200",
     href: "/book?service=womens-cut"
   },
   {
-    label: "Straight blowdry",
-    meta: "45 min · Rs. 900",
+    label: "Straight blow dry",
+    meta: "45 min · ₹900",
     href: "/book?service=straight-blowdry"
   },
   {
-    label: "Hair spa",
-    meta: "System Professional",
-    href: "/book?service=hair-spa"
-  },
-  {
-    label: "Colour services",
-    meta: "Highlights, global colour, balayage",
+    label: "Global colour",
+    meta: "Men from ₹2,000 · Women from ₹6,000",
     href: "/book?service=colour"
   },
   {
-    label: "Hair treatment",
-    meta: "Keratin, Nanoplastia, Botox",
-    href: "/book?service=treatment"
+    label: "Highlights",
+    meta: "Full head from ₹7,000 · Half head from ₹5,000",
+    href: "/book?service=highlights"
+  },
+  {
+    label: "Balayage / Advance Colour",
+    meta: "from ₹8,000 · Ombré, Lumi-Ombré",
+    href: "/book?service=balayage"
+  },
+  {
+    label: "Keratin / Cysteine",
+    meta: "from ₹4,500 · Frizz-free treatment",
+    href: "/book?service=keratin"
+  },
+  {
+    label: "Botox / Botoliss",
+    meta: "from ₹5,000 · Sleek & smooth",
+    href: "/book?service=botox"
+  },
+  {
+    label: "Straightening / Rebonding",
+    meta: "from ₹3,000 · Permanent solution",
+    href: "/book?service=straightening"
+  },
+  {
+    label: "Professional hair spa",
+    meta: "from ₹2,000 · System Pro, Sebastian, Wellaplex",
+    href: "/book?service=hair-spa"
   },
   {
     label: "Facials & grooming",
