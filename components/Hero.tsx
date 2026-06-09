@@ -15,6 +15,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-svh overflow-hidden bg-salon-black">
+      {/* Blurred background layer */}
       <motion.div
         className="absolute inset-0"
         initial={{ scale: 1.05 }}
@@ -23,17 +24,37 @@ export function Hero() {
         style={{ scale, y }}
       >
         <Image
-          src="/images/salon-hero.png"
+          src="/images/salon-interior.jpg"
           alt="Toni & Guy Hopefarm salon interior"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover blur-sm scale-105"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/images/salon-hero.png"; }}
         />
       </motion.div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/62 via-black/18 to-black/70" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.55),transparent_34%,rgba(0,0,0,0.34))]" />
+      {/* Sharp foreground image — right half on desktop, full on mobile */}
+      <motion.div
+        className="absolute inset-0 md:left-[38%]"
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+      >
+        <Image
+          src="/images/salon-interior.jpg"
+          alt="Toni & Guy Hopefarm — Unisex Hair Salon Whitefield"
+          fill
+          priority
+          sizes="(max-width: 768px) 100vw, 62vw"
+          className="object-cover object-center"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/images/salon-hero.png"; }}
+        />
+        {/* Fade edge on left side — blends into blur layer */}
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.4)_30%,transparent_60%)]" />
+      </motion.div>
+
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/75" />
       <div className="grain" />
 
       <div className="relative z-10 flex min-h-svh flex-col justify-between px-5 py-5 md:px-8">
@@ -57,6 +78,11 @@ export function Hero() {
                   Hopefarm · Whitefield
                 </p>
               </div>
+            </div>
+            {/* Unisex Salon badge */}
+            <div className="mt-3 flex items-center gap-1.5 w-fit rounded-full border border-salon-gold/40 bg-black/30 px-3 py-1 backdrop-blur-sm">
+              <span className="text-salon-gold text-[11px]">✂</span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-salon-gold">Unisex Salon</span>
             </div>
           </div>
           <div className="hidden md:block" />
