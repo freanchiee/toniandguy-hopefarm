@@ -1,6 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactForm } from "@/components/ContactForm";
 import { RevealProvider } from "@/components/RevealProvider";
+
+export const metadata: Metadata = {
+  title: "Contact & Location",
+  description:
+    "Contact Toni & Guy Hopefarm in Whitefield, Bangalore. Visit us at Hopefarm Junction, call +91 91872 00430, or book online. Open Mon–Sun, 10 AM–9 PM.",
+  alternates: { canonical: "https://toniandguywhitefield.com/contact" },
+  openGraph: {
+    title: "Contact & Location | Toni & Guy Hopefarm Whitefield",
+    description: "Find Toni & Guy Hopefarm at Hopefarm Junction, Whitefield, Bangalore. Call +91 91872 00430 or book online.",
+    url: "https://toniandguywhitefield.com/contact",
+  },
+};
 
 export default function ContactPage() {
   const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919187200430";

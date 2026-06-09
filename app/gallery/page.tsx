@@ -1,6 +1,19 @@
+import type { Metadata } from "next";
 import { RevealProvider } from "@/components/RevealProvider";
 import { GalleryGrid } from "@/components/GalleryGrid";
 import { galleryImages } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Gallery — Hair Transformations",
+  description:
+    "Browse real hair transformations by the team at Toni & Guy Hopefarm, Whitefield — haircuts, colour, balayage, highlights, and bridal styling in Bangalore.",
+  alternates: { canonical: "https://toniandguywhitefield.com/gallery" },
+  openGraph: {
+    title: "Gallery — Hair Transformations | Toni & Guy Hopefarm Whitefield",
+    description: "Real results: cuts, colour, balayage, and bridal looks by the Toni & Guy Hopefarm team in Whitefield Bangalore.",
+    url: "https://toniandguywhitefield.com/gallery",
+  },
+};
 
 export default function GalleryPage() {
   return (

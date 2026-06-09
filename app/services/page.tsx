@@ -1,6 +1,19 @@
+import type { Metadata } from "next";
 import { RevealProvider } from "@/components/RevealProvider";
 import { ServiceCard } from "@/components/ServiceCard";
 import { services } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Hair Services & Prices",
+  description:
+    "Full menu of hair services at Toni & Guy Hopefarm, Whitefield: haircuts from ₹700, hair colour from ₹2,500, highlights from ₹3,500, keratin treatments, balayage, blowouts & bridal styling. Book online for exclusive discounts.",
+  alternates: { canonical: "https://toniandguywhitefield.com/services" },
+  openGraph: {
+    title: "Hair Services & Prices | Toni & Guy Hopefarm Whitefield",
+    description: "Haircuts, colour, highlights, keratin & bridal styling — see the full menu and prices at Toni & Guy Hopefarm, Whitefield Bangalore.",
+    url: "https://toniandguywhitefield.com/services",
+  },
+};
 
 export default function ServicesPage() {
   return (
