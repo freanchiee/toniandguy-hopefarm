@@ -133,7 +133,7 @@ export default function Home() {
             <div className="mb-12 flex items-end justify-between gap-8">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Services</p>
-                <h2 className="mt-4 font-serif text-5xl leading-none md:text-7xl">Designed hair, not routine hair.</h2>
+                <h2 className="mt-4 font-display text-5xl leading-none md:text-7xl">Designed hair, not routine hair.</h2>
               </div>
               <Link href="/services" className="hidden text-sm uppercase tracking-[0.14em] text-salon-smoke hover:text-salon-gold md:block">
                 Full menu
@@ -150,7 +150,7 @@ export default function Home() {
         <section id="stylists" className="reveal-section bg-[#0e0d0b] py-24 md:py-32">
           <div className="section-shell">
             <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Stylists</p>
-            <h2 className="mt-4 max-w-4xl font-serif text-5xl leading-none md:text-7xl">
+            <h2 className="mt-4 max-w-4xl font-display text-5xl leading-none md:text-7xl">
               Specialists for colour, cut, and occasion work.
             </h2>
             <div className="mt-14 grid gap-5 md:grid-cols-3">
@@ -168,7 +168,7 @@ export default function Home() {
             <div className="mb-12 flex items-end justify-between gap-8">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Gallery</p>
-                <h2 className="mt-4 font-serif text-5xl leading-none md:text-7xl">Recent texture, tone, and finish.</h2>
+                <h2 className="mt-4 font-display text-5xl leading-none md:text-7xl">Recent texture, tone, and finish.</h2>
               </div>
               <Link href="/gallery" className="hidden text-sm uppercase tracking-[0.14em] text-salon-smoke hover:text-salon-gold md:block">
                 View all

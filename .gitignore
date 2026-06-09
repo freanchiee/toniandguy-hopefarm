@@ -18,3 +18,4 @@ wa-gateway/.baileys_auth/
 wa-gateway/whatsapp-qr.png
 .wwebjs_cache/
 .wwebjs_auth/
+vercel-import.env

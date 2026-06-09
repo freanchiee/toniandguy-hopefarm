@@ -89,7 +89,7 @@ function EditCustomerModal({ customer, onClose, onSaved }: { customer: Customer;
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div className="w-full max-w-xl rounded-2xl border border-white/8 bg-[#0e0d0b] p-6 max-h-[90svh] overflow-y-auto">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-serif text-2xl">Edit Customer</h2>
+          <h2 className="font-display text-2xl">Edit Customer</h2>
           <button onClick={onClose} className="text-white/40 hover:text-white"><X className="h-5 w-5" /></button>
         </div>
 
@@ -194,7 +194,7 @@ function AddCustomerModal({ onClose, onSaved }: { onClose: () => void; onSaved: 
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div className="w-full max-w-lg rounded-2xl border border-white/8 bg-[#0e0d0b] p-6">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-serif text-2xl">Add Customer</h2>
+          <h2 className="font-display text-2xl">Add Customer</h2>
           <button onClick={onClose} className="text-white/40 hover:text-white"><X className="h-5 w-5" /></button>
         </div>
         <div className="space-y-3">
@@ -283,7 +283,7 @@ function CreateInvoiceModal({ customers, onClose, onSaved }: { customers: Custom
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div className="w-full max-w-2xl rounded-2xl border border-white/8 bg-[#0e0d0b] p-6 max-h-[92svh] overflow-y-auto">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-serif text-2xl">New Invoice</h2>
+          <h2 className="font-display text-2xl">New Invoice</h2>
           <button onClick={onClose} className="text-white/40 hover:text-white"><X className="h-5 w-5" /></button>
         </div>
 
@@ -859,7 +859,7 @@ export default function AdminPage() {
         <div className="mb-8 flex items-end justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Admin</p>
-            <h1 className="mt-2 font-serif text-4xl">Dashboard</h1>
+            <h1 className="mt-2 font-display text-4xl">Dashboard</h1>
           </div>
           <div className="flex items-center gap-2">
             <button onClick={load} className="flex items-center gap-2 rounded-full border border-white/18 px-4 py-2 text-sm text-white/60 hover:border-white/40 hover:text-white">

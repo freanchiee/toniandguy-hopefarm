@@ -21,7 +21,7 @@ export default function ServicesPage() {
       <RevealProvider>
         <section className="section-shell reveal-section">
           <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Services</p>
-          <h1 className="mt-4 max-w-5xl font-serif text-6xl leading-none md:text-8xl">
+          <h1 className="mt-4 max-w-5xl font-display text-6xl leading-none md:text-8xl">
             A concise menu for hair with intention.
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-8 text-salon-smoke">

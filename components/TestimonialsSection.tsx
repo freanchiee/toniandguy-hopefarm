@@ -68,7 +68,7 @@ export function TestimonialsSection() {
             4.5 · 200+ reviews on Google
           </a>
         </div>
-        <h2 className="mb-14 font-serif text-5xl leading-none md:text-7xl">
+        <h2 className="mb-14 font-display text-5xl leading-none md:text-7xl">
           What our clients say.
         </h2>
 

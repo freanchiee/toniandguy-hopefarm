@@ -32,7 +32,7 @@ export default function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-salon-black px-4">
       <div className="w-full max-w-sm">
         <p className="text-center text-xs uppercase tracking-[0.22em] text-salon-gold">Admin Access</p>
-        <h1 className="mt-2 text-center font-serif text-4xl">Toni & Guy</h1>
+        <h1 className="mt-2 text-center font-display text-4xl">Toni & Guy</h1>
         <p className="mt-1 text-center text-sm text-white/30">Hopefarm Dashboard</p>
 
         <form onSubmit={login} className="mt-10 space-y-4">

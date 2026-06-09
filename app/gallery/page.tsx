@@ -21,7 +21,7 @@ export default function GalleryPage() {
       <RevealProvider>
         <section className="section-shell reveal-section">
           <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Gallery</p>
-          <h1 className="mt-4 max-w-5xl font-serif text-6xl leading-none md:text-8xl">
+          <h1 className="mt-4 max-w-5xl font-display text-6xl leading-none md:text-8xl">
             Finishes, colour, and salon atmosphere.
           </h1>
           <div className="mt-16">

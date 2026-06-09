@@ -20,7 +20,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "sans-serif"],
-        serif: ["var(--font-playfair)", "Playfair Display", "serif"]
+        serif: ["var(--font-inter)", "Inter", "sans-serif"], // fallback — serif replaced by display
+        display: ["var(--font-display)", "Big Shoulders Display", "sans-serif"], // T&G brand font
       },
       keyframes: {
         floatArrow: {

@@ -15,7 +15,7 @@ export function InstagramFeed() {
           <div className="mb-10 flex items-end justify-between gap-6">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Instagram</p>
-              <h2 className="mt-4 font-serif text-4xl leading-none md:text-6xl">@toniandguy_whitefield</h2>
+              <h2 className="mt-4 font-display text-4xl leading-none md:text-6xl">@toniandguy_whitefield</h2>
             </div>
             <div className="hidden shrink-0 items-center gap-3 md:flex">
               <a
@@ -61,7 +61,7 @@ export function InstagramFeed() {
           <div className="mb-10 flex items-end justify-between gap-6">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Facebook</p>
-              <h2 className="mt-4 font-serif text-4xl leading-none md:text-6xl">Latest from our page</h2>
+              <h2 className="mt-4 font-display text-4xl leading-none md:text-6xl">Latest from our page</h2>
             </div>
             <a
               href={FACEBOOK_URL}

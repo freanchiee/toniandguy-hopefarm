@@ -119,7 +119,7 @@ export function BookingForm({ onSuccess }: { onSuccess?: () => void }) {
   return (
     <div className="max-w-2xl">
       <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Online booking</p>
-      <h1 className="mt-3 font-serif text-5xl leading-none md:text-6xl">Book your visit.</h1>
+      <h1 className="mt-3 font-display text-5xl leading-none md:text-6xl">Book your visit.</h1>
       <p className="mt-3 text-sm text-white/50">
         {form.date && !result
           ? `${isWeekend ? "Weekend" : "Weekday"} discount: ${discountRange} sent to your WhatsApp`
@@ -342,7 +342,7 @@ export function BookingForm({ onSuccess }: { onSuccess?: () => void }) {
           {step === 4 && result && (
             <motion.div key="s4" variants={stepVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.35 }}>
               <CheckCircle2 className="mb-4 h-12 w-12 text-salon-gold" strokeWidth={1.4} />
-              <h2 className="font-serif text-4xl">You&apos;re booked.</h2>
+              <h2 className="font-display text-4xl">You&apos;re booked.</h2>
               <p className="mt-2 text-white/60">
                 A WhatsApp confirmation with your discount code has been sent to <span className="text-white">{form.client_phone}</span>.
               </p>

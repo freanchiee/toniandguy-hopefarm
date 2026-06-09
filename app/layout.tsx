@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Big_Shoulders_Display } from "next/font/google";
 import "./globals.css";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { FloatingNav } from "@/components/FloatingNav";
@@ -11,9 +11,11 @@ const inter = Inter({
   display: "swap"
 });
 
-const playfair = Playfair_Display({
+// T&G brand display font — tall condensed caps matching House of T&G editorial aesthetic
+const bigShoulders = Big_Shoulders_Display({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-display",
+  weight: ["400", "500", "700", "800", "900"],
   display: "swap"
 });
 
@@ -84,7 +86,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.variable} ${playfair.variable}`}>
+      <body className={`${inter.variable} ${bigShoulders.variable}`}>
         <BookingModalProvider>
           <FloatingNav />
           {children}

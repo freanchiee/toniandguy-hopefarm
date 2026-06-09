@@ -20,7 +20,7 @@ export function StylistCard({ name, speciality, image, bio }: StylistCardProps) 
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/16 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 translate-y-4 p-6 transition duration-500 group-hover:translate-y-0">
         <p className="text-xs uppercase tracking-[0.2em] text-salon-gold">{speciality}</p>
-        <h2 className="mt-2 font-serif text-4xl">{name}</h2>
+        <h2 className="mt-2 font-display text-4xl">{name}</h2>
         <p className="mt-4 max-w-sm text-sm leading-6 text-white/0 transition duration-500 group-hover:text-white/76">
           {bio}
         </p>
