@@ -84,10 +84,10 @@ export function Hero() {
           <div>
             <div className="flex flex-col items-start gap-2.5">
               <div className="flex items-center gap-3">
-                {/* Logo on white pill — keeps grey brand bg contained */}
-                <div className="relative h-14 w-12 shrink-0 overflow-hidden rounded-xl bg-white/90 p-1 shadow-lg md:h-16 md:w-14">
+                {/* TG monogram SVG — white on dark hero */}
+                <div className="relative h-14 w-12 shrink-0 drop-shadow-lg md:h-16 md:w-14">
                   <Image
-                    src="/images/tg-logo.png"
+                    src="/images/tg-logo.svg"
                     alt="Toni & Guy logo"
                     fill
                     priority

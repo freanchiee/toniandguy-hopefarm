@@ -41,7 +41,35 @@ export const services = [
     description: "Straightening/Rebonding from ₹3,000 · Cysteine/Keratin from ₹4,500 · Botox from ₹5,000 · Botoliss from ₹5,000 · Perming from ₹6,000. Permanent frizz-free solutions.",
     price: "from ₹3,000",
     duration: "bespoke"
-  }
+  },
+  {
+    number: "07",
+    name: "Skin Care & Facials",
+    description: "Sothys, Dermalogica & Skeyndor facials from ₹2,199. Clean-up rituals, hydrating, brightening & anti-ageing treatments by trained therapists.",
+    price: "from ₹2,199",
+    duration: "60 – 90 min"
+  },
+  {
+    number: "08",
+    name: "Manicure & Pedicure",
+    description: "Deluxe Manicure from ₹1,000 · Deluxe Pedicure from ₹1,300 · Luxury Manicure ₹1,600 · Luxury Pedicure ₹2,000. Nail extensions & nail art available.",
+    price: "from ₹1,000",
+    duration: "45 – 90 min"
+  },
+  {
+    number: "09",
+    name: "Threading & Waxing",
+    description: "Eyebrow threading from ₹100 · Full face threading ₹500 · Premium, luxury & Brazilian waxing · De-TAN treatments across all body zones.",
+    price: "from ₹100",
+    duration: "15 – 60 min"
+  },
+  {
+    number: "10",
+    name: "Massage & Wellness",
+    description: "Reflexology from ₹1,000 · Head oil massage from ₹700 · Swedish therapy from ₹2,500 · Balinese therapy from ₹2,700 · Deep tissue from ₹2,700.",
+    price: "from ₹700",
+    duration: "30 – 90 min"
+  },
 ];
 
 // ── Full price list (used on /services page) ──────────────────────────────────
@@ -179,6 +207,201 @@ export const priceList = {
       { name: "Wellaplex Care Spa", price: 3500, note: "onwards" },
     ],
   },
+  // ── Chakra Urban Spa services ─────────────────────────────────────────────
+  reflexology: {
+    title: "Reflexology",
+    items: [
+      { name: "Foot / Shoulder & Back — 30 min", price: 1000 },
+      { name: "Foot / Shoulder & Back — 60 min", price: 1500 },
+      { name: "Head Oil Massage Men — 30 min", price: 700 },
+      { name: "Head Oil Massage Men — 60 min", price: 1200 },
+      { name: "Head Oil Massage Women — 30 min", price: 1200, note: "incl. Hair Wash & Blast Dry" },
+      { name: "Head Oil Massage Women — 60 min", price: 1500, note: "incl. Hair Wash & Blast Dry" },
+    ],
+  },
+  massages: {
+    title: "Massages",
+    note: "*Available at select outlets",
+    items: [
+      { name: "Swedish Therapy (Oil) — 60 min", price: 2500 },
+      { name: "Swedish Therapy (Oil) — 90 min", price: 3000 },
+      { name: "Balinese Therapy (Dry & Oil) — 60 min", price: 2700 },
+      { name: "Balinese Therapy (Dry & Oil) — 90 min", price: 3100 },
+      { name: "Deep Tissue Therapy (Oil) — 60 min", price: 2700 },
+      { name: "Deep Tissue Therapy (Oil) — 90 min", price: 3100 },
+    ],
+  },
+  scrubsWraps: {
+    title: "Scrubs & Wraps",
+    note: "*Available at select outlets",
+    items: [
+      { name: "Chakra Herbal Scrub & Wrap — 90 min", price: 3250 },
+    ],
+  },
+  skinCare: {
+    title: "Skin Care",
+    sothys: [
+      { name: "Clean Up Ritual", price: 2499 },
+      { name: "Hydra Comfort Soothing Ritual", price: 3799 },
+      { name: "Clear Balance Purifying Ritual", price: 3799 },
+      { name: "Brightening Ritual", price: 4499 },
+      { name: "FirmLift Youth Ritual", price: 4199 },
+      { name: "Purifying Treatment", price: 4799 },
+      { name: "Skin Brightening Treatment", price: 5999 },
+      { name: "FirmLift Youth Treatment", price: 5999 },
+    ],
+    dermalogica: [
+      { name: "Clean Up Ritual", price: 2799 },
+      { name: "Pro Hydrating Facial", price: 3799 },
+      { name: "Pro Clear Facial", price: 3799 },
+      { name: "Pro Calm Facial", price: 3799 },
+      { name: "Pro Bright Treatment", price: 4499 },
+      { name: "Pro Age Smart Treatment", price: 4999 },
+    ],
+    skeyndor: [
+      { name: "Under Eye Treatment", price: 2199 },
+      { name: "Clean Up Ritual", price: 3299 },
+      { name: "Hydration Ritual", price: 4499 },
+      { name: "Pure Defence Facial", price: 4499 },
+      { name: "Power Retinol Treatment", price: 5999 },
+      { name: "Clear Balance Treatment", price: 5999 },
+      { name: "Aquatherm Treatment", price: 6499 },
+      { name: "Power Oxygen Treatment", price: 6499 },
+      { name: "Corrective Treatment", price: 9999 },
+    ],
+  },
+  manicure: {
+    title: "Manicure",
+    items: [
+      { name: "Deluxe Manicure", price: 1000, note: "Cut & File, Cuticle cleaning, Scrub and Massage" },
+      { name: "Candle Manicure", price: 1300, note: "Cut & File, Cuticle cleaning, Scrub, Massage (candle) and pack" },
+      { name: "Classic Manicure", price: 1500, note: "Cut & File, Cuticle cleaning, Salt Soak Scrub, Massage and pack" },
+      { name: "Luxury Manicure", price: 1600, note: "Cut & File, Cuticle cleaning, DeTan, Scrub, Massage and pack" },
+      { name: "Cut & File", price: 200 },
+      { name: "Nail Paint", price: 250 },
+    ],
+  },
+  pedicure: {
+    title: "Pedicure",
+    items: [
+      { name: "Deluxe Pedicure", price: 1300, note: "Cut & File, Cuticle cleaning, Scrub and Massage" },
+      { name: "Candle Pedicure", price: 1600, note: "Cut & File, Cuticle cleaning, Scrub, Massage (candle) and pack" },
+      { name: "Classic Pedicure", price: 1800, note: "Cut & File, Cuticle cleaning, Salt Soak Scrub, Massage and pack" },
+      { name: "Luxury Pedicure", price: 2000, note: "Cut & File, Cuticle cleaning, DeTan, Scrub, Massage and pack" },
+      { name: "Cut & File", price: 200 },
+      { name: "Nail Paint", price: 250 },
+    ],
+  },
+  nailExtension: {
+    title: "Nail Extension & Art",
+    items: [
+      { name: "Jewellery (per piece)", price: 50 },
+      { name: "Nail Art (per finger)", price: 200 },
+      { name: "5D or Cat Eye (per finger)", price: 200 },
+      { name: "Holographic Gel Polish (per finger)", price: 200 },
+      { name: "Chrome (per finger)", price: 200 },
+      { name: "Gel Polish (per finger)", price: 120 },
+      { name: "Gel Polish Removal", price: 600 },
+      { name: "Gel Polish French", price: 1350 },
+      { name: "Soft Gel Extension (gel polish incl.)", price: 2300 },
+      { name: "Soft Gel Extension (overlay incl.)", price: 2300 },
+      { name: "French Tip Extension", price: 2800 },
+      { name: "Acrylic Extension (gel polish incl.)", price: 3500 },
+      { name: "Gel Extension (gel polish incl.)", price: 3500 },
+      { name: "Extension Removal", price: 850 },
+      { name: "Overlay", price: 1850 },
+      { name: "Refill (gel polish incl.)", price: 2250 },
+    ],
+  },
+  deTan: {
+    title: "De-TAN",
+    items: [
+      { name: "Nape", price: 500 },
+      { name: "Feet", price: 750 },
+      { name: "Underarms", price: 550 },
+      { name: "Face & Neck", price: 1100 },
+      { name: "Half Arms", price: 750 },
+      { name: "Full Arms", price: 1100 },
+      { name: "Half Legs", price: 1000 },
+      { name: "Full Legs", price: 1400 },
+      { name: "Upper Back", price: 900 },
+      { name: "Lower Back", price: 900 },
+      { name: "Full Back", price: 1250 },
+      { name: "Midriff", price: 900 },
+    ],
+  },
+  threading: {
+    title: "Threading",
+    items: [
+      { name: "Eyebrows", price: 100 },
+      { name: "Upper Lip", price: 100 },
+      { name: "Lower Lip", price: 100 },
+      { name: "Chin", price: 100 },
+      { name: "Forehead", price: 100 },
+      { name: "Sides", price: 100 },
+      { name: "Neck", price: 120 },
+      { name: "Full Face", price: 500 },
+    ],
+  },
+  waxing: {
+    title: "Waxing",
+    note: "Men's waxing 25% extra",
+    premiumWax: [
+      { name: "Half Arms", price: 600 },
+      { name: "Full Arms", price: 1000 },
+      { name: "Half Legs", price: 800 },
+      { name: "Full Legs", price: 1200 },
+      { name: "Full Front / Back", price: 1000 },
+      { name: "Upper / Lower Back", price: 750 },
+      { name: "Midriff", price: 800 },
+      { name: "Butt", price: 800 },
+      { name: "Full Body (Without Bikini)", price: 4250 },
+      { name: "Full Body (With Bikini)", price: 5250 },
+    ],
+    brazilianWax: [
+      { name: "Upper Lip", price: 150 },
+      { name: "Chin", price: 150 },
+      { name: "Sides", price: 275 },
+      { name: "Neck", price: 275 },
+      { name: "Ears", price: 275 },
+      { name: "Nape", price: 150 },
+      { name: "Nose", price: 150 },
+      { name: "Underarms", price: 500 },
+      { name: "Full Face", price: 600, note: "*Selective Outlets" },
+      { name: "Bikini Line", price: 1150 },
+      { name: "Bikini Wax", price: 2800 },
+      { name: "Butt Crack", price: 750 },
+      { name: "Full Body (With Bikini)", price: 7000 },
+    ],
+    luxuryWax: [
+      { name: "Half Arms", price: 700 },
+      { name: "Full Arms", price: 1200 },
+      { name: "Half Legs", price: 1000 },
+      { name: "Full Legs", price: 1450 },
+      { name: "Full Front / Back", price: 1300 },
+      { name: "Upper / Lower Back", price: 900 },
+      { name: "Midriff", price: 1150 },
+      { name: "Butt", price: 1500 },
+      { name: "Full Body (Without Bikini)", price: 5250 },
+      { name: "Full Body (With Bikini)", price: 6500 },
+    ],
+    luxuryBrazilianWax: [
+      { name: "Upper Lip", price: 275 },
+      { name: "Chin", price: 275 },
+      { name: "Sides", price: 500 },
+      { name: "Neck", price: 500 },
+      { name: "Ears", price: 500 },
+      { name: "Nape", price: 275 },
+      { name: "Nose", price: 450 },
+      { name: "Underarms", price: 750 },
+      { name: "Full Face", price: 800 },
+      { name: "Bikini Line", price: 1250 },
+      { name: "Bikini Wax", price: 3000 },
+      { name: "Butt Crack", price: 1250 },
+      { name: "Full Body (With Bikini)", price: 7000 },
+    ],
+    intimateCare: 1500,
+  },
 };
 
 export const stylists = [
@@ -260,10 +483,25 @@ export const heroServiceOptions = [
     href: "/book?service=hair-spa"
   },
   {
-    label: "Facials & grooming",
-    meta: "Threading, waxing, manicure, pedicure",
-    href: "/book?service=grooming"
-  }
+    label: "Facials & skin care",
+    meta: "Sothys, Dermalogica, Skeyndor · from ₹2,199",
+    href: "/book?service=facial"
+  },
+  {
+    label: "Manicure & pedicure",
+    meta: "from ₹1,000 · Nail extensions available",
+    href: "/book?service=mani-pedi"
+  },
+  {
+    label: "Threading & waxing",
+    meta: "Threading from ₹100 · Brazilian wax available",
+    href: "/book?service=threading"
+  },
+  {
+    label: "Massage & reflexology",
+    meta: "from ₹700 · Swedish, Balinese, Deep Tissue",
+    href: "/book?service=massage"
+  },
 ];
 
 export const heroStylistOptions = [
