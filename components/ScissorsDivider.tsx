@@ -28,7 +28,7 @@ export function ScissorsDivider() {
     tl.fromTo(topBladeRef.current, { rotate: -20, transformOrigin: "12px 12px" }, { rotate: 0, ease: "power2.inOut" }, 0);
     tl.fromTo(bottomBladeRef.current, { rotate: 20, transformOrigin: "12px 12px" }, { rotate: 0, ease: "power2.inOut" }, 0);
 
-    return () => tl.kill();
+    return () => { tl.kill(); };
   }, []);
 
   return (
