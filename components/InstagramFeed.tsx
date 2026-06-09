@@ -1,72 +1,21 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
 import Script from "next/script";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const INSTAGRAM_URL = "https://www.instagram.com/toniandguy_whitefield/";
 const FACEBOOK_URL = "https://www.facebook.com/toni.guy.whitefield/";
 const FACEBOOK_PAGE = "https://www.facebook.com/toni.guy.whitefield";
 
-const FALLBACK_POSTS = [
-  { id: "1", src: "https://picsum.photos/seed/tg-ig-1/600/600", caption: "Colour transformation", href: INSTAGRAM_URL },
-  { id: "2", src: "https://picsum.photos/seed/tg-ig-2/600/600", caption: "Balayage goals", href: INSTAGRAM_URL },
-  { id: "3", src: "https://picsum.photos/seed/tg-ig-3/600/600", caption: "Precision cut", href: INSTAGRAM_URL },
-  { id: "4", src: "https://picsum.photos/seed/tg-ig-4/600/600", caption: "Bridal styling", href: INSTAGRAM_URL },
-  { id: "5", src: "https://picsum.photos/seed/tg-ig-5/600/600", caption: "Hair spa ritual", href: INSTAGRAM_URL },
-  { id: "6", src: "https://picsum.photos/seed/tg-ig-6/600/600", caption: "Keratin finish", href: INSTAGRAM_URL },
-];
-
-type Post = { id: string; src: string; caption: string; href: string };
-
 export function InstagramFeed() {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const [posts, setPosts] = useState<Post[]>(FALLBACK_POSTS);
-  const [isReal, setIsReal] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/instagram")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.configured && data.posts.length > 0) {
-          setPosts(data.posts);
-          setIsReal(true);
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    if (!gridRef.current) return;
-    const items = gridRef.current.querySelectorAll(".ig-item");
-    const tl = gsap.fromTo(
-      items,
-      { opacity: 0, scale: 0.92 },
-      {
-        opacity: 1, scale: 1, duration: 0.6, ease: "power2.out", stagger: 0.07,
-        scrollTrigger: { trigger: gridRef.current, start: "top 85%" },
-      }
-    );
-    return () => { tl.kill(); };
-  }, [posts]);
-
   return (
     <>
-      {/* Instagram Section */}
+      {/* Instagram Section — Behold.so live feed */}
       <section className="bg-[#0e0d0b] py-24 md:py-32">
         <div className="section-shell">
           <div className="mb-10 flex items-end justify-between gap-6">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Instagram</p>
               <h2 className="mt-4 font-serif text-4xl leading-none md:text-6xl">@toniandguy_whitefield</h2>
-              {!isReal && (
-                <p className="mt-2 text-xs text-white/30">
-                  Add <code className="text-white/50">INSTAGRAM_ACCESS_TOKEN</code> to .env.local for live posts
-                </p>
-              )}
             </div>
             <div className="hidden shrink-0 items-center gap-3 md:flex">
               <a
@@ -94,29 +43,15 @@ export function InstagramFeed() {
             </div>
           </div>
 
-          <div ref={gridRef} className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3">
-            {posts.map((post) => (
-              <a
-                key={post.id}
-                href={post.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ig-item group relative aspect-square overflow-hidden rounded-md"
-              >
-                <Image
-                  src={post.src}
-                  alt={post.caption}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                  unoptimized={isReal}
-                />
-                <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100">
-                  <p className="text-xs font-medium text-white">{post.caption}</p>
-                </div>
-              </a>
-            ))}
-          </div>
+          {/* Behold.so live Instagram widget */}
+          <behold-widget feed-id="Go9DOpvRYC4xzf61NoXA" />
+          <Script
+            id="behold-widget"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `(()=>{const d=document,s=d.createElement("script");s.type="module";s.src="https://w.behold.so/widget.js";d.head.append(s);})();`,
+            }}
+          />
         </div>
       </section>
 
