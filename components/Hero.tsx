@@ -118,7 +118,7 @@ export function Hero() {
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-white/68">Opening Hours</p>
               <p className="mt-3 text-sm font-semibold uppercase leading-relaxed tracking-[0.08em]">
-                10:00 AM - 9:00 PM<br />Monday to Sunday
+                9:00 AM - 9:00 PM<br />Monday to Sunday
               </p>
             </div>
           </div>

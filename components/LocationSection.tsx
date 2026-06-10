@@ -77,7 +77,7 @@ export function LocationSection() {
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-white/40">Opening Hours</p>
-                <p className="mt-1 text-sm font-medium text-white">10:00 AM – 9:00 PM</p>
+                <p className="mt-1 text-sm font-medium text-white">9:00 AM – 9:00 PM</p>
                 <p className="text-xs text-white/50">Monday to Sunday · Open all week</p>
               </div>
             </div>

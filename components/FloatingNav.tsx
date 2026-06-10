@@ -38,7 +38,7 @@ export function FloatingNav() {
           />
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">Toni&amp;Guy</p>
-            <p className="text-[9px] text-white/40 uppercase tracking-widest">Hopefarm · 10am–9pm</p>
+            <p className="text-[9px] text-white/40 uppercase tracking-widest">Hopefarm · 9am–9pm</p>
           </div>
         </div>
         <BookNowButton className="rounded-full bg-salon-gold px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-salon-black" />

@@ -49,7 +49,7 @@ https://maps.app.goo.gl/nFqNAeWzgR4XLTne9
 To cancel, reply CANCEL ${bookingId.slice(0, 8).toUpperCase()}
 
 _Toni & Guy Hopefarm, Whitefield Bangalore_
-_10:00 AM – 9:00 PM · Mon–Sun_`;
+_9:00 AM – 9:00 PM · Mon–Sun_`;
 }
 
 export function buildSalonAlertMessage({
