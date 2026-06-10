@@ -158,7 +158,7 @@ export function Hero() {
             <div className="flex items-center gap-1">
               <span className="text-sm font-bold leading-none">4.5</span>
               <span className="text-salon-gold">★★★★½</span>
-              <span className="text-xs text-white/50">· 200+</span>
+              <span className="text-xs text-white/50">· 808+</span>
             </div>
           </div>
         </motion.a>

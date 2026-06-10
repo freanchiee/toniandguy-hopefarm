@@ -9,6 +9,7 @@ import { GalleryGrid } from "@/components/GalleryGrid";
 import { ScissorsDivider } from "@/components/ScissorsDivider";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { InstagramFeed } from "@/components/InstagramFeed";
+import { LocationSection } from "@/components/LocationSection";
 import { services, stylists, galleryImages } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -185,6 +186,10 @@ export default function Home() {
         <ScissorsDivider />
 
         <InstagramFeed />
+
+        <ScissorsDivider />
+
+        <LocationSection />
       </RevealProvider>
     </main>
   );

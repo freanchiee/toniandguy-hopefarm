@@ -43,6 +43,9 @@ Show this message at the salon to redeem.
 
 Ref: #${bookingId.slice(0, 8).toUpperCase()}
 
+📍 *Find us here:*
+https://maps.app.goo.gl/nFqNAeWzgR4XLTne9
+
 To cancel, reply CANCEL ${bookingId.slice(0, 8).toUpperCase()}
 
 _Toni & Guy Hopefarm, Whitefield Bangalore_
