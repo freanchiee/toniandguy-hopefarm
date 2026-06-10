@@ -10,6 +10,7 @@ import { ScissorsDivider } from "@/components/ScissorsDivider";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { InstagramFeed } from "@/components/InstagramFeed";
 import { LocationSection } from "@/components/LocationSection";
+import { FaqSection } from "@/components/FaqSection";
 import { services, stylists, galleryImages } from "@/lib/data";
 
 // Switch to "https://toniandguywhitefield.com" once domain is live
@@ -35,8 +36,8 @@ const localBusinessSchema = {
   logo: `${SITE_URL}/images/tg-logo.png`,
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Hopefarm Junction, Whitefield Main Road",
-    addressLocality: "Bangalore",
+    streetAddress: "1st Floor, No-242&243, Whitefield Main Rd, above Axis Bank, next to Four Points Hotel, Inner Valley, Hopefarm",
+    addressLocality: "Bengaluru",
     addressRegion: "Karnataka",
     postalCode: "560066",
     addressCountry: "IN",
@@ -239,6 +240,10 @@ export default function Home() {
         <ScissorsDivider />
 
         <InstagramFeed />
+
+        <ScissorsDivider />
+
+        <FaqSection />
 
         <ScissorsDivider />
 

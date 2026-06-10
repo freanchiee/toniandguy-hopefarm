@@ -83,11 +83,6 @@ export const metadata: Metadata = {
     description: "Expert haircuts, colour, highlights & bridal styling in Whitefield. Book online.",
     images: ["/images/og-image.jpg"],
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
   verification: {
     google: "", // paste Google Search Console verification code here after setup
   },
