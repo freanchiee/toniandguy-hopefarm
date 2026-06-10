@@ -3,15 +3,17 @@ import Link from "next/link";
 import { ContactForm } from "@/components/ContactForm";
 import { RevealProvider } from "@/components/RevealProvider";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Contact & Location",
+  title: "Contact & Location | Toni & Guy Hopefarm Whitefield Bangalore",
   description:
-    "Contact Toni & Guy Hopefarm in Whitefield, Bangalore. Visit us at Hopefarm Junction, call +91 91872 00430, or book online. Open Mon–Sun, 10 AM–9 PM.",
-  alternates: { canonical: "https://toniandguywhitefield.com/contact" },
+    "Contact Toni & Guy Hopefarm — the closest Toni & Guy to Whitefield, ITPL, Marathahalli & Bellandur. Hopefarm Junction, Bangalore. Call +91 91872 00430. Open daily 9 AM–9 PM.",
+  alternates: { canonical: `${SITE_URL}/contact` },
   openGraph: {
     title: "Contact & Location | Toni & Guy Hopefarm Whitefield",
-    description: "Find Toni & Guy Hopefarm at Hopefarm Junction, Whitefield, Bangalore. Call +91 91872 00430 or book online.",
-    url: "https://toniandguywhitefield.com/contact",
+    description: "Toni & Guy at Hopefarm Junction, Whitefield — serving Marathahalli, ITPL, Bellandur & east Bangalore. Call +91 91872 00430.",
+    url: `${SITE_URL}/contact`,
   },
 };
 

@@ -32,10 +32,22 @@ export const metadata: Metadata = {
   description:
     "Toni & Guy Hopefarm — Whitefield's premier hair salon. Expert haircuts, colour, highlights, keratin treatments & bridal styling. Open Mon–Sun, 9 AM–9 PM. Book online for instant discounts.",
   keywords: [
-    "hair salon whitefield", "toni and guy hopefarm", "toni guy whitefield bangalore",
-    "best salon whitefield", "hair salon hopefarm", "salon near whitefield",
+    // Brand + location — primary targets
+    "toni and guy bangalore", "toni and guy hopefarm", "toni guy whitefield bangalore",
+    "toni&guy whitefield", "toni and guy whitefield", "toni & guy bangalore",
+    // Price list — SD 10, 480 vol (easiest win)
+    "toni and guy price list bangalore", "toni and guy bangalore price list",
+    "toni and guy haircut price bangalore", "toni and guy keratin treatment price bangalore",
+    // Whitefield area keywords
+    "hair salon whitefield", "best salon whitefield", "best hair salon whitefield",
+    "salon in whitefield", "hair salon in whitefield bangalore", "salon near whitefield",
     "haircut whitefield", "hair colour whitefield", "bridal hair whitefield",
     "keratin treatment whitefield", "balayage whitefield bangalore",
+    // Nearby areas — capture people near Hopefarm searching other T&G branches
+    "toni and guy near whitefield", "salon near hopefarm junction",
+    "hair salon varthur", "hair salon mahadevapura", "hair salon marathahalli",
+    "hair salon itpl", "salon near itpl whitefield", "hair salon brookefield",
+    "toni and guy bellandur", "toni and guy east bangalore",
   ],
   authors: [{ name: "Toni & Guy Hopefarm" }],
   creator: "Toni & Guy Hopefarm",

@@ -112,6 +112,35 @@ export function LocationSection() {
 
           </motion.div>
         </div>
+
+        {/* Areas We Serve — SEO text + user value */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-10 rounded-2xl border border-white/8 bg-white/[0.02] p-6"
+        >
+          <p className="mb-4 text-xs uppercase tracking-[0.22em] text-salon-gold">Areas We Serve</p>
+          <p className="mb-4 text-sm text-white/60 leading-relaxed max-w-2xl">
+            Conveniently located at Hopefarm Junction — the closest Toni &amp; Guy to east Bangalore.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "Whitefield", "Hopefarm Junction", "ITPL", "Varthur", "Marathahalli",
+              "Mahadevapura", "Brookefield", "Kundalahalli", "Bellandur", "Sarjapur Road",
+              "Kadugodi", "Nallurhalli", "Phoenix Marketcity Area",
+            ].map((area) => (
+              <span
+                key={area}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60"
+              >
+                {area}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );

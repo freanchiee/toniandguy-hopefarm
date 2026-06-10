@@ -137,6 +137,31 @@ const faqSchema = {
       name: "Does Toni & Guy Hopefarm offer keratin and smoothening treatments?",
       acceptedAnswer: { "@type": "Answer", text: "Yes, Toni & Guy Hopefarm offers professional keratin treatments, Nanoplastia, and hair Botox smoothening treatments starting from ₹1800. Suitable for frizzy, curly, and chemically treated hair." },
     },
+    {
+      "@type": "Question",
+      name: "Is there a Toni & Guy salon near Whitefield Bangalore?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Toni & Guy Hopefarm is the Toni & Guy franchise salon located directly in Whitefield, Bangalore at Hopefarm Junction. It is the closest Toni & Guy to areas like Varthur, Marathahalli, ITPL, Mahadevapura, Brookefield, and Bellandur." },
+    },
+    {
+      "@type": "Question",
+      name: "Which Toni & Guy branch is closest to ITPL and Whitefield?",
+      acceptedAnswer: { "@type": "Answer", text: "Toni & Guy Hopefarm is the closest Toni & Guy branch to ITPL, Whitefield, Varthur, Marathahalli, and east Bangalore. It is located at Hopefarm Junction on Whitefield Main Road." },
+    },
+    {
+      "@type": "Question",
+      name: "What is the Toni & Guy price list for Bangalore in 2025?",
+      acceptedAnswer: { "@type": "Answer", text: "At Toni & Guy Hopefarm Whitefield: Men's haircut from ₹700, Women's haircut from ₹900, Hair colour from ₹2,500, Highlights/Balayage from ₹3,500, Keratin treatment from ₹1,800, Hair spa from ₹1,200, Blowout from ₹800. Book online for weekday discounts of 25–35%." },
+    },
+    {
+      "@type": "Question",
+      name: "Is Toni & Guy Hopefarm good for hair colour in Bangalore?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Toni & Guy Hopefarm Whitefield is highly rated for hair colour, balayage, and highlights in Bangalore. Colour services start from ₹2,500 for global colour and ₹3,500 for highlights. The salon uses L'Oreal Professional and System Professional products." },
+    },
+    {
+      "@type": "Question",
+      name: "Does Toni & Guy Hopefarm serve customers from Marathahalli and Bellandur?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Toni & Guy Hopefarm at Whitefield regularly serves clients from Marathahalli, Bellandur, Varthur, ITPL, Mahadevapura, Brookefield, Kundalahalli, and surrounding east Bangalore neighbourhoods." },
+    },
   ],
 };
 
