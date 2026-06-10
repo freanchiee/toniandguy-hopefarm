@@ -20,7 +20,8 @@ const bigShoulders = Big_Shoulders_Display({
   display: "swap"
 });
 
-const SITE_URL = "https://toniandguywhitefield.com";
+// Switch this to "https://toniandguywhitefield.com" once domain is purchased
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Toni & Guy Hopefarm Whitefield",
   },
   description:
-    "Toni & Guy Hopefarm — Whitefield's premier hair salon. Expert haircuts, colour, highlights, keratin treatments & bridal styling. Open Mon–Sun, 10 AM–9 PM. Book online for instant discounts.",
+    "Toni & Guy Hopefarm — Whitefield's premier hair salon. Expert haircuts, colour, highlights, keratin treatments & bridal styling. Open Mon–Sun, 9 AM–9 PM. Book online for instant discounts.",
   keywords: [
     "hair salon whitefield", "toni and guy hopefarm", "toni guy whitefield bangalore",
     "best salon whitefield", "hair salon hopefarm", "salon near whitefield",
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     siteName: "Toni & Guy Hopefarm Whitefield",
     title: "Toni & Guy Hopefarm, Whitefield Bangalore | Premium Hair Salon",
     description:
-      "Expert haircuts, colour, highlights, keratin & bridal styling in Whitefield. Open daily 10 AM–9 PM. Book online for exclusive discounts.",
+      "Expert haircuts, colour, highlights, keratin & bridal styling in Whitefield. Open daily 9 AM–9 PM. Book online for exclusive discounts.",
     images: [
       {
         url: "/images/og-image.jpg",
