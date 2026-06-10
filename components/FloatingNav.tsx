@@ -34,7 +34,7 @@ export function FloatingNav() {
             alt="Toni & Guy"
             width={36}
             height={51}
-            className="mix-blend-screen"
+            className="rounded-lg object-contain"
           />
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">Toni&amp;Guy</p>
