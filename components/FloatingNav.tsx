@@ -30,10 +30,11 @@ export function FloatingNav() {
       <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between gap-3 border-t border-white/8 bg-salon-black/90 px-5 py-3 backdrop-blur-md md:hidden">
         <div className="flex items-center gap-2">
           <Image
-            src="/images/tg-logo.svg"
+            src="/images/tg-logo.png"
             alt="Toni & Guy"
-            width={32}
-            height={38}
+            width={36}
+            height={51}
+            className="mix-blend-screen"
           />
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white">Toni&amp;Guy</p>

@@ -84,14 +84,14 @@ export function Hero() {
           <div>
             <div className="flex flex-col items-start gap-2.5">
               <div className="flex items-center gap-3">
-                {/* TG monogram SVG — white on dark hero */}
-                <div className="relative h-[72px] w-[64px] shrink-0 drop-shadow-lg md:h-[84px] md:w-[74px]">
+                {/* TG logo — mix-blend-mode:screen makes grey bg vanish on dark hero */}
+                <div className="relative h-[80px] w-[56px] shrink-0 md:h-[96px] md:w-[68px]">
                   <Image
-                    src="/images/tg-logo.svg"
+                    src="/images/tg-logo.png"
                     alt="Toni & Guy logo"
                     fill
                     priority
-                    className="object-contain object-top"
+                    className="object-contain object-top mix-blend-screen drop-shadow-lg"
                   />
                 </div>
                 <p className="font-display text-2xl font-black uppercase leading-none tracking-[0.06em] text-white drop-shadow md:text-3xl">
