@@ -4,6 +4,7 @@ import "./globals.css";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { FloatingNav } from "@/components/FloatingNav";
 import { BookingModalProvider } from "@/components/BookingModal";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -91,6 +92,7 @@ export default function RootLayout({
           <FloatingNav />
           {children}
           <WhatsAppButton />
+          <Analytics />
         </BookingModalProvider>
       </body>
     </html>
