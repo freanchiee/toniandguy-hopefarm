@@ -90,3 +90,44 @@ textarea {
   transform: scaleX(1);
   transform-origin: left;
 }
+
+/* Blog prose styles */
+.prose-salon h2 {
+  font-family: var(--font-display, serif);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: #f6f1e8;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose-salon p {
+  color: rgba(246,241,232,0.65);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+.prose-salon ul {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+.prose-salon ul li {
+  color: rgba(246,241,232,0.65);
+  padding-left: 1.25rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+.prose-salon ul li::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: #b8965a;
+}
+.prose-salon strong {
+  color: #f6f1e8;
+  font-weight: 600;
+}
+.prose-salon em {
+  font-style: italic;
+  color: rgba(246,241,232,0.7);
+}

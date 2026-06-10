@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { RevealProvider } from "@/components/RevealProvider";
 import { ServiceCard } from "@/components/ServiceCard";
 import { services } from "@/lib/data";
@@ -38,6 +39,27 @@ export default function ServicesPage() {
           <div className="mt-16">
             {services.map((service) => (
               <ServiceCard key={service.name} {...service} />
+            ))}
+          </div>
+        </section>
+
+        {/* Service landing page links */}
+        <section className="reveal-section mt-20 section-shell">
+          <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Deep Dives</p>
+          <h2 className="mt-3 font-display text-4xl uppercase text-white md:text-5xl">Explore by Service</h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { href: "/services/keratin-treatment", label: "Keratin Treatment", sub: "Smoothening · Nanoplastia · Hair Botox" },
+              { href: "/services/balayage", label: "Balayage & Highlights", sub: "Sun-kissed colour · Ombre · Face framing" },
+              { href: "/services/hair-colour", label: "Hair Colour", sub: "Global colour · Root touch-up · Fashion colour" },
+              { href: "/services/bridal-hair", label: "Bridal Hair", sub: "Wedding styling · Updos · Bridal trial" },
+              { href: "/services/haircut", label: "Haircut", sub: "Men · Women · Kids · Blowout" },
+            ].map((s) => (
+              <Link key={s.href} href={s.href}
+                className="group rounded-2xl border border-white/8 bg-white/[0.02] p-5 transition hover:border-salon-gold/40 hover:bg-white/[0.05]">
+                <p className="font-semibold text-white group-hover:text-salon-gold transition">{s.label} →</p>
+                <p className="mt-1 text-xs text-white/40">{s.sub}</p>
+              </Link>
             ))}
           </div>
         </section>
