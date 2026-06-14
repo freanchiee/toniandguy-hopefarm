@@ -30,7 +30,7 @@ export default function ContactPage() {
             <h1 className="mt-4 font-display text-6xl leading-none md:text-8xl">Hopefarm, Whitefield.</h1>
             <div className="mt-10 space-y-7 text-lg leading-8 text-salon-smoke">
               <p>1st Floor, No-242&243 Whitefield Main Road, above Axis Bank, next to Four Points Hotel, Bengaluru 560066</p>
-              <p>Open daily, 10:00 AM - 9:00 PM</p>
+              <p>Open daily, 9:00 AM – 9:00 PM</p>
               <Link
                 href={`https://wa.me/${number}?text=${message}`}
                 target="_blank"
