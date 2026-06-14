@@ -12,11 +12,44 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: "hair-colour-trends-india-2025",
+    title: "Hair Colour Trends India 2025 — Best Shades for Indian Skin Tones",
+    excerpt: "Chocolate brown balayage, copper, dark auburn, and warm caramel — the hair colour trends that actually work for Indian skin in 2025, with shade recommendations by undertone.",
+    date: "June 2025",
+    readTime: "6 min read",
+    tag: "Colour",
+  },
+  {
+    slug: "balayage-vs-highlights-indian-hair",
+    title: "Balayage vs Highlights for Indian Hair — Which is Better?",
+    excerpt: "Balayage or traditional highlights — honest comparison for Indian hair. Maintenance, cost, grow-out, and which technique gives more natural results on dark hair.",
+    date: "June 2025",
+    readTime: "5 min read",
+    tag: "Balayage",
+  },
+  {
+    slug: "mens-haircut-styles-india-2025",
+    title: "Popular Men's Haircut Styles India 2025",
+    excerpt: "Textured crop, low fade with side part, curtain bangs — the men's haircut styles actually trending in India in 2025, with face-shape recommendations.",
+    date: "June 2025",
+    readTime: "5 min read",
+    tag: "Men's Hair",
+  },
+  {
+    slug: "professional-hair-treatment-benefits",
+    title: "Benefits of Professional Hair Treatment at a Salon",
+    excerpt: "Why professional keratin, protein, and hair spa treatments outperform at-home alternatives — product grade, technique, diagnosis, and Bangalore climate considerations.",
+    date: "June 2025",
+    readTime: "5 min read",
+    tag: "Treatments",
+  },
+  {
     slug: "best-balayage-salon-whitefield-bangalore",
     title: "Best Balayage Salons in Whitefield Bangalore (2025 Guide)",
     excerpt: "Looking for a balayage salon near Whitefield or ITPL? We break down what makes a great balayage, what to look for in a salon, and why Toni & Guy Hopefarm is the top choice in east Bangalore.",
     date: "June 2025",
     readTime: "5 min read",
+    tag: "Balayage",
   },
   {
     slug: "keratin-treatment-whitefield-guide",
@@ -24,13 +57,15 @@ const posts = [
     excerpt: "Brazilian keratin, Nanoplastia, or hair Botox — which is right for you? Prices, what to expect, and how to find the best keratin treatment salon near Whitefield.",
     date: "June 2025",
     readTime: "6 min read",
+    tag: "Keratin",
   },
   {
     slug: "toni-and-guy-whitefield-price-list-2025",
     title: "Toni & Guy Whitefield Price List 2025 — Complete Guide",
-    excerpt: "Full price breakdown for all services at Toni & Guy Hopefarm Whitefield: haircuts, colour, keratin treatments, balayage, bridal styling and more. Plus how to get up to 35% off.",
+    excerpt: "Full price breakdown for all services at Toni & Guy Hopefarm Whitefield: haircuts, colour, keratin treatments, balayage, bridal styling and more.",
     date: "June 2025",
     readTime: "4 min read",
+    tag: "Prices",
   },
 ];
 
@@ -46,7 +81,10 @@ export default function BlogPage() {
           {posts.map((p) => (
             <Link key={p.slug} href={`/blog/${p.slug}`}
               className="group block rounded-2xl border border-white/8 bg-white/[0.02] p-6 transition hover:border-salon-gold/40 hover:bg-white/[0.04]">
-              <p className="text-xs text-white/40">{p.date} · {p.readTime}</p>
+              <div className="flex items-center gap-3">
+                <p className="text-xs text-white/40">{p.date} · {p.readTime}</p>
+                {"tag" in p && <span className="rounded-full border border-salon-gold/30 px-2.5 py-0.5 text-[10px] uppercase tracking-widest text-salon-gold">{p.tag}</span>}
+              </div>
               <h2 className="mt-2 text-xl font-semibold text-white group-hover:text-salon-gold transition">{p.title}</h2>
               <p className="mt-2 text-sm leading-relaxed text-white/60">{p.excerpt}</p>
               <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-salon-gold">Read more →</p>
