@@ -4,7 +4,7 @@ import Link from "next/link";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguywhitefield.com";
 
 export const metadata: Metadata = {
-  title: "Popular Men's Haircut Styles India 2025 | Men's Haircut Whitefield Bangalore",
+  title: "Popular Men's Haircut Styles India 2025 | Whitefield",
   description:
     "The most popular men's haircut styles trending in India in 2025 — from textured crops to fade cuts. Expert guide from Toni & Guy Whitefield Bangalore. Men's cuts from ₹700.",
   keywords: [

@@ -4,7 +4,7 @@ import Link from "next/link";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguywhitefield.com";
 
 export const metadata: Metadata = {
-  title: "Benefits of Professional Hair Treatment at a Salon | Toni & Guy Whitefield",
+  title: "Benefits of Professional Hair Treatment at a Salon | Whitefield",
   description:
     "What are the main benefits of getting a professional hair treatment at a salon vs at home? Expert breakdown of keratin, hair spa, and protein treatments from Toni & Guy Whitefield Bangalore.",
   keywords: [
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: `${SITE_URL}/blog/professional-hair-treatment-benefits` },
   openGraph: {
-    title: "Benefits of Professional Hair Treatment at a Salon | Toni & Guy Whitefield",
+    title: "Benefits of Professional Hair Treatment at a Salon | Whitefield",
     description: "Why professional salon hair treatments outperform at-home treatments — keratin, hair spa, protein, and deep conditioning explained.",
     url: `${SITE_URL}/blog/professional-hair-treatment-benefits`,
     type: "article",

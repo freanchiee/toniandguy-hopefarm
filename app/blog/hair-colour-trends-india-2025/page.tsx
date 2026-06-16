@@ -4,7 +4,7 @@ import Link from "next/link";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguywhitefield.com";
 
 export const metadata: Metadata = {
-  title: "Hair Colour Trends India 2025 | Shades for Indian Skin Tones | Toni & Guy Whitefield",
+  title: "Hair Colour Trends India 2025 | Best Shades for Indian Skin",
   description:
     "Discover the most popular hair colour trends in India for 2025. Best shades for Indian skin tones, from chocolate browns to copper balayage — expert picks from Toni & Guy Whitefield Bangalore.",
   keywords: [

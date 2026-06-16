@@ -4,7 +4,7 @@ import Link from "next/link";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguywhitefield.com";
 
 export const metadata: Metadata = {
-  title: "Balayage vs Highlights for Indian Hair — Which is Better? | Toni & Guy Whitefield",
+  title: "Balayage vs Highlights for Indian Hair — Which is Better?",
   description:
     "Balayage or highlights — which is better for Indian hair? Honest comparison of techniques, cost, maintenance, and results for dark Indian hair. Expert guide from Toni & Guy Whitefield Bangalore.",
   keywords: [

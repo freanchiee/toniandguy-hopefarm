@@ -6,7 +6,7 @@ import { galleryImages } from "@/lib/data";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguywhitefield.com";
 
 export const metadata: Metadata = {
-  title: "Hair Transformation Gallery | Toni & Guy Hopefarm Whitefield Bangalore",
+  title: "Hair Transformation Gallery | Toni & Guy Whitefield",
   description:
     "Browse real hair transformations by Toni & Guy Hopefarm, Whitefield Bangalore. Haircuts, balayage, highlights, keratin treatments, and bridal styling — see the results for yourself.",
   keywords: [
