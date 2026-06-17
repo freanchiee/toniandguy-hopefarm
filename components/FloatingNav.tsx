@@ -10,7 +10,8 @@ const navItems = [
   { label: "Stylists", href: "/stylists" },
   { label: "Gallery", href: "/gallery" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" }
+  { label: "Contact", href: "/contact" },
+  { label: "Login", href: "/admin/login" }
 ];
 
 export function FloatingNav() {
