@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from "@/lib/supabase-server";
+import { sendWhatsApp } from "@/lib/whatsapp";
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
   const sb = getServerSupabase();
@@ -25,10 +26,10 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   const sb = getServerSupabase();
 
-  // Fetch current balance
+  // Fetch current balance + contact details for WA message
   const { data: customer, error: fetchErr } = await sb
     .from("customer_packages")
-    .select("credit_remaining")
+    .select("name, phone, credit_remaining")
     .eq("id", params.id)
     .single();
   if (fetchErr || !customer) return NextResponse.json({ error: "Customer not found" }, { status: 404 });
@@ -52,5 +53,18 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     .single();
   if (deductErr) return NextResponse.json({ error: deductErr.message }, { status: 500 });
 
-  return NextResponse.json({ credit_remaining: updated.credit_remaining });
+  // Fire WA notification — non-blocking, don't fail the request if this fails
+  const remaining = updated.credit_remaining;
+  sendWhatsApp(
+    customer.phone,
+    `Hi ${customer.name}! 👋\n\n` +
+    `✅ *${service_name}* has been completed at Toni & Guy Hopefarm.\n\n` +
+    `💳 *Package Balance Update*\n` +
+    `Deducted: ₹${Number(amount).toLocaleString("en-IN")}\n` +
+    `Remaining credit: *₹${remaining.toLocaleString("en-IN")}*\n\n` +
+    `Thank you for choosing us! 🙏\n` +
+    `_Toni & Guy Hopefarm, Whitefield · +91 91872 00430_`
+  ).catch(() => {}); // ponytail: swallow — WA failure should never block the deduction
+
+  return NextResponse.json({ credit_remaining: remaining });
 }
