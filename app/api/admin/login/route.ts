@@ -1,26 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// ── Admin accounts (max 3) ─────────────────────────────────────────────────
-// To add more admins: add entries here (up to 3 total)
-const ADMIN_ACCOUNTS: Record<string, string> = {
-  Rishav: "admin123",
-  // Slot2: "password2",
-  // Slot3: "password3",
-};
-
+// Credentials live in Vercel env vars — never hardcoded
+// ADMIN_PASSWORD → Rishav (core admin)
+// STAFF_PASSWORD  → staff  (lower role: add customers + deduct)
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json();
 
-  const valid = ADMIN_ACCOUNTS[username] === password;
-  if (!valid) {
+  let role: "core" | "staff" | null = null;
+
+  if (username === "Rishav" && password === process.env.ADMIN_PASSWORD) {
+    role = "core";
+  } else if (username === "staff" && password === process.env.STAFF_PASSWORD) {
+    role = "staff";
+  }
+
+  if (!role) {
     return NextResponse.json({ error: "Invalid username or password" }, { status: 401 });
   }
 
-  const res = NextResponse.json({ ok: true, username });
-  res.cookies.set("admin_session", `${username}:authenticated`, {
+  const res = NextResponse.json({ ok: true, username, role });
+  res.cookies.set("admin_session", `${username}:${role}:authenticated`, {
     httpOnly: true,
     sameSite: "lax",
-    maxAge: 60 * 60 * 8, // 8 hours
+    maxAge: 60 * 60 * 8,
     path: "/",
     secure: process.env.NODE_ENV === "production",
   });

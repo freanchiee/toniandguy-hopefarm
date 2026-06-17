@@ -1002,6 +1002,18 @@ export default function AdminPage() {
       {showWalkIn && <WalkInModal onClose={()=>setShowWalkIn(false)} onSaved={loadBookings}/>}
 
       <div className="mx-auto max-w-6xl">
+        {/* Quick links to package system */}
+        <div className="mb-6 flex flex-wrap gap-2">
+          <a href="/admin/package-customers"
+            className="flex items-center gap-2 rounded-full border border-salon-gold/30 bg-salon-gold/5 px-4 py-2 text-xs font-semibold text-salon-gold hover:bg-salon-gold/10 transition">
+            <Crown className="h-3.5 w-3.5" /> Package Customers
+          </a>
+          <a href="/admin/packages"
+            className="flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs text-white/50 hover:border-white/30 hover:text-white transition">
+            <Zap className="h-3.5 w-3.5" /> Manage Packages
+          </a>
+        </div>
+
         <div className="mb-8 flex items-end justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-salon-gold">Admin</p>
