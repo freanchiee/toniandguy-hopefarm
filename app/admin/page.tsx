@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Loader2, RefreshCw, X, Plus, Users, CalendarDays, UserPlus, LogOut,
   ChevronDown, ChevronUp, Megaphone, Send, Clock, CheckCircle2, XCircle,
-  FileText, BarChart3, Edit2, Crown, Trash2, Zap,
+  FileText, BarChart3, Edit2, Crown, Trash2, Zap, Settings,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -797,6 +797,100 @@ function DateGroup({ date, bookings, onCancel, cancelling }: { date:string; book
   );
 }
 
+// ── Discount Settings Tab (core-only) ────────────────────────────────────────
+function DiscountSettingsTab() {
+  const [cfg, setCfg] = useState({ weekday_min: 25, weekday_max: 35, weekend_min: 10, weekend_max: 15 });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    fetch("/api/admin/settings")
+      .then(r => r.json())
+      .then(d => { if (d.discounts) setCfg(d.discounts); })
+      .finally(() => setLoading(false));
+  }, []);
+
+  async function save() {
+    setSaving(true); setMsg("");
+    const res = await fetch("/api/admin/settings", {
+      method: "PATCH", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cfg),
+    });
+    const d = await res.json();
+    setMsg(res.ok ? "Saved!" : (d.error ?? "Error saving"));
+    setSaving(false);
+  }
+
+  if (loading) return <div className="flex items-center gap-2 py-16 text-white/40"><Loader2 className="h-4 w-4 animate-spin"/>Loading…</div>;
+
+  const Field = ({ label, field }: { label: string; field: keyof typeof cfg }) => (
+    <div>
+      <label className="mb-1 block text-xs text-white/40">{label}</label>
+      <div className="flex items-center gap-2">
+        <input type="number" min={0} max={100}
+          value={cfg[field]}
+          onChange={e => setCfg(c => ({ ...c, [field]: Number(e.target.value) }))}
+          className="w-24 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-white focus:border-salon-gold focus:outline-none" />
+        <span className="text-sm text-white/40">%</span>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="max-w-lg space-y-6">
+      <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-6">
+        <p className="mb-5 font-semibold text-white flex items-center gap-2">
+          <Settings className="h-4 w-4 text-salon-gold" /> Booking Discount Range
+        </p>
+        <p className="mb-6 text-sm text-white/40 leading-relaxed">
+          When a customer books online, they receive a random discount within the range you set here.
+          The WA confirmation message will show the exact % they got.
+        </p>
+
+        <div className="mb-6">
+          <p className="mb-3 text-xs uppercase tracking-widest text-salon-gold">Weekday (Mon–Fri)</p>
+          <div className="flex flex-wrap gap-6">
+            <Field label="Minimum %" field="weekday_min" />
+            <Field label="Maximum %" field="weekday_max" />
+          </div>
+          <p className="mt-2 text-xs text-white/30">
+            Preview: customers will get between {cfg.weekday_min}% and {cfg.weekday_max}% off
+          </p>
+        </div>
+
+        <div className="mb-6 border-t border-white/8 pt-6">
+          <p className="mb-3 text-xs uppercase tracking-widest text-salon-gold">Weekend (Sat–Sun)</p>
+          <div className="flex flex-wrap gap-6">
+            <Field label="Minimum %" field="weekend_min" />
+            <Field label="Maximum %" field="weekend_max" />
+          </div>
+          <p className="mt-2 text-xs text-white/30">
+            Preview: customers will get between {cfg.weekend_min}% and {cfg.weekend_max}% off
+          </p>
+        </div>
+
+        {msg && (
+          <p className={`mb-4 text-sm ${msg === "Saved!" ? "text-green-400" : "text-red-400"}`}>{msg}</p>
+        )}
+        <button onClick={save} disabled={saving}
+          className="flex items-center gap-2 rounded-full bg-salon-gold px-6 py-2.5 text-sm font-bold text-salon-black disabled:opacity-50">
+          {saving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+          Save Changes
+        </button>
+      </div>
+
+      <div className="rounded-xl border border-white/8 bg-white/[0.02] p-5">
+        <p className="text-xs text-white/40 leading-relaxed">
+          <strong className="text-white/60">How it works:</strong> When a customer submits the booking form,
+          the server picks a random % within the weekday or weekend range (depending on their chosen date)
+          and includes it in their WhatsApp confirmation message. They show it at the salon to redeem.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ── Walk-in Quick Booking Modal ───────────────────────────────────────────────
 const WALKIN_SERVICES = [
   "Haircut — Men",  "Haircut — Women", "Haircut — Kids",
@@ -944,8 +1038,9 @@ function WalkInModal({ onClose, onSaved }: { onClose: () => void; onSaved: () =>
 // ── Main Dashboard ────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const router = useRouter();
-  type Tab = "bookings"|"customers"|"invoices"|"analytics"|"promos";
+  type Tab = "bookings"|"customers"|"invoices"|"analytics"|"promos"|"settings";
   const [tab, setTab] = useState<Tab>("bookings");
+  const [role, setRole] = useState<"core"|"staff"|null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -972,6 +1067,9 @@ export default function AdminPage() {
     setLoading(false);
   }, [loadBookings, loadCustomers]);
   useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    fetch("/api/admin/me").then(r => r.json()).then(d => setRole(d.role ?? null));
+  }, []);
 
   async function cancel(id: string) {
     if(!confirm("Cancel this booking?")) return;
@@ -993,6 +1091,7 @@ export default function AdminPage() {
     ["invoices", FileText, "Invoices"],
     ["analytics", BarChart3, "Analytics"],
     ["promos", Megaphone, "Promos"],
+    ...(role === "core" ? [["settings", Settings, "Settings"] as [Tab, React.ElementType, string]] : []),
   ];
 
   return (
@@ -1139,6 +1238,9 @@ export default function AdminPage() {
 
         {/* ── Promos ── */}
         {tab==="promos"&&<PromoTab/>}
+
+        {/* ── Settings (core-only) ── */}
+        {tab==="settings"&&role==="core"&&<DiscountSettingsTab/>}
       </div>
     </main>
   );

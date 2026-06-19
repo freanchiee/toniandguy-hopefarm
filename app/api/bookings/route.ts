@@ -27,11 +27,15 @@ export async function POST(req: NextRequest) {
 
   const effectivePhone = client_phone || "walkin";
 
-  const discount = calcDiscount(new Date(booking_date));
-  const bookingRef = `TG${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-
-  // ── Try to save to DB (optional — works without Supabase too) ──────────────
+  // ── Fetch discount config from DB (falls back to hardcoded defaults) ────────
   const db = getDb();
+  let discountCfg: import("@/lib/discount").DiscountConfig | undefined;
+  if (db) {
+    const { data: cfgRow } = await db.from("salon_settings").select("value").eq("key", "discounts").single();
+    if (cfgRow) discountCfg = cfgRow.value;
+  }
+  const discount = calcDiscount(new Date(booking_date), discountCfg);
+  const bookingRef = `TG${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
   let bookingId = bookingRef;
 
   if (db) {

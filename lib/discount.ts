@@ -1,10 +1,23 @@
-export function calcDiscount(date: Date): number {
+export type DiscountConfig = {
+  weekday_min: number; weekday_max: number;
+  weekend_min: number; weekend_max: number;
+};
+
+const DEFAULTS: DiscountConfig = {
+  weekday_min: 25, weekday_max: 35,
+  weekend_min: 10, weekend_max: 15,
+};
+
+function randomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function calcDiscount(date: Date, cfg: DiscountConfig = DEFAULTS): number {
   const day = date.getDay(); // 0=Sun, 6=Sat
   const isWeekend = day === 0 || day === 6;
-  if (isWeekend) {
-    return Math.floor(Math.random() * 6) + 10; // 10–15%
-  }
-  return Math.floor(Math.random() * 11) + 25; // 25–35%
+  return isWeekend
+    ? randomInt(cfg.weekend_min, cfg.weekend_max)
+    : randomInt(cfg.weekday_min, cfg.weekday_max);
 }
 
 export function buildWhatsAppMessage({
