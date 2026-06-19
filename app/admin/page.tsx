@@ -803,7 +803,7 @@ const WALKIN_SERVICES = [
   "Blow Dry", "Wash & Blast Dry", "Ironing / Tongs",
   "Global Colour", "Tint Re-growth", "Highlights — Full Head",
   "Highlights — Half Head", "Highlights — T-Section",
-  "Balayage / Ombré", "Keratin Treatment", "Botox Treatment",
+  "Balayage / Ombré", "Keratin Treatment", "Nanoplastia / Smoothening",
   "Rebonding", "Hair Spa", "Beard Trim", "Threading",
 ];
 

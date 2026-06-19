@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     q: "Do you offer keratin treatment and smoothening?",
-    a: "Yes — we offer Brazilian keratin, Nanoplastia, and hair Botox treatments. Prices start from ₹1,800 for short hair. Results last 3–6 months even in Bangalore's humidity.",
+    a: "Yes — we offer Brazilian keratin, Nanoplastia, and protein smoothening treatments. Prices start from ₹1,800 for short hair. Results last 3–6 months even in Bangalore's humidity.",
   },
   {
     q: "Does Toni & Guy Hopefarm do bridal hair?",

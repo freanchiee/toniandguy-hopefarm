@@ -73,7 +73,7 @@ const priceList = [
       { name: "Keratin Treatment – Medium", price: "₹2,500" },
       { name: "Keratin Treatment – Long", price: "₹3,500+" },
       { name: "Nanoplastia Treatment", price: "₹3,000+" },
-      { name: "Hair Botox", price: "₹2,800+" },
+      { name: "Protein Smoothening", price: "₹2,800+" },
     ],
   },
   {

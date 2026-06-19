@@ -139,7 +139,7 @@ export default function HairTreatmentBenefits() {
                   ["Frizz / humidity", "Brazilian Keratin / Nanoplastia", "From ₹1,800"],
                   ["Dry, brittle hair", "Hair Spa / Deep Conditioning", "Ask at salon"],
                   ["Chemical damage", "Protein treatment / Olaplex", "Ask at salon"],
-                  ["Hair botox", "Hair Botox (volume + shine)", "From ₹2,800"],
+                  ["Protein smoothening", "Protein Smoothening (volume + shine)", "From ₹2,800"],
                   ["Oily scalp + dry ends", "Scalp treatment + conditioning", "Ask at salon"],
                 ].map(([concern, treatment, price]) => (
                   <tr key={concern} className="border-b border-white/5">
@@ -156,7 +156,7 @@ export default function HairTreatmentBenefits() {
           <div className="space-y-4 mt-4">
             {[
               { q: "What are the main benefits of getting a professional hair treatment at a salon?", a: "Professional-grade formulas, accurate hair diagnosis before treatment, correct application technique, and longer-lasting results. Salon treatments also include a consultation that prevents mismatched treatments from causing damage." },
-              { q: "How often should you get a professional hair treatment?", a: "Hair spa / deep conditioning: every 4–6 weeks. Protein treatments: every 6–8 weeks. Keratin: every 3–5 months. Hair Botox: every 3–4 months. Frequency depends on damage level and hair type." },
+              { q: "How often should you get a professional hair treatment?", a: "Hair spa / deep conditioning: every 4–6 weeks. Protein treatments: every 6–8 weeks. Keratin: every 3–5 months. Protein smoothening: every 3–4 months. Frequency depends on damage level and hair type." },
               { q: "Which hair treatment is best for damaged hair?", a: "For chemically damaged hair, a protein or bond-repair treatment rebuilds internal structure. For dry, moisture-depleted hair, a deep conditioning hair spa restores softness. Your stylist will assess which is appropriate during consultation." },
             ].map(({ q, a }) => (
               <div key={q} className="rounded-lg border border-white/8 bg-white/[0.02] p-5">

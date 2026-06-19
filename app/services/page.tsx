@@ -49,7 +49,7 @@ export default function ServicesPage() {
           <h2 className="mt-3 font-display text-4xl uppercase text-white md:text-5xl">Explore by Service</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { href: "/services/keratin-treatment", label: "Keratin Treatment", sub: "Smoothening · Nanoplastia · Hair Botox" },
+              { href: "/services/keratin-treatment", label: "Keratin Treatment", sub: "Smoothening · Nanoplastia · Protein Treatment" },
               { href: "/services/balayage", label: "Balayage & Highlights", sub: "Sun-kissed colour · Ombre · Face framing" },
               { href: "/services/hair-colour", label: "Hair Colour", sub: "Global colour · Root touch-up · Fashion colour" },
               { href: "/services/bridal-hair", label: "Bridal Hair", sub: "Wedding styling · Updos · Bridal trial" },

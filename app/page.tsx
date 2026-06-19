@@ -69,7 +69,7 @@ const localBusinessSchema = {
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Women's Haircut", description: "Women's haircut, trim and blowdry" }, priceSpecification: { "@type": "PriceSpecification", priceCurrency: "INR", price: "900" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Hair Colour", description: "Global colour, root touch-up, and tonal refresh" }, priceSpecification: { "@type": "PriceSpecification", priceCurrency: "INR", price: "2500" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Highlights & Balayage", description: "Soft balayage, face-framing, and dimensional highlights" }, priceSpecification: { "@type": "PriceSpecification", priceCurrency: "INR", price: "3500" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Keratin Treatment", description: "Professional keratin, Nanoplastia, and Botox treatments" }, priceSpecification: { "@type": "PriceSpecification", priceCurrency: "INR", price: "1800" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Keratin Treatment", description: "Professional keratin, Nanoplastia, and protein smoothening treatments" }, priceSpecification: { "@type": "PriceSpecification", priceCurrency: "INR", price: "1800" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Bridal Hair Styling", description: "Bridal and event hair styling by specialist stylists" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Hair Spa", description: "System Professional and L'Oreal spa rituals and scalp care" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Skin & Facial", description: "Sothys, Dermalogica, and Skeyndor facials and skin treatments" } },
@@ -136,7 +136,7 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "Does Toni & Guy Hopefarm offer keratin and smoothening treatments?",
-      acceptedAnswer: { "@type": "Answer", text: "Yes, Toni & Guy Hopefarm offers professional keratin treatments, Nanoplastia, and hair Botox smoothening treatments starting from ₹1800. Suitable for frizzy, curly, and chemically treated hair." },
+      acceptedAnswer: { "@type": "Answer", text: "Yes, Toni & Guy Hopefarm offers professional keratin treatments, Nanoplastia, and protein smoothening treatments starting from ₹1800. Suitable for frizzy, curly, and chemically treated hair." },
     },
     {
       "@type": "Question",

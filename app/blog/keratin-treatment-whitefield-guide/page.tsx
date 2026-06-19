@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefar
 export const metadata: Metadata = {
   title: "Keratin Treatment Whitefield Bangalore 2025 Guide | Toni & Guy",
   description:
-    "Complete guide to keratin treatments near Whitefield Bangalore. Brazilian keratin vs Nanoplastia vs hair Botox — prices, what to expect, how long results last. Toni & Guy Hopefarm.",
+    "Complete guide to keratin treatments near Whitefield Bangalore. Brazilian keratin vs Nanoplastia vs protein smoothening — prices, what to expect, how long results last. Toni & Guy Hopefarm.",
   keywords: [
     "keratin treatment whitefield bangalore guide", "keratin treatment bangalore 2025",
     "nanoplastia vs keratin whitefield", "best keratin treatment near ITPL",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_URL}/blog/keratin-treatment-whitefield-guide` },
   openGraph: {
     title: "Keratin Treatment Whitefield Bangalore — Complete 2025 Guide",
-    description: "Brazilian keratin, Nanoplastia or hair Botox? Everything you need to know, with prices and where to go in Whitefield.",
+    description: "Brazilian keratin, Nanoplastia or protein smoothening? Everything you need to know, with prices and where to go in Whitefield.",
     url: `${SITE_URL}/blog/keratin-treatment-whitefield-guide`,
   },
 };
@@ -27,7 +27,7 @@ const faqSchema = {
   "@type": "FAQPage",
   mainEntity: [
     { "@type": "Question", name: "How long does keratin treatment last in Bangalore's humidity?", acceptedAnswer: { "@type": "Answer", text: "Brazilian keratin typically lasts 3–4 months in Bangalore's humidity. Nanoplastia lasts 4–6 months as it uses amino acids rather than formaldehyde, making it more stable in humid conditions." } },
-    { "@type": "Question", name: "Can I get keratin treatment on coloured hair?", acceptedAnswer: { "@type": "Answer", text: "Yes. Hair Botox and Nanoplastia are safer for colour-treated hair. Brazilian keratin can slightly lift colour tone — your stylist will advise at consultation." } },
+    { "@type": "Question", name: "Can I get keratin treatment on coloured hair?", acceptedAnswer: { "@type": "Answer", text: "Yes. Nanoplastia and protein smoothening are safer for colour-treated hair. Brazilian keratin can slightly lift colour tone — your stylist will advise at consultation." } },
     { "@type": "Question", name: "What is the price of keratin treatment in Whitefield Bangalore?", acceptedAnswer: { "@type": "Answer", text: "At Toni & Guy Hopefarm Whitefield, keratin treatments start from ₹1,800 for short hair, ₹2,500 for medium, and ₹3,500+ for long hair. Nanoplastia starts from ₹3,000." } },
   ],
 };
@@ -69,12 +69,12 @@ export default function KeratinBlogPage() {
             There are three main types available in Whitefield salons, and the difference matters:
           </p>
 
-          <h2>Brazilian Keratin vs Nanoplastia vs Hair Botox</h2>
+          <h2>Brazilian Keratin vs Nanoplastia vs Protein Smoothening</h2>
           <div className="not-prose mt-4 space-y-4">
             {[
               { name: "Brazilian Keratin", duration: "3–4 months", best: "Thick, frizzy, or coarse hair", note: "Contains low levels of formaldehyde. Salon must be well-ventilated. Not recommended for pregnant women.", price: "From ₹1,800" },
               { name: "Nanoplastia", duration: "4–6 months", best: "Damaged, chemically treated, or fine hair", note: "Organic formula using amino acids. No harsh chemicals. Safe for colour-treated hair. Increasingly popular in Whitefield.", price: "From ₹3,000" },
-              { name: "Hair Botox", duration: "2–3 months", best: "Colour-treated, over-processed, or brittle hair", note: "Deep conditioning, not a traditional smoothener. Fills in hair porosity without chemical relaxing. Best for hair health + shine.", price: "From ₹2,800" },
+              { name: "Protein Smoothening", duration: "2–3 months", best: "Colour-treated, over-processed, or brittle hair", note: "Deep protein treatment that fills in hair porosity. No harsh chemicals — best for hair health, volume and shine.", price: "From ₹2,800" },
             ].map(t => (
               <div key={t.name} className="rounded-xl border border-white/8 bg-white/[0.02] p-5">
                 <div className="flex items-start justify-between gap-4">
@@ -98,7 +98,7 @@ export default function KeratinBlogPage() {
           <ul>
             <li><strong>Brazilian keratin:</strong> 3–4 months in Bangalore (vs 4–6 months in dry climates)</li>
             <li><strong>Nanoplastia:</strong> 4–6 months — more resistant to humidity due to the amino acid structure</li>
-            <li><strong>Hair Botox:</strong> 2–3 months — primarily a conditioning treatment, not a structural change</li>
+            <li><strong>Protein Smoothening:</strong> 2–3 months — primarily a conditioning treatment, not a structural change</li>
           </ul>
           <p>
             To maximize longevity: use a sulphate-free shampoo, avoid salt water, and wait 48–72 hours before
@@ -109,9 +109,9 @@ export default function KeratinBlogPage() {
           <div className="not-prose mt-4 space-y-3">
             {[
               { q: "How long does keratin treatment last in Bangalore's humidity?", a: "Brazilian keratin lasts 3–4 months. Nanoplastia lasts 4–6 months — it's more humidity-resistant." },
-              { q: "Can I get keratin on coloured hair?", a: "Yes. Hair Botox and Nanoplastia are safest for colour-treated hair. Brazilian keratin may slightly affect tone — your stylist will advise." },
+              { q: "Can I get keratin on coloured hair?", a: "Yes. Nanoplastia and protein smoothening are safest for colour-treated hair. Brazilian keratin may slightly affect tone — your stylist will advise." },
               { q: "What is the price of keratin treatment in Whitefield?", a: "At Toni & Guy Hopefarm: from ₹1,800 (short), ₹2,500 (medium), ₹3,500+ (long). Nanoplastia from ₹3,000." },
-              { q: "How long does the appointment take?", a: "Brazilian keratin: 2–3 hours. Nanoplastia: 2–4 hours depending on hair length. Hair Botox: 1.5–2 hours." },
+              { q: "How long does the appointment take?", a: "Brazilian keratin: 2–3 hours. Nanoplastia: 2–4 hours depending on hair length. Protein Smoothening: 1.5–2 hours." },
             ].map(f => (
               <div key={f.q} className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
                 <p className="font-semibold text-white text-sm">{f.q}</p>

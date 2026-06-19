@@ -38,7 +38,7 @@ export const services = [
   {
     number: "06",
     name: "Hair Treatments",
-    description: "Straightening/Rebonding from ₹3,000 · Cysteine/Keratin from ₹4,500 · Botox from ₹5,000 · Botoliss from ₹5,000 · Perming from ₹6,000. Permanent frizz-free solutions.",
+    description: "Straightening/Rebonding from ₹3,000 · Cysteine/Keratin from ₹4,500 · Nanoplastia from ₹5,000 · Botoliss from ₹5,000 · Perming from ₹6,000. Permanent frizz-free solutions.",
     price: "from ₹3,000",
     duration: "bespoke"
   },
@@ -172,7 +172,7 @@ export const priceList = {
       { name: "Below Shoulder", price: 11000, note: "onwards" },
       { name: "Up to Waist", price: 13000, note: "onwards" },
     ],
-    botox: [
+    nanoplastia: [
       { name: "Fringe", price: 5000, note: "onwards" },
       { name: "Crown", price: 7000, note: "onwards" },
       { name: "Up to Neck", price: 8500, note: "onwards" },
@@ -468,9 +468,9 @@ export const heroServiceOptions = [
     href: "/book?service=keratin"
   },
   {
-    label: "Botox / Botoliss",
+    label: "Nanoplastia / Botoliss",
     meta: "from ₹5,000 · Sleek & smooth",
-    href: "/book?service=botox"
+    href: "/book?service=nanoplastia"
   },
   {
     label: "Straightening / Rebonding",

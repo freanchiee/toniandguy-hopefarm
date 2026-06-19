@@ -82,7 +82,7 @@ export default function StylistsPage() {
                 { service: "Precision Haircuts", desc: "Men's and women's cuts shaped to face structure and lifestyle." },
                 { service: "Balayage & Highlights", desc: "Hand-painted colour for natural, sun-kissed results." },
                 { service: "Hair Colour", desc: "Global colour, root touch-ups, fashion colour and toning." },
-                { service: "Keratin & Smoothening", desc: "Brazilian keratin, Nanoplastia and hair Botox treatments." },
+                { service: "Keratin & Smoothening", desc: "Brazilian keratin, Nanoplastia and protein smoothening treatments." },
                 { service: "Bridal Hair", desc: "Wedding updos, blowouts and bridal trials for east Bangalore brides." },
                 { service: "Hair Spa & Treatments", desc: "Deep conditioning and repair for damaged or over-processed hair." },
               ].map((s) => (

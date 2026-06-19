@@ -54,7 +54,7 @@ const posts = [
   {
     slug: "keratin-treatment-whitefield-guide",
     title: "Keratin Treatment in Whitefield Bangalore: Complete 2025 Guide",
-    excerpt: "Brazilian keratin, Nanoplastia, or hair Botox — which is right for you? Prices, what to expect, and how to find the best keratin treatment salon near Whitefield.",
+    excerpt: "Brazilian keratin, Nanoplastia, or protein smoothening — which is right for you? Prices, what to expect, and how to find the best keratin treatment salon near Whitefield.",
     date: "June 2025",
     readTime: "6 min read",
     tag: "Keratin",
