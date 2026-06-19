@@ -53,9 +53,10 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     .single();
   if (deductErr) return NextResponse.json({ error: deductErr.message }, { status: 500 });
 
-  // Fire WA notification — non-blocking, don't fail the request if this fails
   const remaining = updated.credit_remaining;
-  sendWhatsApp(
+
+  // Await WA so we can report sent/failed status in the response
+  const wa_sent = await sendWhatsApp(
     customer.phone,
     `Hi ${customer.name}! 👋\n\n` +
     `✅ *${service_name}* has been completed at Toni & Guy Hopefarm.\n\n` +
@@ -64,7 +65,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     `Remaining credit: *₹${remaining.toLocaleString("en-IN")}*\n\n` +
     `Thank you for choosing us! 🙏\n` +
     `_Toni & Guy Hopefarm, Whitefield · +91 91872 00430_`
-  ).catch(() => {}); // ponytail: swallow — WA failure should never block the deduction
+  ).catch(() => false);
 
-  return NextResponse.json({ credit_remaining: remaining });
+  return NextResponse.json({ credit_remaining: remaining, wa_sent: !!wa_sent, wa_phone: customer.phone });
 }
