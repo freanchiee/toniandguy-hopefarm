@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { Loader2, ArrowLeft, Minus, MessageCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
@@ -45,8 +45,8 @@ const SALON_SERVICES = [
 
 const CUSTOM_KEY = "Custom service…";
 
-export default function CustomerDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function CustomerDetailPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
