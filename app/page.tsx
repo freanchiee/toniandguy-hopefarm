@@ -11,6 +11,7 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { InstagramFeed } from "@/components/InstagramFeed";
 import { LocationSection } from "@/components/LocationSection";
 import { FaqSection } from "@/components/FaqSection";
+import { StyleMatchBanner } from "@/components/StyleMatchBanner";
 import { services, stylists, galleryImages } from "@/lib/data";
 
 // Switch to "https://toniandguywhitefield.com" once domain is live
@@ -183,6 +184,8 @@ export default function Home() {
 
       <Hero />
       <RevealProvider>
+        <StyleMatchBanner />
+
         <section id="services" className="reveal-section bg-salon-black py-24 md:py-32">
           <div className="section-shell">
             <div className="mb-12 flex items-end justify-between gap-8">
