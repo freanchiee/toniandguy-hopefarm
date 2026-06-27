@@ -423,10 +423,12 @@ function AnalyticsTab() {
     invoiceCount: number; daily: { date: string; revenue: number }[];
     byMethod: Record<string,number>;
   } | null>(null);
+  const [face, setFace] = useState<{ total: number; byShape: Record<string,number>; byGender: Record<string,number>; last7: number } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/admin/revenue").then(r=>r.json()).then(d=>{ setData(d); setLoading(false); });
+    fetch("/api/admin/face-analytics").then(r=>r.json()).then(setFace).catch(()=>{});
   }, []);
 
   if (loading) return <div className="flex items-center gap-2 py-20 text-white/40"><Loader2 className="h-4 w-4 animate-spin"/>Loading…</div>;
@@ -482,6 +484,30 @@ function AnalyticsTab() {
           ))}
         </div>
       </div>
+
+      {/* AI Style Match usage */}
+      {face && face.total > 0 && (() => {
+        const maxShape = Math.max(...Object.values(face.byShape), 1);
+        return (
+          <div className="mt-8 rounded-xl border border-white/8 p-5">
+            <p className="mb-1 text-sm font-medium">AI Style Match</p>
+            <p className="mb-4 text-xs text-white/30">{face.total} analyses · {face.last7} in the last 7 days · {face.byGender.Female ?? 0} women / {face.byGender.Male ?? 0} men</p>
+            <div className="space-y-2">
+              {Object.entries(face.byShape).sort((a,b)=>b[1]-a[1]).map(([shape, count]) => (
+                <div key={shape}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-white/70">{shape}</span>
+                    <span className="text-white/40">{count}</span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-white/8">
+                    <div className="h-1.5 rounded-full bg-salon-gold" style={{ width: `${(count/maxShape)*100}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

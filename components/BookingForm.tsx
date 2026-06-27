@@ -51,6 +51,23 @@ export function BookingForm({ onSuccess }: { onSuccess?: () => void }) {
   const [result, setResult] = useState<{ discount: number; bookingId: string } | null>(null);
   const [error, setError] = useState("");
 
+  // Deep-link preselect from the AI Style Match flow: /book?service=...&look=...&gender=...
+  // Read from window to avoid needing a Suspense boundary on this static route.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const service = params.get("service");
+    const look = params.get("look");
+    const g = params.get("gender");
+    if (!service && !look && !g) return;
+    setForm((f) => ({
+      ...f,
+      ...(service ? { service_id: service, service_name: service } : {}),
+      ...(g ? { gender: g } : {}),
+      ...(look ? { notes: `Requested look: ${look} (via AI Style Match)` } : {}),
+    }));
+    if (service) setStep(1); // jump past service selection
+  }, []);
+
   useEffect(() => {
     if (!form.date) return;
     setLoadingSlots(true);

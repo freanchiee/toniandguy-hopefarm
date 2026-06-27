@@ -7,6 +7,7 @@ import { BookNowButton } from "@/components/BookingModal";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "Style Match", href: "/face-analysis" },
   { label: "Stylists", href: "/stylists" },
   { label: "Gallery", href: "/gallery" },
   { label: "Blog", href: "/blog" },
