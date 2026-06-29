@@ -8,7 +8,7 @@ export const FACE_SHAPES = ["Oval", "Round", "Square", "Heart", "Oblong", "Diamo
 export type FaceShape = (typeof FACE_SHAPES)[number];
 export type Gender = "Male" | "Female";
 
-export type Recommendation = { cut: string; why: string; image: string };
+export type Recommendation = { cut: string; why: string };
 
 export type AnalysisResult = {
   ok: boolean;            // a single clear face was found
@@ -32,14 +32,6 @@ export const SHAPE_BLURB: Record<FaceShape, string> = {
   Diamond: "A narrow forehead and jaw with wide, high cheekbones.",
   Triangle: "A wider jaw narrowing up toward the forehead.",
 };
-
-// Reliable, on-theme salon imagery (rotated by index). The salon can later
-// swap these for photos of their own work — just replace the `image` field.
-const REF_POOL = [
-  "https://images.unsplash.com/photo-1595475884562-073c30d45670?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80",
-];
 
 // gender → shape → exactly 3 flattering cuts
 const CUTS: Record<Gender, Record<FaceShape, Array<{ cut: string; why: string }>>> = {
@@ -141,7 +133,7 @@ const AVOID: Record<Gender, Record<FaceShape, string>> = {
 };
 
 export function getRecommendations(gender: Gender, shape: FaceShape): Recommendation[] {
-  return CUTS[gender][shape].map((r, i) => ({ ...r, image: REF_POOL[i % REF_POOL.length] }));
+  return CUTS[gender][shape];
 }
 
 export function getAvoid(gender: Gender, shape: FaceShape): string {

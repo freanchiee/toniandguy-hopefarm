@@ -8,6 +8,7 @@ import {
   FACE_SHAPES, SHAPE_BLURB, classifyShape, getRecommendations, getAvoid, bookHref,
   type FaceShape, type Gender, type Recommendation, type ShapeReading,
 } from "@/lib/face-analysis";
+import { FaceShapeSVG, hairFamily } from "@/components/FaceShapeSVG";
 
 type Analysis = ShapeReading & { recommendations: Recommendation[] };
 
@@ -232,13 +233,16 @@ export function FaceAnalysisWidget() {
               )}
 
               {/* Detected shape */}
-              <div className="rounded-2xl border border-salon-gold/30 bg-salon-gold/5 p-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-salon-gold">Your face shape</p>
-                <div className="mt-1 flex items-baseline gap-3">
-                  <h2 className="font-display text-5xl uppercase text-white">{analysis.shape}</h2>
-                  <span className={`text-xs font-semibold ${confidenceColor}`}>{analysis.confidence} confidence</span>
+              <div className="flex items-center gap-4 rounded-2xl border border-salon-gold/30 bg-salon-gold/5 p-6">
+                <div className="flex-1">
+                  <p className="text-xs uppercase tracking-[0.2em] text-salon-gold">Your face shape</p>
+                  <div className="mt-1 flex items-baseline gap-3">
+                    <h2 className="font-display text-5xl uppercase text-white">{analysis.shape}</h2>
+                    <span className={`text-xs font-semibold ${confidenceColor}`}>{analysis.confidence} confidence</span>
+                  </div>
+                  <p className="mt-2 text-sm text-white/60">{analysis.reasoning || SHAPE_BLURB[analysis.shape]}</p>
                 </div>
-                <p className="mt-2 text-sm text-white/60">{analysis.reasoning || SHAPE_BLURB[analysis.shape]}</p>
+                <FaceShapeSVG shape={analysis.shape} hair={gender === "Female" ? "long" : "crop"} className="h-28 w-auto shrink-0" />
               </div>
 
               {/* Recommendations */}
@@ -248,14 +252,8 @@ export function FaceAnalysisWidget() {
               <div className="grid gap-4 sm:grid-cols-3">
                 {analysis.recommendations.map((r, i) => (
                   <div key={r.cut} className="flex flex-col overflow-hidden rounded-xl border border-white/8 bg-white/[0.02]">
-                    <div className="relative h-32 w-full bg-white/5">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={r.image}
-                        alt={r.cut}
-                        className="h-full w-full object-cover opacity-80"
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                      />
+                    <div className="relative flex h-36 w-full items-center justify-center bg-salon-black">
+                      <FaceShapeSVG shape={analysis.shape} hair={hairFamily(r.cut, gender)} className="h-full w-auto py-2" />
                       <span className="absolute left-2 top-2 rounded-full bg-salon-black/70 px-2 py-0.5 text-[10px] font-bold text-salon-gold">
                         #{i + 1}
                       </span>
