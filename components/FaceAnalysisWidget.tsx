@@ -17,13 +17,23 @@ const stepVariants = {
   exit: { opacity: 0, x: -24 },
 };
 
-const WASM_URL = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm";
-const MODEL_URL = "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
+// Self-hosted from /public so there's no third-party CDN/DNS dependency
+// (Google's CDNs can fail to resolve on some networks → ERR_NAME_NOT_RESOLVED).
+const WASM_URL = "/mediapipe/wasm";
+const MODEL_URL = "/mediapipe/face_landmarker.task";
 
 function loadImage(url: string): Promise<HTMLImageElement> {
   const img = new Image();
   img.src = url;
   return img.decode().then(() => img);
+}
+
+// Reject if a promise doesn't settle in time, so a flaky network can't hang the UI.
+function withTimeout<T>(p: Promise<T>, ms: number, msg: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error(msg)), ms);
+    p.then((v) => { clearTimeout(t); resolve(v); }, (e) => { clearTimeout(t); reject(e); });
+  });
 }
 
 export function FaceAnalysisWidget() {
@@ -33,30 +43,27 @@ export function FaceAnalysisWidget() {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [error, setError] = useState("");
   const [modelReady, setModelReady] = useState(false);
-  const landmarkerRef = useRef<any>(null);
+  const landmarkerPromiseRef = useRef<Promise<any> | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  // Load the MediaPipe model once. Kick it off as soon as they reach the upload
-  // step so detection is instant by the time they pick a photo.
-  async function ensureLandmarker() {
-    if (landmarkerRef.current) return landmarkerRef.current;
-    const vision = await import("@mediapipe/tasks-vision");
-    const { FaceLandmarker, FilesetResolver } = vision;
-    const fileset = await FilesetResolver.forVisionTasks(WASM_URL);
-    const opts: any = {
-      baseOptions: { modelAssetPath: MODEL_URL, delegate: "GPU" },
-      numFaces: 1,
-      runningMode: "IMAGE",
-    };
-    let lm;
-    try {
-      lm = await FaceLandmarker.createFromOptions(fileset, opts);
-    } catch {
-      // ponytail: some devices have no WebGL — fall back to CPU
-      lm = await FaceLandmarker.createFromOptions(fileset, { ...opts, baseOptions: { modelAssetPath: MODEL_URL, delegate: "CPU" } });
+  // Load the MediaPipe model once (deduped across the preload + the actual pick,
+  // with a timeout, and reset-on-failure so a retry can re-initialise).
+  function ensureLandmarker(): Promise<any> {
+    if (!landmarkerPromiseRef.current) {
+      landmarkerPromiseRef.current = withTimeout((async () => {
+        const { FaceLandmarker, FilesetResolver } = await import("@mediapipe/tasks-vision");
+        const fileset = await FilesetResolver.forVisionTasks(WASM_URL);
+        const common = { numFaces: 1, runningMode: "IMAGE" as const };
+        try {
+          return await FaceLandmarker.createFromOptions(fileset, { baseOptions: { modelAssetPath: MODEL_URL, delegate: "GPU" }, ...common });
+        } catch {
+          // ponytail: some devices have no WebGL — fall back to CPU
+          return await FaceLandmarker.createFromOptions(fileset, { baseOptions: { modelAssetPath: MODEL_URL, delegate: "CPU" }, ...common });
+        }
+      })(), 30000, "Couldn't load the analyser — check your connection and try again.")
+        .catch((e) => { landmarkerPromiseRef.current = null; throw e; });
     }
-    landmarkerRef.current = lm;
-    return lm;
+    return landmarkerPromiseRef.current;
   }
 
   useEffect(() => {
