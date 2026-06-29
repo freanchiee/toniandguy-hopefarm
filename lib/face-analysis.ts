@@ -153,3 +153,89 @@ export function bookHref(gender: Gender, look: string): string {
   const qs = new URLSearchParams({ service: BOOK_SERVICE, look, gender });
   return `/book?${qs.toString()}`;
 }
+
+// ── In-browser face-shape classifier ──────────────────────────────────────────
+// Takes MediaPipe FaceLandmarker points in PIXEL coordinates and classifies the
+// shape from geometric ratios. Pure & dependency-free — no API, no cost.
+// ponytail: heuristic thresholds, tune on real photos if accuracy needs lifting.
+
+export type ShapeReading = {
+  shape: FaceShape;
+  confidence: "high" | "medium" | "low";
+  quality_ok: boolean;
+  quality_note: string;
+  reasoning: string;
+};
+
+type Pt = { x: number; y: number };
+
+// MediaPipe Face Mesh canonical landmark indices
+const IDX = {
+  foreheadTop: 10, chin: 152,
+  cheekL: 234, cheekR: 454,   // widest face points
+  jawL: 172, jawR: 397,       // gonion (jaw corners)
+  templeL: 54, templeR: 284,  // upper forehead sides
+  chinSideL: 149, chinSideR: 378,
+  nose: 1,
+};
+
+const REASONING: Record<FaceShape, string> = {
+  Oblong: "Your face is longer than it is wide.",
+  Diamond: "Your cheekbones are the widest part of your face.",
+  Heart: "Your forehead is wider than your jawline.",
+  Triangle: "Your jawline is the widest part of your face.",
+  Round: "Your face is about as wide as it is long, with soft edges.",
+  Square: "Your face is about as wide as it is long, with a strong jaw.",
+  Oval: "Balanced proportions with a gently rounded jawline.",
+};
+
+function dist(a: Pt, b: Pt): number {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+export function classifyShape(pts: Pt[]): ShapeReading | null {
+  if (!pts || pts.length < 468) return null;
+  const p = (i: number) => pts[i];
+
+  const L = dist(p(IDX.foreheadTop), p(IDX.chin)); // face length
+  const Wc = dist(p(IDX.cheekL), p(IDX.cheekR));    // cheekbone (face) width
+  const Wf = dist(p(IDX.templeL), p(IDX.templeR));  // forehead width
+  const Wj = dist(p(IDX.jawL), p(IDX.jawR));        // jaw width
+  const chinW = dist(p(IDX.chinSideL), p(IDX.chinSideR));
+  if (Wc === 0 || Wj === 0) return null;
+
+  // Quality: is the face roughly straight-on? Compare nose→cheek symmetry.
+  const nose = p(IDX.nose);
+  const dl = dist(nose, p(IDX.cheekL));
+  const dr = dist(nose, p(IDX.cheekR));
+  const symmetry = Math.min(dl, dr) / Math.max(dl, dr); // 1 = perfectly frontal
+  const quality_ok = symmetry > 0.74;
+  const quality_note = quality_ok ? "" : "For a sharper read, face the camera straight on with your whole face visible.";
+
+  const lw = L / Wc;            // length-to-width ratio
+  const fjRatio = Wf / Wj;      // forehead vs jaw
+  const chinTaper = chinW / Wj; // 1 = wide square chin, low = pointed chin
+
+  let shape: FaceShape;
+  if (lw >= 1.5) {
+    shape = "Oblong";
+  } else {
+    const cheekDominant = Wc > Wf * 1.05 && Wc > Wj * 1.05;
+    if (cheekDominant && chinTaper < 0.62) shape = "Diamond";
+    else if (fjRatio > 1.08) shape = "Heart";
+    else if (fjRatio < 0.92) shape = "Triangle";
+    else if (lw <= 1.15) shape = chinTaper > 0.6 ? "Square" : "Round";
+    else shape = "Oval";
+  }
+
+  // Confidence: strong when the deciding signal is clearly past its boundary.
+  const margins = [
+    Math.abs(lw - 1.5), Math.abs(lw - 1.15),
+    Math.abs(fjRatio - 1.0), Math.abs(Wc - Math.max(Wf, Wj)) / Wc,
+  ];
+  const clear = Math.max(...margins);
+  let confidence: ShapeReading["confidence"] = clear > 0.18 ? "high" : clear > 0.08 ? "medium" : "low";
+  if (!quality_ok && confidence === "high") confidence = "medium";
+
+  return { shape, confidence, quality_ok, quality_note, reasoning: REASONING[shape] };
+}

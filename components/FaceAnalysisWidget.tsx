@@ -1,22 +1,15 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Loader2, Camera, ChevronLeft, Sparkles, ShieldCheck, RefreshCw, Scissors } from "lucide-react";
 import {
-  FACE_SHAPES, SHAPE_BLURB, getRecommendations, getAvoid, bookHref,
-  type FaceShape, type Gender, type Recommendation,
+  FACE_SHAPES, SHAPE_BLURB, classifyShape, getRecommendations, getAvoid, bookHref,
+  type FaceShape, type Gender, type Recommendation, type ShapeReading,
 } from "@/lib/face-analysis";
 
-type Analysis = {
-  face_shape: FaceShape;
-  confidence: "high" | "medium" | "low";
-  reasoning: string;
-  quality_ok: boolean;
-  quality_note: string;
-  recommendations: Recommendation[];
-};
+type Analysis = ShapeReading & { recommendations: Recommendation[] };
 
 const stepVariants = {
   initial: { opacity: 0, x: 24 },
@@ -24,79 +17,108 @@ const stepVariants = {
   exit: { opacity: 0, x: -24 },
 };
 
-// Downscale a selfie to ~560px on the longest side and return base64 JPEG.
-// Runs on-device — keeps the upload tiny and the cost low.
-function downscale(file: File, max = 560): Promise<{ base64: string; mediaType: string }> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      const scale = Math.min(1, max / Math.max(img.width, img.height));
-      const w = Math.round(img.width * scale);
-      const h = Math.round(img.height * scale);
-      const canvas = document.createElement("canvas");
-      canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return reject(new Error("Canvas unavailable"));
-      ctx.drawImage(img, 0, 0, w, h);
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-      resolve({ base64: dataUrl.split(",")[1], mediaType: "image/jpeg" });
-    };
-    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Could not read that image")); };
-    img.src = url;
-  });
+const WASM_URL = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm";
+const MODEL_URL = "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
+
+function loadImage(url: string): Promise<HTMLImageElement> {
+  const img = new Image();
+  img.src = url;
+  return img.decode().then(() => img);
 }
 
 export function FaceAnalysisWidget() {
-  const [step, setStep] = useState(0); // 0 gender, 1 consent+upload, 2 loading, 3 result
+  const [step, setStep] = useState(0); // 0 gender, 1 upload, 2 loading, 3 result
   const [gender, setGender] = useState<Gender | "">("");
-  const [consent, setConsent] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [error, setError] = useState("");
+  const [modelReady, setModelReady] = useState(false);
+  const landmarkerRef = useRef<any>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  // Revoke any previous blob URL whenever we drop the preview, so failed
-  // uploads don't leak object URLs in memory.
+  // Load the MediaPipe model once. Kick it off as soon as they reach the upload
+  // step so detection is instant by the time they pick a photo.
+  async function ensureLandmarker() {
+    if (landmarkerRef.current) return landmarkerRef.current;
+    const vision = await import("@mediapipe/tasks-vision");
+    const { FaceLandmarker, FilesetResolver } = vision;
+    const fileset = await FilesetResolver.forVisionTasks(WASM_URL);
+    const opts: any = {
+      baseOptions: { modelAssetPath: MODEL_URL, delegate: "GPU" },
+      numFaces: 1,
+      runningMode: "IMAGE",
+    };
+    let lm;
+    try {
+      lm = await FaceLandmarker.createFromOptions(fileset, opts);
+    } catch {
+      // ponytail: some devices have no WebGL — fall back to CPU
+      lm = await FaceLandmarker.createFromOptions(fileset, { ...opts, baseOptions: { modelAssetPath: MODEL_URL, delegate: "CPU" } });
+    }
+    landmarkerRef.current = lm;
+    return lm;
+  }
+
+  useEffect(() => {
+    if (step !== 1 || modelReady) return;
+    let cancelled = false;
+    ensureLandmarker().then(() => { if (!cancelled) setModelReady(true); }).catch(() => {});
+    return () => { cancelled = true; };
+  }, [step, modelReady]);
+
   function clearPreview() {
     setPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
   }
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
+    if (fileRef.current) fileRef.current.value = "";
     if (!file) return;
     setError("");
     const url = URL.createObjectURL(file);
     setPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return url; });
     setStep(2);
+
     try {
-      const { base64, mediaType } = await downscale(file);
-      const res = await fetch("/api/face-analysis", {
+      const lm = await ensureLandmarker();
+      const img = await loadImage(url);
+      const result = lm.detect(img);
+      const faces = result?.faceLandmarks;
+      if (!faces || faces.length === 0) {
+        setError("Couldn't find a clear face. Use a front-facing selfie in good light with your hair off your face.");
+        setStep(1); URL.revokeObjectURL(url); clearPreview();
+        return;
+      }
+      // normalized → pixel coordinates (so x/y share the same scale)
+      const pts = faces[0].map((p: { x: number; y: number }) => ({ x: p.x * img.naturalWidth, y: p.y * img.naturalHeight }));
+      const reading = classifyShape(pts);
+      if (!reading || gender === "") {
+        setError("Analysis failed — please try another photo.");
+        setStep(1); URL.revokeObjectURL(url); clearPreview();
+        return;
+      }
+      setAnalysis({ ...reading, recommendations: getRecommendations(gender, reading.shape) });
+      setStep(3);
+      URL.revokeObjectURL(url); clearPreview();
+
+      // Anonymous analytics — fire-and-forget, no image, never blocks the result
+      fetch("/api/face-analysis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image_base64: base64, media_type: mediaType, gender }),
-      });
-      const d = await res.json();
-      if (!res.ok) { setError(d.error ?? "Analysis failed"); setStep(1); URL.revokeObjectURL(url); clearPreview(); return; }
-      setAnalysis(d);
-      setStep(3);
-      URL.revokeObjectURL(url); clearPreview(); // result view doesn't show the preview
+        body: JSON.stringify({ gender, face_shape: reading.shape, confidence: reading.confidence }),
+      }).catch(() => {});
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-      setStep(1);
-      URL.revokeObjectURL(url); clearPreview();
-    } finally {
-      if (fileRef.current) fileRef.current.value = "";
+      setError(err instanceof Error ? err.message : "Something went wrong — please try again.");
+      setStep(1); URL.revokeObjectURL(url); clearPreview();
     }
   }
 
-  // Manual override — instant, no API call, re-reads the curated matrix
+  // Manual override — instant, re-reads the curated matrix, no detection needed
   function overrideShape(shape: FaceShape) {
     if (!analysis || gender === "") return;
     setAnalysis({
       ...analysis,
-      face_shape: shape,
+      shape,
       reasoning: SHAPE_BLURB[shape],
       confidence: "medium",
       recommendations: getRecommendations(gender, shape),
@@ -105,7 +127,7 @@ export function FaceAnalysisWidget() {
 
   function reset() {
     clearPreview();
-    setStep(0); setGender(""); setConsent(false); setAnalysis(null); setError("");
+    setStep(0); setGender(""); setAnalysis(null); setError("");
   }
 
   const confidenceColor =
@@ -118,8 +140,8 @@ export function FaceAnalysisWidget() {
       </p>
       <h1 className="mt-3 font-display text-5xl leading-none md:text-6xl">Find your haircut.</h1>
       <p className="mt-3 text-sm text-white/50">
-        Upload a selfie and our AI suggests the three cuts that best suit your face shape.
-        Your photo is analysed instantly and <span className="text-white/70">never stored</span>.
+        Upload a selfie and we suggest the three cuts that best suit your face shape.
+        The analysis runs <span className="text-white/70">entirely on your device</span> — your photo never leaves your phone.
       </p>
 
       <div className="mt-10">
@@ -145,45 +167,29 @@ export function FaceAnalysisWidget() {
             </motion.div>
           )}
 
-          {/* Step 1 — consent + upload */}
+          {/* Step 1 — upload */}
           {step === 1 && (
             <motion.div key="u" variants={stepVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.25 }}>
               <div className="rounded-xl border border-white/8 bg-white/[0.02] p-5">
                 <p className="flex items-center gap-2 text-sm font-medium text-white">
-                  <ShieldCheck className="h-4 w-4 text-salon-gold" /> Before you upload
+                  <ShieldCheck className="h-4 w-4 text-salon-gold" /> 100% private
                 </p>
                 <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-white/50">
-                  <li>• Your photo is sent once for instant AI analysis and then discarded.</li>
-                  <li>• It is never saved to our servers and never shared.</li>
-                  <li>• Use a clear, front-facing selfie with your hair off your face for the best result.</li>
+                  <li>• Your selfie is analysed right here on your device — it is never uploaded or stored.</li>
+                  <li>• Use a clear, front-facing photo with your hair off your face for the best result.</li>
                 </ul>
-                <label className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm text-white/70">
-                  <input
-                    type="checkbox"
-                    checked={consent}
-                    onChange={(e) => setConsent(e.target.checked)}
-                    aria-required="true"
-                    className="mt-0.5 h-4 w-4 accent-salon-gold"
-                  />
-                  <span>I agree to have my photo analysed for a one-time haircut suggestion.</span>
-                </label>
               </div>
 
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/*"
-                capture="user"
-                onChange={onPick}
-                className="hidden"
-              />
+              <input ref={fileRef} type="file" accept="image/*" capture="user" onChange={onPick} className="hidden" />
               <button
-                disabled={!consent}
                 onClick={() => fileRef.current?.click()}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-salon-gold py-4 text-sm font-bold uppercase tracking-wider text-salon-black transition hover:brightness-110 disabled:opacity-40"
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-salon-gold py-4 text-sm font-bold uppercase tracking-wider text-salon-black transition hover:brightness-110"
               >
                 <Camera className="h-4 w-4" /> Take or upload a selfie
               </button>
+              <p className="mt-2 text-center text-xs text-white/30">
+                {modelReady ? "Ready" : "Preparing on-device analysis…"}
+              </p>
 
               {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
 
@@ -205,7 +211,7 @@ export function FaceAnalysisWidget() {
               )}
               <Loader2 className="mt-6 h-6 w-6 animate-spin text-salon-gold" />
               <p className="mt-3 text-sm text-white/60">Analysing your face shape…</p>
-              <p className="mt-1 text-xs text-white/30">This usually takes 5–30 seconds depending on your connection.</p>
+              <p className="mt-1 text-xs text-white/30">Running on your device — no upload.</p>
             </motion.div>
           )}
 
@@ -214,7 +220,7 @@ export function FaceAnalysisWidget() {
             <motion.div key="r" variants={stepVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.3 }}>
               {!analysis.quality_ok && analysis.quality_note && (
                 <div className="mb-4 rounded-lg border border-amber-400/30 bg-amber-400/5 p-3 text-xs text-amber-300">
-                  {analysis.quality_note} You can still see suggestions below, or retake for a sharper read — that photo has already been discarded.
+                  {analysis.quality_note} You can still see suggestions below, or retake for a sharper read.
                 </div>
               )}
 
@@ -222,10 +228,10 @@ export function FaceAnalysisWidget() {
               <div className="rounded-2xl border border-salon-gold/30 bg-salon-gold/5 p-6">
                 <p className="text-xs uppercase tracking-[0.2em] text-salon-gold">Your face shape</p>
                 <div className="mt-1 flex items-baseline gap-3">
-                  <h2 className="font-display text-5xl uppercase text-white">{analysis.face_shape}</h2>
+                  <h2 className="font-display text-5xl uppercase text-white">{analysis.shape}</h2>
                   <span className={`text-xs font-semibold ${confidenceColor}`}>{analysis.confidence} confidence</span>
                 </div>
-                <p className="mt-2 text-sm text-white/60">{analysis.reasoning || SHAPE_BLURB[analysis.face_shape]}</p>
+                <p className="mt-2 text-sm text-white/60">{analysis.reasoning || SHAPE_BLURB[analysis.shape]}</p>
               </div>
 
               {/* Recommendations */}
@@ -264,7 +270,7 @@ export function FaceAnalysisWidget() {
               {/* What to avoid */}
               <div className="mt-5 rounded-lg border border-white/8 bg-white/[0.02] p-4">
                 <p className="text-xs uppercase tracking-wider text-white/40">Best to avoid</p>
-                <p className="mt-1 text-sm text-white/60">{getAvoid(gender, analysis.face_shape)}</p>
+                <p className="mt-1 text-sm text-white/60">{getAvoid(gender, analysis.shape)}</p>
               </div>
 
               {/* Override */}
@@ -276,7 +282,7 @@ export function FaceAnalysisWidget() {
                       key={s}
                       onClick={() => overrideShape(s)}
                       className={`rounded-full border px-3 py-1.5 text-xs transition ${
-                        analysis.face_shape === s ? "border-salon-gold text-salon-gold" : "border-white/15 text-white/50 hover:border-white/40"
+                        analysis.shape === s ? "border-salon-gold text-salon-gold" : "border-white/15 text-white/50 hover:border-white/40"
                       }`}
                     >
                       {s}
