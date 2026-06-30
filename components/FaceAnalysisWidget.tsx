@@ -29,11 +29,11 @@ function loadImage(url: string): Promise<HTMLImageElement> {
   return img.decode().then(() => img);
 }
 
-// Per-shape style illustrations live at /public/styles/{gender}/{shape}-{0..2}.jpg.
-// The card overlays this on the vector portrait — if the file is missing, the
-// <img> errors out and the vector shows through. So it's safe before images exist.
-const styleImg = (g: Gender, shape: FaceShape, i: number) =>
-  `/styles/${g.toLowerCase()}/${shape.toLowerCase()}-${i}.jpg`;
+// A full per-shape guide image lives at /public/styles/{gender}/{shape}.jpg.
+// If it's missing the <img> errors and we fall back to the vector cards, so
+// this is safe before any images exist.
+const guideImg = (g: Gender, shape: FaceShape) =>
+  `/styles/${g.toLowerCase()}/${shape.toLowerCase()}.jpg`;
 
 // Reject if a promise doesn't settle in time, so a flaky network can't hang the UI.
 function withTimeout<T>(p: Promise<T>, ms: number, msg: string): Promise<T> {
@@ -49,6 +49,7 @@ export function FaceAnalysisWidget() {
   const [preview, setPreview] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [error, setError] = useState("");
+  const [guideErrored, setGuideErrored] = useState<Record<string, boolean>>({});
   const [modelReady, setModelReady] = useState(false);
   const landmarkerPromiseRef = useRef<Promise<any> | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -146,6 +147,8 @@ export function FaceAnalysisWidget() {
 
   const confidenceColor =
     analysis?.confidence === "high" ? "text-green-400" : analysis?.confidence === "low" ? "text-amber-400" : "text-salon-gold";
+  const guideKey = analysis && gender !== "" ? `${gender}/${analysis.shape}` : "";
+  const showGuide = !!analysis && gender !== "" && !guideErrored[guideKey];
 
   return (
     <div className="max-w-2xl">
@@ -238,58 +241,75 @@ export function FaceAnalysisWidget() {
                 </div>
               )}
 
-              {/* Detected shape */}
-              <div className="flex items-center gap-4 rounded-2xl border border-salon-gold/30 bg-salon-gold/5 p-6">
-                <div className="flex-1">
+              {/* Detected banner */}
+              <div className="flex items-center justify-between gap-4 rounded-2xl border border-salon-gold/30 bg-salon-gold/5 px-5 py-4">
+                <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-salon-gold">Your face shape</p>
-                  <div className="mt-1 flex items-baseline gap-3">
-                    <h2 className="font-display text-5xl uppercase text-white">{analysis.shape}</h2>
+                  <div className="mt-0.5 flex items-baseline gap-3">
+                    <h2 className="font-display text-4xl uppercase text-white">{analysis.shape}</h2>
                     <span className={`text-xs font-semibold ${confidenceColor}`}>{analysis.confidence} confidence</span>
                   </div>
-                  <p className="mt-2 text-sm text-white/60">{analysis.reasoning || SHAPE_BLURB[analysis.shape]}</p>
                 </div>
-                <FaceShapeSVG shape={analysis.shape} hair={gender === "Female" ? "long" : "crop"} className="h-28 w-auto shrink-0" />
+                {!showGuide && (
+                  <FaceShapeSVG shape={analysis.shape} hair={gender === "Female" ? "long" : "crop"} className="h-20 w-auto shrink-0" />
+                )}
               </div>
 
-              {/* Recommendations */}
-              <p className="mt-8 mb-3 flex items-center gap-2 text-sm font-medium text-white">
-                <Scissors className="h-4 w-4 text-salon-gold" /> Your top 3 cuts
-              </p>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {analysis.recommendations.map((r, i) => (
-                  <div key={r.cut} className="flex flex-col overflow-hidden rounded-xl border border-white/8 bg-white/[0.02]">
-                    <div className="relative flex h-36 w-full items-center justify-center bg-salon-black">
-                      <FaceShapeSVG shape={analysis.shape} hair={hairFamily(r.cut, gender)} className="h-full w-auto py-2" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={styleImg(gender, analysis.shape, i)}
-                        alt={r.cut}
-                        className="absolute inset-0 h-full w-full object-cover object-top"
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                      />
-                      <span className="absolute left-2 top-2 rounded-full bg-salon-black/70 px-2 py-0.5 text-[10px] font-bold text-salon-gold">
-                        #{i + 1}
-                      </span>
-                    </div>
-                    <div className="flex flex-1 flex-col p-4">
-                      <p className="font-semibold text-white">{r.cut}</p>
-                      <p className="mt-1 flex-1 text-xs leading-relaxed text-white/50">{r.why}</p>
-                      <Link
-                        href={bookHref(gender, r.cut)}
-                        className="mt-3 rounded-full bg-salon-gold py-2 text-center text-xs font-bold uppercase tracking-wider text-salon-black transition hover:brightness-110"
-                      >
-                        Book this look
-                      </Link>
-                    </div>
+              {showGuide ? (
+                <>
+                  {/* Full per-shape guide image */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={guideImg(gender, analysis.shape)}
+                    alt={`Best haircuts for an ${analysis.shape} face shape`}
+                    className="mt-5 w-full rounded-2xl border border-white/8"
+                    onError={() => setGuideErrored((m) => ({ ...m, [guideKey]: true }))}
+                  />
+                  <Link
+                    href={bookHref(gender, analysis.recommendations[0]?.cut ?? "Haircut & Styling")}
+                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-salon-gold px-7 py-3 text-sm font-bold uppercase tracking-wider text-salon-black transition hover:brightness-110"
+                  >
+                    <Scissors className="h-4 w-4" /> Book your appointment
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <p className="mt-3 text-sm text-white/60">{analysis.reasoning || SHAPE_BLURB[analysis.shape]}</p>
+
+                  {/* Recommendations (vector fallback) */}
+                  <p className="mt-8 mb-3 flex items-center gap-2 text-sm font-medium text-white">
+                    <Scissors className="h-4 w-4 text-salon-gold" /> Your top 3 cuts
+                  </p>
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    {analysis.recommendations.map((r, i) => (
+                      <div key={r.cut} className="flex flex-col overflow-hidden rounded-xl border border-white/8 bg-white/[0.02]">
+                        <div className="relative flex h-36 w-full items-center justify-center bg-salon-black">
+                          <FaceShapeSVG shape={analysis.shape} hair={hairFamily(r.cut, gender)} className="h-full w-auto py-2" />
+                          <span className="absolute left-2 top-2 rounded-full bg-salon-black/70 px-2 py-0.5 text-[10px] font-bold text-salon-gold">
+                            #{i + 1}
+                          </span>
+                        </div>
+                        <div className="flex flex-1 flex-col p-4">
+                          <p className="font-semibold text-white">{r.cut}</p>
+                          <p className="mt-1 flex-1 text-xs leading-relaxed text-white/50">{r.why}</p>
+                          <Link
+                            href={bookHref(gender, r.cut)}
+                            className="mt-3 rounded-full bg-salon-gold py-2 text-center text-xs font-bold uppercase tracking-wider text-salon-black transition hover:brightness-110"
+                          >
+                            Book this look
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
 
-              {/* What to avoid */}
-              <div className="mt-5 rounded-lg border border-white/8 bg-white/[0.02] p-4">
-                <p className="text-xs uppercase tracking-wider text-white/40">Best to avoid</p>
-                <p className="mt-1 text-sm text-white/60">{getAvoid(gender, analysis.shape)}</p>
-              </div>
+                  {/* What to avoid */}
+                  <div className="mt-5 rounded-lg border border-white/8 bg-white/[0.02] p-4">
+                    <p className="text-xs uppercase tracking-wider text-white/40">Best to avoid</p>
+                    <p className="mt-1 text-sm text-white/60">{getAvoid(gender, analysis.shape)}</p>
+                  </div>
+                </>
+              )}
 
               {/* Override */}
               <div className="mt-6">

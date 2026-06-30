@@ -1,22 +1,23 @@
-# Drop your AI-generated style composites here
+# AI Style Match — guide images
 
-Generate one image per face shape (each a 3-up: the shape's 3 recommended cuts
-side by side), then save them here with these EXACT names:
+Each face shape uses ONE full guide image (the whole composite: face + shape
+description + the recommended looks, exactly like the generated images).
+
+Save them directly here, with these EXACT paths/names:
 
 ```
-male-oval.png       female-oval.png
-male-round.png      female-round.png
-male-square.png     female-square.png
-male-heart.png      female-heart.png
-male-oblong.png     female-oblong.png
-male-diamond.png    female-diamond.png
-male-triangle.png   female-triangle.png
+public/styles/female/oval.jpg        public/styles/male/oval.jpg
+public/styles/female/round.jpg       public/styles/male/round.jpg
+public/styles/female/square.jpg      public/styles/male/square.jpg
+public/styles/female/heart.jpg       public/styles/male/heart.jpg
+public/styles/female/oblong.jpg      public/styles/male/oblong.jpg
+public/styles/female/diamond.jpg     public/styles/male/diamond.jpg
+public/styles/female/triangle.jpg    public/styles/male/triangle.jpg
 ```
 
-(.png, .jpg, .jpeg or .webp all fine.)
+(.jpg recommended; .png/.webp also work if you rename the lookup, but jpg keeps
+it simple.)
 
-Then run:  `node scripts/crop-styles.mjs`
-
-That slices each 3-up into 3 cells and writes them to
-`public/styles/{gender}/{shape}-0.jpg`, `-1.jpg`, `-2.jpg`,
-which the AI Style Match cards pick up automatically.
+That's it — no cropping. The result page shows the whole image for the detected
+shape, and falls back to the built-in vector portraits for any shape that
+doesn't have an image yet.
