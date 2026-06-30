@@ -29,6 +29,12 @@ function loadImage(url: string): Promise<HTMLImageElement> {
   return img.decode().then(() => img);
 }
 
+// Per-shape style illustrations live at /public/styles/{gender}/{shape}-{0..2}.jpg.
+// The card overlays this on the vector portrait — if the file is missing, the
+// <img> errors out and the vector shows through. So it's safe before images exist.
+const styleImg = (g: Gender, shape: FaceShape, i: number) =>
+  `/styles/${g.toLowerCase()}/${shape.toLowerCase()}-${i}.jpg`;
+
 // Reject if a promise doesn't settle in time, so a flaky network can't hang the UI.
 function withTimeout<T>(p: Promise<T>, ms: number, msg: string): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -254,6 +260,13 @@ export function FaceAnalysisWidget() {
                   <div key={r.cut} className="flex flex-col overflow-hidden rounded-xl border border-white/8 bg-white/[0.02]">
                     <div className="relative flex h-36 w-full items-center justify-center bg-salon-black">
                       <FaceShapeSVG shape={analysis.shape} hair={hairFamily(r.cut, gender)} className="h-full w-auto py-2" />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={styleImg(gender, analysis.shape, i)}
+                        alt={r.cut}
+                        className="absolute inset-0 h-full w-full object-cover object-top"
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                      />
                       <span className="absolute left-2 top-2 rounded-full bg-salon-black/70 px-2 py-0.5 text-[10px] font-bold text-salon-gold">
                         #{i + 1}
                       </span>
