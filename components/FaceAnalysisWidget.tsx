@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Loader2, Camera, ChevronLeft, Sparkles, ShieldCheck, RefreshCw, Scissors } from "lucide-react";
+import { Loader2, Camera, Upload, ChevronLeft, Sparkles, ShieldCheck, RefreshCw, Scissors } from "lucide-react";
 import {
   FACE_SHAPES, SHAPE_BLURB, classifyShape, getRecommendations, getAvoid, bookHref,
   type FaceShape, type Gender, type Recommendation, type ShapeReading,
@@ -52,7 +52,8 @@ export function FaceAnalysisWidget() {
   const [guideErrored, setGuideErrored] = useState<Record<string, boolean>>({});
   const [modelReady, setModelReady] = useState(false);
   const landmarkerPromiseRef = useRef<Promise<any> | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const galleryRef = useRef<HTMLInputElement>(null);
 
   // Load the MediaPipe model once (deduped across the preload + the actual pick,
   // with a timeout, and reset-on-failure so a retry can re-initialise).
@@ -87,7 +88,7 @@ export function FaceAnalysisWidget() {
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (fileRef.current) fileRef.current.value = "";
+    e.target.value = ""; // allow re-picking the same file
     if (!file) return;
     setError("");
     const url = URL.createObjectURL(file);
@@ -197,15 +198,25 @@ export function FaceAnalysisWidget() {
                 </ul>
               </div>
 
-              <input ref={fileRef} type="file" accept="image/*" capture="user" onChange={onPick} className="hidden" />
-              <button
-                onClick={() => fileRef.current?.click()}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-salon-gold py-4 text-sm font-bold uppercase tracking-wider text-salon-black transition hover:brightness-110"
-              >
-                <Camera className="h-4 w-4" /> Take or upload a selfie
-              </button>
+              {/* Camera input opens the front camera directly on mobile; gallery input is a plain file picker */}
+              <input ref={cameraRef} type="file" accept="image/*" capture="user" onChange={onPick} className="hidden" />
+              <input ref={galleryRef} type="file" accept="image/*" onChange={onPick} className="hidden" />
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <button
+                  onClick={() => cameraRef.current?.click()}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-salon-gold py-4 text-sm font-bold uppercase tracking-wider text-salon-black transition hover:brightness-110"
+                >
+                  <Camera className="h-4 w-4" /> Take a photo
+                </button>
+                <button
+                  onClick={() => galleryRef.current?.click()}
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-white/20 py-4 text-sm font-semibold uppercase tracking-wider text-white/80 transition hover:border-white/40"
+                >
+                  <Upload className="h-4 w-4" /> Upload a photo
+                </button>
+              </div>
               <p className="mt-2 text-center text-xs text-white/30">
-                {modelReady ? "Ready" : "Preparing on-device analysis…"}
+                {modelReady ? "Front camera opens on mobile · nothing is uploaded" : "Preparing on-device analysis…"}
               </p>
 
               {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
