@@ -18,8 +18,13 @@ export function getAdminRole(req: NextRequest): "core" | "staff" | null {
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const isAdminRoute = pathname.startsWith("/admin") && !pathname.startsWith("/admin/login");
-  const isAdminApi   = pathname.startsWith("/api/admin") && !pathname.startsWith("/api/admin/login");
+  // Public auth entry points (no session required): front-desk login + owner OTP login
+  const isPublicAuth =
+    pathname.startsWith("/admin/login") || pathname.startsWith("/admin/super-login") ||
+    pathname.startsWith("/api/admin/login") || pathname.startsWith("/api/admin/super-login");
+
+  const isAdminRoute = pathname.startsWith("/admin") && !isPublicAuth;
+  const isAdminApi   = pathname.startsWith("/api/admin") && !isPublicAuth;
 
   if (!isAdminRoute && !isAdminApi) return NextResponse.next();
 
