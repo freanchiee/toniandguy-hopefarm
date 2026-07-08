@@ -4,9 +4,11 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Loader2, RefreshCw, X, Plus, Users, CalendarDays, UserPlus, LogOut,
   ChevronDown, ChevronUp, Megaphone, Send, Clock, CheckCircle2, XCircle,
-  FileText, BarChart3, Edit2, Crown, Trash2, Zap, Settings,
+  FileText, BarChart3, Edit2, Crown, Trash2, Zap, Settings, Receipt, Scissors,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { SalesTab } from "@/components/admin/SalesTab";
+import { EmployeeRosterTab } from "@/components/admin/EmployeeRosterTab";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Booking = {
@@ -1064,7 +1066,7 @@ function WalkInModal({ onClose, onSaved }: { onClose: () => void; onSaved: () =>
 // ── Main Dashboard ────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const router = useRouter();
-  type Tab = "bookings"|"customers"|"invoices"|"analytics"|"promos"|"settings";
+  type Tab = "bookings"|"sales"|"customers"|"invoices"|"analytics"|"promos"|"team"|"settings";
   const [tab, setTab] = useState<Tab>("bookings");
   const [role, setRole] = useState<"core"|"staff"|null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -1113,11 +1115,15 @@ export default function AdminPage() {
 
   const TABS: [Tab, React.ElementType, string][] = [
     ["bookings", CalendarDays, "Bookings"],
+    ["sales", Receipt, "Sales"],
     ["customers", Users, "Customers"],
     ["invoices", FileText, "Invoices"],
     ["analytics", BarChart3, "Analytics"],
     ["promos", Megaphone, "Promos"],
-    ...(role === "core" ? [["settings", Settings, "Settings"] as [Tab, React.ElementType, string]] : []),
+    ...(role === "core" ? [
+      ["team", Scissors, "Team"] as [Tab, React.ElementType, string],
+      ["settings", Settings, "Settings"] as [Tab, React.ElementType, string],
+    ] : []),
   ];
 
   return (
@@ -1264,6 +1270,12 @@ export default function AdminPage() {
 
         {/* ── Promos ── */}
         {tab==="promos"&&<PromoTab/>}
+
+        {/* ── Sales logging ── */}
+        {tab==="sales"&&<SalesTab/>}
+
+        {/* ── Team roster (core-only) ── */}
+        {tab==="team"&&role==="core"&&<EmployeeRosterTab/>}
 
         {/* ── Settings (core-only) ── */}
         {tab==="settings"&&role==="core"&&<DiscountSettingsTab/>}
