@@ -4,11 +4,12 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Loader2, RefreshCw, X, Plus, Users, CalendarDays, UserPlus, LogOut,
   ChevronDown, ChevronUp, Megaphone, Send, Clock, CheckCircle2, XCircle,
-  FileText, BarChart3, Edit2, Crown, Trash2, Zap, Settings, Receipt, Scissors,
+  FileText, BarChart3, Edit2, Crown, Trash2, Zap, Settings, Receipt, Scissors, ShoppingBag,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SalesTab } from "@/components/admin/SalesTab";
 import { EmployeeRosterTab } from "@/components/admin/EmployeeRosterTab";
+import { ProductsTab } from "@/components/admin/ProductsTab";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Booking = {
@@ -1066,7 +1067,7 @@ function WalkInModal({ onClose, onSaved }: { onClose: () => void; onSaved: () =>
 // ── Main Dashboard ────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const router = useRouter();
-  type Tab = "bookings"|"sales"|"customers"|"invoices"|"analytics"|"promos"|"team"|"settings";
+  type Tab = "bookings"|"sales"|"products"|"customers"|"invoices"|"analytics"|"promos"|"team"|"settings";
   const [tab, setTab] = useState<Tab>("bookings");
   const [role, setRole] = useState<"core"|"staff"|null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -1116,6 +1117,7 @@ export default function AdminPage() {
   const TABS: [Tab, React.ElementType, string][] = [
     ["bookings", CalendarDays, "Bookings"],
     ["sales", Receipt, "Sales"],
+    ["products", ShoppingBag, "Products"],
     ["customers", Users, "Customers"],
     ["invoices", FileText, "Invoices"],
     ["analytics", BarChart3, "Analytics"],
@@ -1273,6 +1275,9 @@ export default function AdminPage() {
 
         {/* ── Sales logging ── */}
         {tab==="sales"&&<SalesTab/>}
+
+        {/* ── Product sales ── */}
+        {tab==="products"&&<ProductsTab role={role}/>}
 
         {/* ── Team roster (core-only) ── */}
         {tab==="team"&&role==="core"&&<EmployeeRosterTab/>}
