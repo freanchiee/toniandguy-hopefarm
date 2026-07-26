@@ -4,13 +4,14 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Loader2, RefreshCw, X, Plus, Users, CalendarDays, UserPlus, LogOut,
   ChevronDown, ChevronUp, Megaphone, Send, Clock, CheckCircle2, XCircle,
-  FileText, BarChart3, Edit2, Crown, Trash2, Zap, Settings, Receipt, Scissors, ShoppingBag, LineChart,
+  FileText, BarChart3, Edit2, Crown, Trash2, Zap, Settings, Receipt, Scissors, ShoppingBag, LineChart, Wallet,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SalesTab } from "@/components/admin/SalesTab";
 import { EmployeeRosterTab } from "@/components/admin/EmployeeRosterTab";
 import { ProductsTab } from "@/components/admin/ProductsTab";
 import { SalesDashboardTab } from "@/components/admin/SalesDashboardTab";
+import { PayrollTab } from "@/components/admin/PayrollTab";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type Booking = {
@@ -1068,7 +1069,7 @@ function WalkInModal({ onClose, onSaved }: { onClose: () => void; onSaved: () =>
 // ── Main Dashboard ────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const router = useRouter();
-  type Tab = "bookings"|"sales"|"products"|"customers"|"invoices"|"analytics"|"reports"|"promos"|"team"|"settings";
+  type Tab = "bookings"|"sales"|"products"|"customers"|"invoices"|"analytics"|"reports"|"promos"|"team"|"payroll"|"settings";
   const [tab, setTab] = useState<Tab>("bookings");
   const [role, setRole] = useState<"core"|"staff"|null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -1126,6 +1127,7 @@ export default function AdminPage() {
     ...(role === "core" ? [
       ["reports", LineChart, "Reports"] as [Tab, React.ElementType, string],
       ["team", Scissors, "Team"] as [Tab, React.ElementType, string],
+      ["payroll", Wallet, "Payroll"] as [Tab, React.ElementType, string],
       ["settings", Settings, "Settings"] as [Tab, React.ElementType, string],
     ] : []),
   ];
@@ -1286,6 +1288,9 @@ export default function AdminPage() {
 
         {/* ── Team roster (core-only) ── */}
         {tab==="team"&&role==="core"&&<EmployeeRosterTab/>}
+
+        {/* ── Payroll (core-only) ── */}
+        {tab==="payroll"&&role==="core"&&<PayrollTab/>}
 
         {/* ── Settings (core-only) ── */}
         {tab==="settings"&&role==="core"&&<DiscountSettingsTab/>}
