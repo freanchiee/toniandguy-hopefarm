@@ -19,7 +19,7 @@ const SLIDES = [
 
 const SLIDE_DURATION = 6000;
 
-export function Hero({ googleRating = "4.5", googleCount = "808+" }: { googleRating?: string; googleCount?: string }) {
+export function Hero({ googleRating = "4.5", googleCount = "1000+" }: { googleRating?: string; googleCount?: string }) {
   const { scrollY } = useScroll();
   const scale = useTransform(scrollY, [0, 900], [1, 1.1]);
   const y     = useTransform(scrollY, [0, 900], [0, 100]);

@@ -23,7 +23,7 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-export function TestimonialsSection({ googleRating = "4.5", googleCount = "808+" }: { googleRating?: string; googleCount?: string }) {
+export function TestimonialsSection({ googleRating = "4.5", googleCount = "1000+" }: { googleRating?: string; googleCount?: string }) {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
