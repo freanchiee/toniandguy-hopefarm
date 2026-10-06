@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BookNowButton } from "@/components/BookingModal";
+import { getGoogleReviewStats } from "@/lib/google-reviews";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
 
@@ -22,7 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BridalHairPage() {
+export default async function BridalHairPage() {
+  const g = await getGoogleReviewStats();
   return (
     <main className="min-h-screen bg-salon-black px-5 pb-24 pt-28 text-white md:px-8 md:pt-36">
       <div className="mx-auto max-w-3xl">
@@ -72,7 +74,7 @@ export default function BridalHairPage() {
             {[
               "TONI&GUY international franchise — bridal styling expertise since 2010",
               "Dedicated bridal trial session to perfect your look before the day",
-              "4.5★ Google · 808+ reviews including wedding customers",
+              `${g.ratingLabel}★ Google · ${g.countLabel} reviews including wedding customers`,
               "Located in Whitefield — ideal for brides in east Bangalore",
               "Pre-bridal keratin, hair spa & colour services under one roof",
             ].map((p) => <li key={p} className="flex items-start gap-2"><span className="text-salon-gold mt-1">✓</span>{p}</li>)}

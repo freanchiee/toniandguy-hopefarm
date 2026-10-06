@@ -23,7 +23,7 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-export function TestimonialsSection() {
+export function TestimonialsSection({ googleRating = "4.5", googleCount = "808+" }: { googleRating?: string; googleCount?: string }) {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
@@ -65,7 +65,7 @@ export function TestimonialsSection() {
             <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
               <path d="M21.805 10.023H12v3.977h5.618C17.02 16.28 14.77 17.75 12 17.75c-3.176 0-5.75-2.574-5.75-5.75S8.824 6.25 12 6.25c1.39 0 2.664.496 3.648 1.312l2.97-2.97A9.706 9.706 0 0 0 12 2.25C6.615 2.25 2.25 6.615 2.25 12S6.615 21.75 12 21.75c5.523 0 9.75-4.477 9.75-10 0-.58-.052-1.147-.145-1.727Z" />
             </svg>
-            4.5 · 808+ reviews on Google
+            {googleRating} · {googleCount} reviews on Google
           </a>
         </div>
         <h2 className="mb-14 font-display text-5xl leading-none md:text-7xl">

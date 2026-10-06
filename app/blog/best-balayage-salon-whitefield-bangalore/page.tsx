@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { BookNowButton } from "@/components/BookingModal";
+import { getGoogleReviewStats } from "@/lib/google-reviews";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
 
@@ -32,7 +33,8 @@ const schema = {
   mainEntityOfPage: `${SITE_URL}/blog/best-balayage-salon-whitefield-bangalore`,
 };
 
-export default function BalayageBlogPage() {
+export default async function BalayageBlogPage() {
+  const g = await getGoogleReviewStats();
   return (
     <main className="min-h-screen bg-salon-black px-5 pb-24 pt-28 text-white md:px-8 md:pt-36">
       <Script id="schema-blog-balayage" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
@@ -125,7 +127,7 @@ export default function BalayageBlogPage() {
           <ul>
             {[
               "L'Oreal Professional colour — the same products used in the TONI&GUY London flagship",
-              "4.5★ on Google with 808+ verified reviews — including dozens specifically praising colour work",
+              `${g.ratingLabel}★ on Google with ${g.countLabel} verified reviews — including dozens specifically praising colour work`,
               "Colour consultation included before every balayage appointment",
               "At Hopefarm Junction — 5 minutes from ITPL, 10 minutes from Marathahalli",
               "Open 9 AM–9 PM daily — no need to take a weekday off",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { BookNowButton } from "@/components/BookingModal";
+import { getGoogleReviewStats } from "@/lib/google-reviews";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
 
@@ -45,7 +46,8 @@ const schema = {
   ],
 };
 
-export default function KeratinPage() {
+export default async function KeratinPage() {
+  const g = await getGoogleReviewStats();
   return (
     <main className="min-h-screen bg-salon-black px-5 pb-24 pt-28 text-white md:px-8 md:pt-36">
       <Script id="schema-keratin" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
@@ -122,7 +124,7 @@ export default function KeratinPage() {
           <ul className="mt-5 space-y-2 text-white/65">
             {[
               "International TONI&GUY franchise — trained stylists, global standards",
-              "4.5★ on Google · 808+ reviews from Whitefield customers",
+              `${g.ratingLabel}★ on Google · ${g.countLabel} reviews from Whitefield customers`,
               "L'Oreal Professional & System Professional products only",
               "Located at Hopefarm Junction — closest T&G to ITPL, Marathahalli, Varthur",
               "Open 9 AM–9 PM daily, no appointment necessary",

@@ -13,6 +13,7 @@ import { LocationSection } from "@/components/LocationSection";
 import { FaqSection } from "@/components/FaqSection";
 import { StyleMatchBanner } from "@/components/StyleMatchBanner";
 import { services, stylists, galleryImages } from "@/lib/data";
+import { getGoogleReviewStats, type GoogleReviewStats } from "@/lib/google-reviews";
 
 // Switch to "https://toniandguywhitefield.com" once domain is live
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 // ── Structured data (JSON-LD) ─────────────────────────────────────────────────
-const localBusinessSchema = {
+const buildLocalBusinessSchema = (g: GoogleReviewStats) => ({
   "@context": "https://schema.org",
   "@type": "HairSalon",
   "@id": `${SITE_URL}/#salon`,
@@ -78,14 +79,14 @@ const localBusinessSchema = {
   },
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.5",
-    reviewCount: "808",
+    ratingValue: g.ratingLabel,
+    reviewCount: String(g.count),
     bestRating: "5",
   },
-};
+});
 
 // ── FAQ schema — critical for Google AI Overviews, Perplexity, and ChatGPT citations ──
-const faqSchema = {
+const buildFaqSchema = (g: GoogleReviewStats) => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
@@ -112,7 +113,7 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "Is Toni & Guy Hopefarm a good salon in Whitefield Bangalore?",
-      acceptedAnswer: { "@type": "Answer", text: "Yes. Toni & Guy Hopefarm is rated 4.5 stars on Google with over 808 reviews, making it one of the highest-rated international hair salons in Whitefield, Bangalore. It is part of the globally renowned TONI&GUY franchise." },
+      acceptedAnswer: { "@type": "Answer", text: `Yes. Toni & Guy Hopefarm is rated ${g.ratingLabel} stars on Google with over ${g.count} reviews, making it one of the highest-rated international hair salons in Whitefield, Bangalore. It is part of the globally renowned TONI&GUY franchise.` },
     },
     {
       "@type": "Question",
@@ -132,7 +133,7 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "Which is the best salon near Hopefarm Junction Whitefield?",
-      acceptedAnswer: { "@type": "Answer", text: "Toni & Guy Hopefarm is widely considered the best salon near Hopefarm Junction in Whitefield. It is an international brand salon with 808+ Google reviews and a 4.5-star rating, offering hair, skin, and nail services." },
+      acceptedAnswer: { "@type": "Answer", text: `Toni & Guy Hopefarm is widely considered the best salon near Hopefarm Junction in Whitefield. It is an international brand salon with ${g.countLabel} Google reviews and a ${g.ratingLabel}-star rating, offering hair, skin, and nail services.` },
     },
     {
       "@type": "Question",
@@ -165,9 +166,12 @@ const faqSchema = {
       acceptedAnswer: { "@type": "Answer", text: "Yes. Toni & Guy Hopefarm at Whitefield regularly serves clients from Marathahalli, Bellandur, Varthur, ITPL, Mahadevapura, Brookefield, Kundalahalli, and surrounding east Bangalore neighbourhoods." },
     },
   ],
-};
+});
 
-export default function Home() {
+export default async function Home() {
+  const g = await getGoogleReviewStats();
+  const localBusinessSchema = buildLocalBusinessSchema(g);
+  const faqSchema = buildFaqSchema(g);
   return (
     <main>
       {/* ── JSON-LD structured data ── */}
@@ -182,7 +186,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <Hero />
+      <Hero googleRating={g.ratingLabel} googleCount={g.countLabel} />
       <RevealProvider>
         <StyleMatchBanner />
 
@@ -238,7 +242,7 @@ export default function Home() {
 
         <ScissorsDivider />
 
-        <TestimonialsSection />
+        <TestimonialsSection googleRating={g.ratingLabel} googleCount={g.countLabel} />
 
         <ScissorsDivider />
 
