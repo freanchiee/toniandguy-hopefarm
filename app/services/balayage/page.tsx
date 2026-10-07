@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { BookNowButton } from "@/components/BookingModal";
+import { getGoogleReviewStats } from "@/lib/google-reviews";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
 
@@ -44,7 +45,8 @@ const schema = {
   ],
 };
 
-export default function BalayagePage() {
+export default async function BalayagePage() {
+  const g = await getGoogleReviewStats();
   return (
     <main className="min-h-screen bg-salon-black px-5 pb-24 pt-28 text-white md:px-8 md:pt-36">
       <Script id="schema-balayage" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
@@ -114,7 +116,7 @@ export default function BalayagePage() {
             {[
               "Specialist colour-trained TONI&GUY stylists",
               "L'Oreal Professional colour exclusively — no harsh drugstore products",
-              "4.5★ Google · 808+ reviews — trusted by Whitefield clients",
+              `${g.ratingLabel}★ Google · ${g.countLabel} reviews — trusted by Whitefield clients`,
               "Free consultation before every colour service",
               "At Hopefarm Junction — closest T&G to ITPL, Varthur, Marathahalli",
             ].map((p) => <li key={p} className="flex items-start gap-2"><span className="text-salon-gold mt-1">✓</span>{p}</li>)}

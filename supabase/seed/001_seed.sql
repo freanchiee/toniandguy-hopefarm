@@ -1,9 +1,10 @@
 insert into stylists (name, speciality, photo_url, bio)
 values
-  ('Pavitra', 'Senior Beautician', 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80', 'Facials, threading, manicure, pedicure, and grooming services.'),
+  ('Sonali', 'Senior Beautician', 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80', 'Facials, threading, manicure, pedicure, and grooming services.'),
   ('Simick', 'Unisex Hairdresser', 'https://images.unsplash.com/photo-1595475884562-073c30d45670?auto=format&fit=crop&w=900&q=80', 'Colour transformations, highlights, and personalized hair makeovers.'),
   ('Sumit', 'Unisex Top Stylist', 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=900&q=80', 'Precision cuts, wearable shape, and polished finish.'),
-  ('Arnik', 'Unisex Hairstylist', 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80', 'Treatments, smoothening work, and detailed styling.')
+  ('Noman', 'Unisex Hairstylist', 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80', 'Treatments, smoothening work, and detailed styling.'),
+  ('Sushmita', 'Top Stylist & Beautician', 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80', 'Hair styling, facials, and complete beauty and grooming services.')
 on conflict do nothing;
 
 insert into services (name, description, price_from, price_to, duration_minutes, category)

@@ -78,9 +78,9 @@ export const priceList = {
     title: "Haircut",
     mens: [
       { name: "Style Director", price: 1800, note: "*Selective Outlets" },
-      { name: "Creative Director", price: 1500 },
-      { name: "Top Stylist", price: 1200 },
-      { name: "Senior Stylist", price: 900 },
+      { name: "Creative Director", price: 1200 },
+      { name: "Top Stylist", price: 900 },
+      { name: "Senior Stylist", price: 800 },
       { name: "Stylist", price: 800, note: "*Selective Outlets" },
       { name: "Kids Haircut (Age 5–10 yrs)", price: 700 },
       { name: "Deep Conditioning", price: 800 },
@@ -418,16 +418,22 @@ export const stylists = [
     bio: "Precision cuts, wearable shape, and polished finish."
   },
   {
-    name: "Arnik",
+    name: "Noman",
     speciality: "Unisex Hairstylist",
     image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80",
     bio: "Treatments, smoothening work, and detailed styling."
   },
   {
-    name: "Pavitra",
+    name: "Sonali",
     speciality: "Senior Beautician",
     image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80",
     bio: "Facials, threading, manicure, pedicure, and grooming services."
+  },
+  {
+    name: "Sushmita",
+    speciality: "Top Stylist & Beautician",
+    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80",
+    bio: "Hair styling, facials, and complete beauty and grooming services."
   }
 ];
 
@@ -506,9 +512,9 @@ export const heroServiceOptions = [
 
 export const heroStylistOptions = [
   {
-    label: "Pavitra",
+    label: "Sonali",
     meta: "Senior beautician",
-    href: "/book?stylist=pavitra"
+    href: "/book?stylist=sonali"
   },
   {
     label: "Simick",
@@ -521,9 +527,14 @@ export const heroStylistOptions = [
     href: "/book?stylist=sumit"
   },
   {
-    label: "Arnik",
+    label: "Noman",
     meta: "Unisex hairstylist",
-    href: "/book?stylist=arnik"
+    href: "/book?stylist=noman"
+  },
+  {
+    label: "Sushmita",
+    meta: "Top stylist & beautician",
+    href: "/book?stylist=sushmita"
   }
 ];
 
@@ -547,14 +558,14 @@ export const testimonials = [
     avatar: "https://ui-avatars.com/api/?name=Deepika+Agarwal&background=c9a84c&color=0a0a0a&size=128&bold=true",
     rating: 5,
     date: "3 weeks ago",
-    text: "Pavitra is a gem — did my bridal trial here and I was blown away. She understood my reference immediately and the result was so elegant. The ambience is like nothing else in Hopefarm. Highly recommend for any occasion styling."
+    text: "Sonali is a gem — did my bridal trial here and I was blown away. She understood my reference immediately and the result was so elegant. The ambience is like nothing else in Hopefarm. Highly recommend for any occasion styling."
   },
   {
     name: "Aakash Verma",
     avatar: "https://ui-avatars.com/api/?name=Aakash+Verma&background=1a1a1a&color=f6f1e8&size=128&bold=true",
     rating: 4,
     date: "1 month ago",
-    text: "Got a keratin treatment done by Arnik. Took a while but the results were worth every minute — hair is silky smooth and the frizz is completely gone. Pricing is fair for the quality. Would've given 5 stars but parking is a bit tricky."
+    text: "Got a keratin treatment done by Noman. Took a while but the results were worth every minute — hair is silky smooth and the frizz is completely gone. Pricing is fair for the quality. Would've given 5 stars but parking is a bit tricky."
   },
   {
     name: "Sneha Krishnan",

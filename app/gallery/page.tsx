@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { RevealProvider } from "@/components/RevealProvider";
 import { GalleryGrid } from "@/components/GalleryGrid";
 import { galleryImages } from "@/lib/data";
+import { getGoogleReviewStats } from "@/lib/google-reviews";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguywhitefield.com";
 
@@ -22,7 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const g = await getGoogleReviewStats();
   return (
     <main className="min-h-screen bg-salon-black px-5 pb-24 pt-28 md:px-8 md:pt-36">
       <RevealProvider>
@@ -76,7 +78,7 @@ export default function GalleryPage() {
 
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {[
-              { stat: "808+", label: "Google Reviews", sub: "4.5★ average rating" },
+              { stat: g.countLabel, label: "Google Reviews", sub: `${g.ratingLabel}★ average rating` },
               { stat: "9 AM–9 PM", label: "Open Daily", sub: "Monday through Sunday" },
               { stat: "5 min", label: "From ITPL", sub: "Hopefarm Junction, Whitefield" },
             ].map((s) => (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { BookNowButton } from "@/components/BookingModal";
+import { getGoogleReviewStats } from "@/lib/google-reviews";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
 
@@ -87,7 +88,8 @@ const priceList = [
   },
 ];
 
-export default function PriceListBlogPage() {
+export default async function PriceListBlogPage() {
+  const g = await getGoogleReviewStats();
   return (
     <main className="min-h-screen bg-salon-black px-5 pb-24 pt-28 text-white md:px-8 md:pt-36">
       <Script id="schema-price-blog" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
@@ -143,7 +145,7 @@ export default function PriceListBlogPage() {
           </p>
           <ul>
             <li>Hours: 9 AM – 9 PM, Monday to Sunday</li>
-            <li>4.5★ on Google · 808+ verified reviews</li>
+            <li>{g.ratingLabel}★ on Google · {g.countLabel} verified reviews</li>
             <li>L'Oreal Professional products for all colour services</li>
             <li>Walk-ins welcome · Online booking recommended for weekday discounts</li>
           </ul>
