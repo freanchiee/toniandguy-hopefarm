@@ -40,12 +40,16 @@ export function FloatingLabel({
         {label}
       </Link>
       {options.length > 0 && (
+        // Outer wrapper has top padding that bridges the gap to the trigger, so the
+        // pointer never leaves the hover area; closing is delayed slightly so a
+        // small slip doesn't dismiss the menu.
         <div
           className={cn(
-            "pointer-events-none absolute top-[calc(100%+0.55rem)] w-[min(21rem,calc(100vw-2rem))] translate-y-2 rounded-md border border-white/18 bg-salon-black/82 p-2 opacity-0 shadow-2xl shadow-black/40 backdrop-blur-xl transition duration-300 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100",
+            "pointer-events-none absolute top-full w-[min(21rem,calc(100vw-2rem))] pt-3 opacity-0 transition-opacity duration-200 delay-300 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:delay-0 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:delay-0",
             align === "right" ? "right-0" : "left-0"
           )}
         >
+          <div className="rounded-md border border-white/18 bg-salon-black/82 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl">
           <div className="mb-2 flex items-center justify-between border-b border-white/12 px-2 pb-2">
             <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-salon-gold">
               Select {label}
@@ -68,6 +72,7 @@ export function FloatingLabel({
                 <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-salon-gold" />
               </Link>
             ))}
+          </div>
           </div>
         </div>
       )}

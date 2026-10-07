@@ -113,7 +113,7 @@ export function Hero({ googleRating = "4.7", googleCount = "1000+" }: { googleRa
 
           <div className="hidden md:block" />
 
-          <div className="hidden md:flex md:gap-4">
+          <div className="hidden md:mt-16 md:flex md:gap-4">
             <Clock3 className="mt-1 h-10 w-10 text-white" strokeWidth={1.25} />
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-white/68">Opening Hours</p>
@@ -128,7 +128,7 @@ export function Hero({ googleRating = "4.7", googleCount = "1000+" }: { googleRa
 
         {/* Centre scroll hint */}
         <motion.div
-          className="absolute left-1/2 top-[18%] hidden -translate-x-1/2 text-center text-white md:block"
+          className="absolute left-1/2 top-[30%] hidden -translate-x-1/2 text-center text-white md:block"
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.8 }}
