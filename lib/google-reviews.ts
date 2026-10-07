@@ -10,7 +10,7 @@ export type GoogleReviewStats = {
 };
 
 // Last known values — update occasionally; only used when the live fetch fails.
-const FALLBACK = { rating: 4.5, count: 1000 };
+const FALLBACK = { rating: 4.7, count: 1000 };
 
 const REVALIDATE_SECONDS = 60 * 60 * 6;
 
