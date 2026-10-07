@@ -19,7 +19,7 @@ const SLIDES = [
 
 const SLIDE_DURATION = 6000;
 
-export function Hero({ googleRating = "4.5", googleCount = "1000+" }: { googleRating?: string; googleCount?: string }) {
+export function Hero({ googleRating = "4.7", googleCount = "1000+" }: { googleRating?: string; googleCount?: string }) {
   const { scrollY } = useScroll();
   const scale = useTransform(scrollY, [0, 900], [1, 1.1]);
   const y     = useTransform(scrollY, [0, 900], [0, 100]);
@@ -157,7 +157,7 @@ export function Hero({ googleRating = "4.5", googleCount = "1000+" }: { googleRa
             <p className="text-[10px] uppercase tracking-[0.16em] text-white/60">Google Rating</p>
             <div className="flex items-center gap-1">
               <span className="text-sm font-bold leading-none">{googleRating}</span>
-              <span className="text-salon-gold">★★★★½</span>
+              <span className="text-salon-gold">★★★★★</span>
               <span className="text-xs text-white/50">· {googleCount}</span>
             </div>
           </div>
