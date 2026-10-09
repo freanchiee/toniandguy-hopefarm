@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/services/bridal-hair`,             lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/services/haircut`,                 lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/blog`,                             lastModified: now, changeFrequency: "weekly",  priority: 0.75 },
+    { url: `${SITE_URL}/blog/best-haircut-for-your-face-shape`,       lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/blog/hair-colour-trends-india-2025`,            lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${SITE_URL}/blog/balayage-vs-highlights-indian-hair`,       lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${SITE_URL}/blog/mens-haircut-styles-india-2025`,           lastModified: now, changeFrequency: "monthly", priority: 0.75 },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { StyleMatchCta } from "@/components/StyleMatchCta";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
 
@@ -11,6 +12,14 @@ export const metadata: Metadata = {
 };
 
 const posts = [
+  {
+    slug: "best-haircut-for-your-face-shape",
+    title: "Best Haircut for Your Face Shape (Men & Women) — Plus a Free AI Tool",
+    excerpt: "Find your face shape and the cuts that flatter it — oval, round, square, heart, oblong, diamond and triangle. Or upload a selfie and let our free AI Style Match do it for you.",
+    date: "October 2026",
+    readTime: "6 min read",
+    tag: "Style Guide",
+  },
   {
     slug: "hair-colour-trends-india-2025",
     title: "Hair Colour Trends India 2025 — Best Shades for Indian Skin Tones",
@@ -77,7 +86,11 @@ export default function BlogPage() {
         <h1 className="mt-3 font-display text-5xl font-black leading-none uppercase md:text-7xl">Blog</h1>
         <p className="mt-5 text-lg text-white/60">Tips, trends & expert guides from the team at Toni &amp; Guy Hopefarm, Whitefield.</p>
 
-        <div className="mt-14 space-y-6">
+        <div className="mt-10">
+          <StyleMatchCta source="blog-index" />
+        </div>
+
+        <div className="mt-4 space-y-6">
           {posts.map((p) => (
             <Link key={p.slug} href={`/blog/${p.slug}`}
               className="group block rounded-2xl border border-white/8 bg-white/[0.02] p-6 transition hover:border-salon-gold/40 hover:bg-white/[0.04]">
