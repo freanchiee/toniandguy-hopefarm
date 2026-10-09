@@ -7,7 +7,7 @@ import { BookNowButton } from "@/components/BookingModal";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
-  { label: "Style Match", href: "/face-analysis" },
+  { label: "Style Match", href: "/face-analysis?src=nav", badge: "AI" },
   { label: "Stylists", href: "/stylists" },
   { label: "Gallery", href: "/gallery" },
   { label: "Blog", href: "/blog" },
@@ -24,6 +24,9 @@ export function FloatingNav() {
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className="editorial-link">
               {item.label}
+              {"badge" in item && (
+                <sup className="ml-1 rounded-full border border-current px-1 text-[8px] leading-none tracking-normal">{item.badge}</sup>
+              )}
             </Link>
           ))}
         </nav>

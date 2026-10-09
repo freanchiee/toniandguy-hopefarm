@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { StyleMatchCta } from "@/components/StyleMatchCta";
+
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguywhitefield.com";
 
@@ -151,6 +153,9 @@ export default function MensHaircutStyles2025() {
               </tbody>
             </table>
           </div>
+
+          <StyleMatchCta source="blog-mens-haircut" title="Find the cut that suits your face shape" />
+          <p>Full guide: <Link href="/blog/best-haircut-for-your-face-shape" className="text-salon-gold underline">best haircut for your face shape</Link>.</p>
 
           <h2 className="font-display text-3xl text-white mt-10">Men&apos;s Haircut Pricing at Toni &amp; Guy Whitefield</h2>
           <p>Men&apos;s haircuts at Toni &amp; Guy Hopefarm, Whitefield start at ₹700. All cuts include a consultation, shampoo wash, precision cut, and blow-dry finish.</p>

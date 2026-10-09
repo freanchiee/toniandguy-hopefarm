@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { StyleMatchCta } from "@/components/StyleMatchCta";
 import { BookNowButton } from "@/components/BookingModal";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://toniandguy-hopefarm.vercel.app";
@@ -67,6 +68,8 @@ export default function HaircutPage() {
           </div>
           <p className="mt-3 text-xs text-white/40">* Book online for weekday discounts of 25–35%.</p>
         </section>
+
+        <StyleMatchCta source="service-haircut" />
 
         <div className="mt-14 rounded-2xl border border-salon-gold/30 bg-salon-gold/5 p-8 text-center">
           <p className="font-display text-3xl uppercase text-white">Book a Haircut</p>
