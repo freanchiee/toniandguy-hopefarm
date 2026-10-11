@@ -13,6 +13,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: "hair-spa-vs-keratin-vs-botox-vs-nanoplastia",
+    title: "Hair Spa vs Keratin vs Hair Botox vs Nanoplastia — Which One Is Right for You?",
+    excerpt: "What each treatment does, how long it lasts, who should choose it, aftercare and Whitefield prices, with a full side-by-side comparison table.",
+    date: "October 2026",
+    readTime: "8 min read",
+    tag: "Treatments",
+  },
+  {
     slug: "best-haircut-for-your-face-shape",
     title: "Best Haircut for Your Face Shape (Men & Women) — Plus a Free AI Tool",
     excerpt: "Find your face shape and the cuts that flatter it — oval, round, square, heart, oblong, diamond and triangle. Or upload a selfie and let our free AI Style Match do it for you.",
