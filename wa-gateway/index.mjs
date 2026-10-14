@@ -10,10 +10,12 @@ import makeWASocket, {
   useMultiFileAuthState,
   DisconnectReason,
   makeCacheableSignalKeyStore,
+  fetchLatestBaileysVersion,
 } from "@whiskeysockets/baileys";
 import QRCode from "qrcode";
 import http from "http";
 import { execSync } from "child_process";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import pino from "pino";
@@ -29,11 +31,43 @@ let latestQRDataUrl = null;
 let isReady = false;
 let sock = null;
 let browserOpened = false;
+let reconnectAttempts = 0;
+let lastDisconnectCode = null;
+let reconnectTimer = null;
+
+// Exponential backoff: 5s, 10s, 20s ... capped at 60s. Reset once connected.
+function scheduleReconnect() {
+  if (reconnectTimer) return;
+  const delay = Math.min(5_000 * 2 ** reconnectAttempts, 60_000);
+  reconnectAttempts += 1;
+  console.warn(`↻ Reconnecting in ${delay / 1000}s (attempt ${reconnectAttempts})`);
+  reconnectTimer = setTimeout(() => {
+    reconnectTimer = null;
+    startSocket().catch((e) => { console.error("startSocket failed:", e); scheduleReconnect(); });
+  }, delay);
+}
 
 async function startSocket() {
+  // Tear down any previous socket so we never run two at once.
+  if (sock) {
+    try { sock.ev.removeAllListeners(); sock.end(undefined); } catch {}
+    sock = null;
+  }
+
   const { state, saveCreds } = await useMultiFileAuthState(AUTH_DIR);
 
+  // WhatsApp rejects outdated protocol versions (shows up as repeated 428/405 disconnects),
+  // so always negotiate with the current WA Web version.
+  let version;
+  try {
+    ({ version } = await fetchLatestBaileysVersion());
+    console.log("Using WhatsApp Web version", version.join("."));
+  } catch (e) {
+    console.warn("Could not fetch latest WA version, using library default:", e?.message);
+  }
+
   sock = makeWASocket({
+    ...(version ? { version } : {}),
     auth: {
       creds: state.creds,
       keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "silent" })),
@@ -54,7 +88,7 @@ async function startSocket() {
     if (qr) {
       latestQRDataUrl = await QRCode.toDataURL(qr, { width: 400, margin: 2 });
       console.log("\n📱 QR ready — open http://localhost:" + PORT + " to scan\n");
-      if (!browserOpened) {
+      if (!browserOpened && process.platform === "darwin" && !process.env.RAILWAY_ENVIRONMENT) {
         browserOpened = true;
         setTimeout(() => { try { execSync("open http://localhost:" + PORT); } catch {} }, 400);
       }
@@ -62,6 +96,8 @@ async function startSocket() {
 
     if (connection === "open") {
       isReady = true;
+      reconnectAttempts = 0;
+      lastDisconnectCode = null;
       latestQRDataUrl = null;
       console.log("\n✅ WhatsApp connected! Gateway ready.\n");
     }
@@ -69,9 +105,22 @@ async function startSocket() {
     if (connection === "close") {
       isReady = false;
       const code = lastDisconnect?.error?.output?.statusCode;
-      const loggedOut = code === DisconnectReason.loggedOut;
-      console.warn("⚠️  Disconnected (code", code, loggedOut ? "— logged out, need new QR" : "— reconnecting in 5s");
-      if (!loggedOut) setTimeout(startSocket, 5000);
+      lastDisconnectCode = code ?? null;
+      console.warn("⚠️  Disconnected (code", code, ")", lastDisconnect?.error?.message ?? "");
+
+      if (code === DisconnectReason.loggedOut) {
+        // Session was revoked (unlinked from the phone). Wipe it so a fresh QR is shown.
+        console.warn("Logged out — clearing saved session, scan the new QR at the gateway URL");
+        try { fs.rmSync(AUTH_DIR, { recursive: true, force: true }); } catch {}
+        reconnectAttempts = 0;
+        scheduleReconnect();
+      } else if (code === DisconnectReason.restartRequired) {
+        // Normal right after pairing — reconnect immediately.
+        reconnectAttempts = 0;
+        startSocket().catch((e) => { console.error(e); scheduleReconnect(); });
+      } else {
+        scheduleReconnect();
+      }
     }
   });
 }
@@ -133,7 +182,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === "GET" && req.url === "/health") {
-    return res.end(JSON.stringify({ ready: isReady }));
+    return res.end(JSON.stringify({ ready: isReady, lastDisconnectCode, reconnectAttempts }));
   }
 
   if (req.method === "POST" && req.url === "/sendText") {
