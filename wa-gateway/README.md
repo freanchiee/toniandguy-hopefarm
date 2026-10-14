@@ -49,3 +49,12 @@ OPENWA_URL=https://your-gateway-url.railway.app
 npm run wa   # starts gateway on port 8002
 # Open http://localhost:8002 to scan QR
 ```
+
+## Troubleshooting
+
+- **Logs show `Disconnected (code 428)` repeatedly** — WhatsApp is closing the connection. Most common causes:
+  1. The saved session was lost (no persistent volume) or is stale → open the gateway URL; if a QR shows, scan it again. Mount a Railway volume and set `AUTH_DIR=/data/.baileys_auth` so it survives redeploys.
+  2. Outdated WhatsApp protocol version → the gateway now fetches the latest version on every start; redeploy to pick up a newer `@whiskeysockets/baileys` too.
+  3. The same WhatsApp number is linked and running somewhere else (e.g. a local `npm run wa`) → stop the other instance.
+- `GET /health` returns `{ ready, lastDisconnectCode, reconnectAttempts }`.
+- Reconnects back off 5s → 10s → 20s … up to 60s and reset once connected.
